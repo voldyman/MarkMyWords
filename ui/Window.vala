@@ -17,8 +17,7 @@ public class Window {
     }
     private void update_html_view () {
         string text = mk_textview.buffer.text;
-        string html;
-        html = converter(text);
+        string html = converter(text);
         html_view.load_html (html, null);
         updated ();
     }
@@ -74,5 +73,4 @@ public class Window {
                                      action_save }
 
     };
-
 }
