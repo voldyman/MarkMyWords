@@ -1,0 +1,52 @@
+[echo -n] works
+Configuring for [markdown]
+Looking for cpp
+CPP=[/lib/cpp], CPPFLAGS=[]
+looking for install
+ (/usr/bin/install)
+checking out the C compiler
+ngc22186.c:2:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main()
+^~~~
+1 warning generated.
+checking for "volatile" keyword
+checking for "const" keyword
+Checking for "inline" keyword
+defining WORD & DWORD scalar types
+ngc22186.c:28:2: warning: implicitly declaring library function 'exit' with type 'void (int) __attribute__((noreturn))'
+        exit(1);
+        ^
+ngc22186.c:28:2: note: please include the header <stdlib.h> or explicitly provide a declaration for 'exit'
+1 warning generated.
+looking for header libgen.h
+looking for header pwd.h
+looking for the getpwuid function
+looking for the srandom function
+looking for the bzero function
+ngc22186.c:4:5: warning: implicitly declaring library function 'bzero' with type 'void (void *, unsigned long)'
+    bzero((char*)0,0);
+    ^
+ngc22186.c:4:5: note: please include the header <strings.h> or explicitly provide a declaration for 'bzero'
+1 warning generated.
+looking for the random function
+looking for the strcasecmp function
+ngc22186.c:1:6: warning: incompatible redeclaration of library function 'strcasecmp' [-Wincompatible-library-redeclaration]
+void strcasecmp();
+     ^
+ngc22186.c:1:6: note: 'strcasecmp' is a builtin with type 'int (const char *, const char *)'
+1 warning generated.
+looking for the strncasecmp function
+ngc22186.c:1:6: warning: incompatible redeclaration of library function 'strncasecmp' [-Wincompatible-library-redeclaration]
+void strncasecmp();
+     ^
+ngc22186.c:1:6: note: 'strncasecmp' is a builtin with type 'int (const char *, const char *, unsigned long)'
+1 warning generated.
+looking for the fchdir function
+looking for header malloc.h
+find is /usr/bin/find
+/bin/ln exists, and ln -s works
+/home/voldyman/code/MarkMyWords/deps/discount/configure.sh: 973: /home/voldyman/code/MarkMyWords/deps/discount/configure.sh: AC: not found
+sed is /bin/sed
+generating Makefile
+generating version.c
+generating mkdio.h
