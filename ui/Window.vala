@@ -5,7 +5,6 @@ public class Window {
     private Gtk.TextView mk_textview;
     private WebKit.WebView  html_view;
 
-    private Gtk.ActionGroup main_actions;
     private MarkdownConverter converter;
 
     public signal void updated ();
@@ -13,8 +12,8 @@ public class Window {
     public Window (string[] args, MarkdownConverter converter) {
         Gtk.init (ref args);
         this.converter = converter;
-        setup_actions ();
     }
+
     private void update_html_view () {
         string text = mk_textview.buffer.text;
         string html = converter(text);
@@ -23,6 +22,7 @@ public class Window {
     }
 
     public void run() {
+
         win = new Gtk.Window ();
         win.set_default_size (600, 480);
         win.window_position = Gtk.WindowPosition.CENTER;
@@ -30,11 +30,14 @@ public class Window {
         win.icon_name = "accessories-text-editor";
         win.destroy.connect (Gtk.main_quit);
         
-        var toolbar = new Toolbar (main_actions);
+        var toolbar = new Toolbar ();
         toolbar.set_title ("Mark My Words");
         win.set_titlebar (toolbar);
         
         var box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
+        int width;
+        win.get_size (out width, null);
+        box.set_position (width/2);
 
         mk_textview = new Gtk.TextView ();
         box.add1 (mk_textview);
@@ -48,29 +51,4 @@ public class Window {
         win.show_all();
         Gtk.main ();
     }
-
-    private void action_open () {
-        print ("Open file\n");
-    }
-
-    private void action_save () {
-        print ("Save file\n");
-    }
-    
-    private void setup_actions () {
-        main_actions = new Gtk.ActionGroup ("MainActionGroup");
-        main_actions.add_actions (main_entries, this);
-    }
-
-    static const Gtk.ActionEntry[] main_entries = {
-        { "Open", "document-open",
-          /* label, accelerator */   "Open", "<Control>o",
-          /* tooltip */              "Open a file",
-                                     action_open },
-        { "SaveFile", "document-save",
-          /* label, accelerator */   "Save", "<Control>s",
-          /* tooltip */              "Save this file",
-                                     action_save }
-
-    };
 }
