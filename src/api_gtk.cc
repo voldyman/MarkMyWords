@@ -10,7 +10,12 @@ char* gtk_markdown_converter(const char *data, void *user_data)
 
 int gtk_read_file(const char *file_location, char **data, void *user_data)
 {
-  return read_file(file_location, data);
+  bool status =  read_file(file_location, data);
+  if (status) {
+    return 1;
+  } else {
+    return 0;
+  }
 }
 
 API* get_gtk_api()

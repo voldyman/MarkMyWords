@@ -27,7 +27,7 @@ char* markdown_converter(const char *raw_str)
   return ret;
 }
 
-int read_file(const char *file_location, char **file_data)
+bool read_file(const char *file_location, char **file_data)
 {
   std::fstream file(file_location);
   std::stringstream string_buffer;
@@ -45,7 +45,7 @@ int read_file(const char *file_location, char **file_data)
               ret);
     *file_data = ret;
     
-    return 1;
+    return true;
   }
-  return -1;
+  return false;
 }

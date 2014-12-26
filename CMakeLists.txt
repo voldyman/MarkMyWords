@@ -47,6 +47,7 @@ include(ValaPrecompile)
 vala_precompile(VALA_C
   ui/Window.vala
   ui/Toolbar.vala
+  ui/API.vala
 PACKAGES
   gtk+-3.0
   webkit2gtk-4.0
@@ -62,7 +63,9 @@ add_library(vala-ui STATIC ${VALA_C})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(MarkMyWords_SOURCES
-  src/main.cc)
+  src/main.cc
+  src/api.cc
+  src/api_gtk.cc)
 
 include_directories(${CMAKE_BINARY_DIR})
 include_directories(${CMAKE_SOURCE_DIR})
