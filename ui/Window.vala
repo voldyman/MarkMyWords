@@ -1,4 +1,5 @@
 public delegate string MarkdownConverter (string data);
+public delegate int FileReader (string file_location, out string data);
 
 public class Window {
     private Gtk.Window win;
@@ -6,12 +7,20 @@ public class Window {
     private WebKit.WebView  html_view;
 
     private MarkdownConverter converter;
+    private FileReader read_file;
 
     public signal void updated ();
     
-    public Window (string[] args, MarkdownConverter converter) {
+    public Window (string[] args) {
         Gtk.init (ref args);
+    }
+
+    public void set_converter(MarkdownConverter converter) {
         this.converter = converter;
+    }
+
+    public void set_reader(FileReader read_file) {
+        this.read_file = read_file;
     }
 
     private void update_html_view () {
