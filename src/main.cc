@@ -35,8 +35,7 @@ int read_file(const char *file_location, char **file_data, void *vala_ctx)
     while(std::getline(file, cur_line)) {
       data << cur_line;
     }
-    char *file_text = g_strdup(data.str().c_str());
-    file_data = &file_text;
+    *file_data = g_strdup(data.str().c_str());
 
     return 1;
   }
