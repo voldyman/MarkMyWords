@@ -44,7 +44,7 @@ bool read_file(const char *file_location, char **file_data)
     std::copy(data_c_str, data_c_str+len,
               ret);
     *file_data = ret;
-    
+
     return true;
   }
   return false;
@@ -54,4 +54,3 @@ bool write_file(const char *file_location, char *data, int lenght)
 {
   return false;
 }
-  

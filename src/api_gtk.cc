@@ -1,4 +1,3 @@
-
 #include <vala-ui.h>
 
 #include "api.h"
