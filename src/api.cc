@@ -49,3 +49,9 @@ bool read_file(const char *file_location, char **file_data)
   }
   return false;
 }
+
+bool write_file(const char *file_location, char *data, int lenght)
+{
+  return false;
+}
+  
