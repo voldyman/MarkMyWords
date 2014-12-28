@@ -17,11 +17,22 @@ int gtk_read_file(const char *file_location, char **data, void *user_data)
   }
 }
 
+int gtk_write_file(const char *file_location, const char *data,
+                   int length, void *user_data)
+{
+  bool status = write_file(file_location, data, length);
+  if (status) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
 API* get_gtk_api()
 {
   API *ret = new API;
   ret->mk_converter = gtk_markdown_converter;
   ret->read_file = gtk_read_file;
+  ret->write_file = gtk_write_file;
 
   return ret;
 }

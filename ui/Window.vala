@@ -21,6 +21,13 @@ public class Window {
     }
 
     public void run() {
+        string data = "woah";
+        int length = data.length;
+        if (api.write_file ("/home/voldyman/test", data, length)) {
+            print ("success\n");
+        } else {
+            print ("Failure\n");
+        }
         win = new Gtk.Window ();
         win.set_default_size (600, 480);
         win.window_position = Gtk.WindowPosition.CENTER;

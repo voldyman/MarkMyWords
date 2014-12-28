@@ -19,7 +19,6 @@ char* markdown_converter(const char *raw_str)
   char *result;
   int len = mkd_document(data, &result);
 
-//  char *ret = std::strdup(result);
   char *ret = new char[len+1];
   std::copy(result, result+len+1, ret);
 
@@ -34,15 +33,18 @@ bool read_file(const char *file_location, char **file_data)
   std::string cur_line;
 
   if (file.is_open()) {
+
     while(std::getline(file, cur_line)) {
       string_buffer << cur_line;
     }
+
     std::string data = string_buffer.str().c_str();
     const char * data_c_str = data.c_str();
     int len = data.length()+1;
     char *ret = new char[len];
-    std::copy(data_c_str, data_c_str+len,
-              ret);
+
+    std::copy(data_c_str, data_c_str + len, ret);
+
     *file_data = ret;
 
     file.close();
@@ -51,7 +53,16 @@ bool read_file(const char *file_location, char **file_data)
   return false;
 }
 
-bool write_file(const char *file_location, char *data, int lenght)
+bool write_file(const char *file_location, const char *data, int length)
 {
+  // create file if not exists
+  std::fstream file(file_location, std::fstream::out);
+
+  if (file.is_open()) {
+    file.write(data, length);
+
+    file.close();
+    return true;
+  }
   return false;
 }
