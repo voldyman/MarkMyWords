@@ -45,6 +45,7 @@ bool read_file(const char *file_location, char **file_data)
               ret);
     *file_data = ret;
 
+    file.close();
     return true;
   }
   return false;
