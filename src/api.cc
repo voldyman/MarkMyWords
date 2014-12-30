@@ -38,7 +38,7 @@ bool read_file(const char *file_location, char **file_data)
       string_buffer << cur_line;
     }
 
-    std::string data = string_buffer.str().c_str();
+    std::string data = string_buffer.str();
     const char * data_c_str = data.c_str();
     int len = data.length()+1;
     char *ret = new char[len];
