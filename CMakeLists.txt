@@ -94,5 +94,5 @@ target_link_libraries(mark-my-words
   vala-ui
 )
 
-
 install (TARGETS mark-my-words RUNTIME DESTINATION bin)
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/mark-my-words.desktop DESTINATION ${DATADIR}/applications/)
