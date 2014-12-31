@@ -1,0 +1,18 @@
+Source: mark-my-words
+Section: video
+Priority: optional
+Maintainer: Cody Garver <codygarver@gmail.com>
+Build-Depends: cmake,
+               debhelper (>= 9),
+               libwebkit2gtk-3.0-dev,
+               libgtk-3-dev,
+               valac
+Standards-Version: 3.9.6
+Homepage: https://github.com/voldyman/MarkMyWords
+
+Package: mark-my-words
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Pre-Depends: dpkg (>= 1.15.6)
+Description: markdown editor
+ A minimal markdown editor.
