@@ -83,16 +83,16 @@ set(MarkMyWords_SOURCES
 include_directories(${CMAKE_BINARY_DIR})
 include_directories(${CMAKE_SOURCE_DIR})
 
-add_executable(MarkMyWords ${MarkMyWords_SOURCES})
+add_executable(mark-my-words ${MarkMyWords_SOURCES})
 
-add_dependencies(MarkMyWords
+add_dependencies(mark-my-words
   vala-ui
   discount)
 
-target_link_libraries(MarkMyWords
+target_link_libraries(mark-my-words
   ${DISCOUNT_LIB_PATH}
   vala-ui
 )
 
 
-#install (TARGETS quick-switch RUNTIME DESTINATION bin)
+install (TARGETS mark-my-words RUNTIME DESTINATION bin)
