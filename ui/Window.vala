@@ -35,7 +35,8 @@ public class Window : Gtk.Window{
         box.set_position (width/2);
 
         mk_textview = new Gtk.TextView ();
-        mk_textview.left_margin = 10;
+        mk_textview.left_margin = 5;
+        mk_textview.pixels_above_lines = 5;
         var scroll = new Gtk.ScrolledWindow (null, null);
         scroll.add (mk_textview);
         box.add1 (scroll);
