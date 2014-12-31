@@ -45,6 +45,7 @@ public class Window : Gtk.Window{
     private void setup_events () {
         mk_textview.buffer.changed.connect (update_html_view);
 
+        toolbar.new_clicked.connect (new_action);
         toolbar.open_clicked.connect (open_action);
         toolbar.save_clicked.connect (save_action);
     }
@@ -54,6 +55,10 @@ public class Window : Gtk.Window{
         string html = api.mk_converter(text);
         html_view.load_html (html, null);
         updated ();
+    }
+
+    private void new_action () {
+        debug ("New Clicked");
     }
 
     private void open_action () {
@@ -75,7 +80,7 @@ public class Window : Gtk.Window{
         }
         dialog.close ();
             
-        print ("Open clicked\n");
+        debug ("Open clicked\n");
     }
 
     private void save_action () {
@@ -97,7 +102,7 @@ public class Window : Gtk.Window{
         }
         dialog.close ();
 
-        print ("Save clicked\n");
+        debug ("Save clicked\n");
     }
 
 }

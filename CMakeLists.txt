@@ -42,7 +42,7 @@ link_directories(${CMAKE_BINARY_DIR})
 
 find_package(Vala REQUIRED)
 include(ValaVersion)
-ensure_vala_version("0.22.0" MINIMUM)
+ensure_vala_version("0.26.0" MINIMUM)
 
 set (DATADIR "${CMAKE_INSTALL_PREFIX}/share")
 set (PKGDATADIR "${DATADIR}/markmywords")
