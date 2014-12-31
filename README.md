@@ -8,7 +8,7 @@ a minimal markdown editor
 
 ###Screenshot
 
-![screenshot](https://github.com/voldyman/MarkMyWords/raw/master/screenshots/scr.png)
+![screenshot](https://github.com/voldyman/MarkMyWords/raw/master/screenshots/screenshot-2014-12-31.png)
 
 Author: Akshay Shekher
 
