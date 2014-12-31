@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.6)
 # build the markdown lib
 include(ExternalProject)
 set(DISCOUNT_DEP_PATH ${CMAKE_SOURCE_DIR}/deps/discount)
-set(DISCOUNT_LIB_PATH ${DISCOUNT_DEP_PATH}/lib/libmarkdown.a)
+set(DISCOUNT_LIB_PATH ${DISCOUNT_DEP_PATH}/libmarkdown.a)
 set(DISCOUNT_INCLUDE_PATH ${DISCOUNT_DEP_PATH}/include)
 
 ExternalProject_Add(discount
@@ -22,7 +22,6 @@ include_directories(${DISCOUNT_INCLUDE_PATH})
 
 # build UI lib
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
-
 
 # disable C compiler warnings
 add_definitions(-w)

@@ -57,10 +57,46 @@ public class Window : Gtk.Window{
     }
 
     private void open_action () {
+        var dialog = new Gtk.FileChooserDialog (
+            _("Select markdown file to open"),
+            this,
+            Gtk.FileChooserAction.OPEN,
+            _("_Cancel"), Gtk.ResponseType.CANCEL,
+            _("_Open"), Gtk.ResponseType.ACCEPT);
+
+        var filter = new Gtk.FileFilter ();
+        filter.add_mime_type ("text/plain");
+        filter.add_mime_type ("text/x-markdown");
+
+        dialog.set_filter (filter);
+
+        if (dialog.run () == Gtk.ResponseType.ACCEPT) {
+            print ("%s\n", dialog.get_filename ());
+        }
+        dialog.close ();
+            
         print ("Open clicked\n");
     }
 
     private void save_action () {
+        var dialog = new Gtk.FileChooserDialog (
+            _("Select destination markdown file"),
+            this,
+            Gtk.FileChooserAction.SAVE,
+            _("_Cancel"), Gtk.ResponseType.CANCEL,
+            _("_Save"), Gtk.ResponseType.ACCEPT);
+
+        var filter = new Gtk.FileFilter ();
+        filter.add_mime_type ("text/plain");
+        filter.add_mime_type ("text/x-markdown");
+
+        dialog.set_filter (filter);
+
+        if (dialog.run () == Gtk.ResponseType.ACCEPT) {
+            print ("%s\n", dialog.get_filename ());
+        }
+        dialog.close ();
+
         print ("Save clicked\n");
     }
 
