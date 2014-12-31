@@ -1,6 +1,7 @@
 public class Window : Gtk.Window{
     private Gtk.TextView mk_textview;
     private WebKit.WebView  html_view;
+    private Toolbar toolbar;
 
     private API api;
     
@@ -10,13 +11,7 @@ public class Window : Gtk.Window{
         this.api = app.api;
 
         setup_ui ();
-    }
-
-    private void update_html_view () {
-        string text = mk_textview.buffer.text;
-        string html = api.mk_converter(text);
-        html_view.load_html (html, null);
-        updated ();
+        setup_events ();
     }
 
     private void setup_ui () {
@@ -25,7 +20,7 @@ public class Window : Gtk.Window{
         set_hide_titlebar_when_maximized (false);
         icon_name = "accessories-text-editor";
         
-        var toolbar = new Toolbar ();
+        toolbar = new Toolbar ();
         toolbar.set_title ("Mark My Words");
         set_titlebar (toolbar);
         
@@ -44,7 +39,29 @@ public class Window : Gtk.Window{
         html_view = new WebKit.WebView ();
         box.add2 (html_view);
 
-        mk_textview.buffer.changed.connect (update_html_view);
         add (box);
     }
+
+    private void setup_events () {
+        mk_textview.buffer.changed.connect (update_html_view);
+
+        toolbar.open_clicked.connect (open_action);
+        toolbar.save_clicked.connect (save_action);
+    }
+    
+    private void update_html_view () {
+        string text = mk_textview.buffer.text;
+        string html = api.mk_converter(text);
+        html_view.load_html (html, null);
+        updated ();
+    }
+
+    private void open_action () {
+        print ("Open clicked\n");
+    }
+
+    private void save_action () {
+        print ("Save clicked\n");
+    }
+
 }
