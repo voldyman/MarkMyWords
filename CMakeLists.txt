@@ -43,6 +43,19 @@ find_package(Vala REQUIRED)
 include(ValaVersion)
 ensure_vala_version("0.22.0" MINIMUM)
 
+set (DATADIR "${CMAKE_INSTALL_PREFIX}/share")
+set (PKGDATADIR "${DATADIR}/markmywords")
+set (GETTEXT_PACKAGE "markmywords")
+set (RELEASE_NAME "TARS")
+set (VERSION "0.1")
+set (VERSION_INFO "Release")
+set (CMAKE_C_FLAGS "-ggdb")
+set (PREFIX ${CMAKE_INSTALL_PREFIX})
+set (DOLLAR "$")
+
+configure_file (${CMAKE_SOURCE_DIR}/ui/config.h.cmake ${CMAKE_BINARY_DIR}/ui/config.h)
+add_definitions (-DGETTEXT_PACKAGE=\"${GETTEXT_PACKAGE}\")
+
 include(ValaPrecompile)
 vala_precompile(VALA_C
   ui/Application.vala
