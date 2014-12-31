@@ -45,6 +45,7 @@ ensure_vala_version("0.22.0" MINIMUM)
 
 include(ValaPrecompile)
 vala_precompile(VALA_C
+  ui/Application.vala
   ui/Window.vala
   ui/Toolbar.vala
   ui/API.vala

@@ -1,6 +1,4 @@
-
-public class Window {
-    private Gtk.Window win;
+public class Window : Gtk.Window{
     private Gtk.TextView mk_textview;
     private WebKit.WebView  html_view;
 
@@ -8,9 +6,10 @@ public class Window {
     
     public signal void updated ();
     
-    public Window (string[] args, API api) {
-        Gtk.init (ref args);
-        this.api = api;
+    public Window (MarkMyWordsApp app) {
+        this.api = app.api;
+
+        setup_ui ();
     }
 
     private void update_html_view () {
@@ -20,39 +19,31 @@ public class Window {
         updated ();
     }
 
-    public void run() {
-        string data = "woah";
-        int length = data.length;
-        if (api.write_file ("/home/voldyman/test", data, length)) {
-            print ("success\n");
-        } else {
-            print ("Failure\n");
-        }
-        win = new Gtk.Window ();
-        win.set_default_size (600, 480);
-        win.window_position = Gtk.WindowPosition.CENTER;
-        win.set_hide_titlebar_when_maximized (false);
-        win.icon_name = "accessories-text-editor";
-        win.destroy.connect (Gtk.main_quit);
+    private void setup_ui () {
+        set_default_size (600, 480);
+        window_position = Gtk.WindowPosition.CENTER;
+        set_hide_titlebar_when_maximized (false);
+        icon_name = "accessories-text-editor";
         
         var toolbar = new Toolbar ();
         toolbar.set_title ("Mark My Words");
-        win.set_titlebar (toolbar);
+        set_titlebar (toolbar);
         
         var box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
         int width;
-        win.get_size (out width, null);
+        get_size (out width, null);
         box.set_position (width/2);
 
         mk_textview = new Gtk.TextView ();
-        box.add1 (mk_textview);
+        mk_textview.left_margin = 10;
+        var scroll = new Gtk.ScrolledWindow (null, null);
+        scroll.add (mk_textview);
+        box.add1 (scroll);
 
         html_view = new WebKit.WebView ();
         box.add2 (html_view);
 
         mk_textview.buffer.changed.connect (update_html_view);
-        win.add (box);
-        win.show_all();
-        Gtk.main ();
+        add (box);
     }
 }

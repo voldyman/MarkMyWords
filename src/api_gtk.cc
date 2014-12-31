@@ -41,9 +41,5 @@ void run_ui(int argc, char *argv[])
 {
   API *api = get_gtk_api();
 
-  Window *win = window_new(argv, argc, api);
-//  g_signal_connect(w, "updated",
-//                   G_CALLBACK(updated), nullptr);
-
-  window_run(win);
+  run (argv, argc, api);
 }
