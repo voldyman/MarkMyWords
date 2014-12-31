@@ -1,0 +1,2 @@
+shlibs:Depends=libc6 (>= 2.14), libgcc1 (>= 1:4.1.1), libglib2.0-0 (>= 2.28.0), libgtk-3-0 (>= 3.9.12), libstdc++6 (>= 4.4.0), libwebkit2gtk-3.0-25 (>= 2.0.2)
+misc:Depends=

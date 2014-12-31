@@ -1,0 +1,12 @@
+Package: mark-my-words
+Version: 0.1
+Architecture: amd64
+Maintainer: Cody Garver <codygarver@gmail.com>
+Installed-Size: 114
+Pre-Depends: dpkg (>= 1.15.6)
+Depends: libc6 (>= 2.14), libgcc1 (>= 1:4.1.1), libglib2.0-0 (>= 2.28.0), libgtk-3-0 (>= 3.9.12), libstdc++6 (>= 4.4.0), libwebkit2gtk-3.0-25 (>= 2.0.2)
+Section: video
+Priority: optional
+Homepage: https://github.com/voldyman/MarkMyWords
+Description: markdown editor
+ A minimal markdown editor.

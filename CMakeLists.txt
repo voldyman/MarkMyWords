@@ -5,16 +5,17 @@ cmake_minimum_required(VERSION 2.6)
 # build the markdown lib
 include(ExternalProject)
 set(DISCOUNT_DEP_PATH ${CMAKE_SOURCE_DIR}/deps/discount)
-set(DISCOUNT_LIB_PATH ${DISCOUNT_DEP_PATH}/libmarkdown.a)
+set(DISCOUNT_LIB_PATH ${CMAKE_BINARY_DIR}/libmarkdown.a)
 set(DISCOUNT_INCLUDE_PATH ${DISCOUNT_DEP_PATH}/include)
 
 ExternalProject_Add(discount
   PREFIX ${DISCOUNT_DEP_PATH}
   SOURCE_DIR ${DISCOUNT_DEP_PATH}
   CONFIGURE_COMMAND
-      ${DISCOUNT_DEP_PATH}/configure.sh --src=${DISCOUNT_DEP_PATH}/
+      ${DISCOUNT_DEP_PATH}/configure.sh --src=${DISCOUNT_DEP_PATH}
                                         --prefix=${CMAKE_BINARY_DIR}
-  BUILD_COMMAND make
+                                        --libdir=${CMAKE_BINARY_DIR}
+  BUILD_COMMAND make install
   BUILD_IN_SOURCE 1
 )
 
@@ -37,6 +38,7 @@ add_definitions(${DEPS_CFLAGS})
 
 link_libraries(${DEPS_LIBRARIES})
 link_directories(${DEPS_LIBRARY_DIRS})
+link_directories(${CMAKE_BINARY_DIR})
 
 find_package(Vala REQUIRED)
 include(ValaVersion)
@@ -86,13 +88,12 @@ include_directories(${CMAKE_SOURCE_DIR})
 add_executable(mark-my-words ${MarkMyWords_SOURCES})
 
 add_dependencies(mark-my-words
-  vala-ui
-  discount)
+  discount
+  vala-ui)
 
 target_link_libraries(mark-my-words
-  ${DISCOUNT_LIB_PATH}
   vala-ui
-)
+  ${DISCOUNT_LIB_PATH})
 
 install (TARGETS mark-my-words RUNTIME DESTINATION bin)
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/mark-my-words.desktop DESTINATION ${DATADIR}/applications/)
