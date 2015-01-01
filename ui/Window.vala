@@ -1,5 +1,5 @@
 public class Window : Gtk.Window{
-    private Gtk.TextView mk_textview;
+    private Gtk.SourceView mk_textview;
     private WebKit.WebView  html_view;
     private Toolbar toolbar;
 
@@ -29,7 +29,10 @@ public class Window : Gtk.Window{
         get_size (out width, null);
         box.set_position (width/2);
 
-        mk_textview = new Gtk.TextView ();
+        var manager = Gtk.SourceLanguageManager.get_default ();
+        var language = manager.guess_language (null, "text/x-markdown");
+        var source_buffer = new Gtk.SourceBuffer.with_language (language);
+        mk_textview = new Gtk.SourceView.with_buffer (source_buffer);
         mk_textview.left_margin = 5;
         mk_textview.pixels_above_lines = 5;
         var scroll = new Gtk.ScrolledWindow (null, null);
