@@ -6,7 +6,7 @@ Build-Depends: cmake,
                debhelper (>= 9),
                libwebkit2gtk-3.0-dev,
                libgtk-3-dev,
-               valac
+               valac (>= 0.26)
 Standards-Version: 3.9.6
 Homepage: https://github.com/voldyman/MarkMyWords
 
