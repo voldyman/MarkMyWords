@@ -64,6 +64,7 @@ vala_precompile(VALA_C
   ui/Window.vala
   ui/Toolbar.vala
   ui/API.vala
+  ui/Document.vala
 PACKAGES
   gtksourceview-3.0
   gtk+-3.0

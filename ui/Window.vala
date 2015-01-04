@@ -1,5 +1,5 @@
 public class Window : Gtk.Window{
-    private Gtk.SourceView mk_textview;
+    private Document doc;
     private WebKit.WebView  html_view;
     private Toolbar toolbar;
 
@@ -29,15 +29,8 @@ public class Window : Gtk.Window{
         get_size (out width, null);
         box.set_position (width/2);
 
-        var manager = Gtk.SourceLanguageManager.get_default ();
-        var language = manager.guess_language (null, "text/x-markdown");
-        var source_buffer = new Gtk.SourceBuffer.with_language (language);
-        mk_textview = new Gtk.SourceView.with_buffer (source_buffer);
-        mk_textview.left_margin = 5;
-        mk_textview.pixels_above_lines = 5;
-        var scroll = new Gtk.ScrolledWindow (null, null);
-        scroll.add (mk_textview);
-        box.add1 (scroll);
+        doc = new Document ();
+        box.add1 (doc);
 
         html_view = new WebKit.WebView ();
         box.add2 (html_view);
@@ -46,7 +39,7 @@ public class Window : Gtk.Window{
     }
 
     private void setup_events () {
-        mk_textview.buffer.changed.connect (update_html_view);
+        doc.changed.connect (update_html_view);
 
         toolbar.new_clicked.connect (new_action);
         toolbar.open_clicked.connect (open_action);
@@ -54,7 +47,7 @@ public class Window : Gtk.Window{
     }
     
     private void update_html_view () {
-        string text = mk_textview.buffer.text;
+        string text = doc.get_text ();
         string html = api.mk_converter(text);
         html_view.load_html (html, null);
         updated ();
