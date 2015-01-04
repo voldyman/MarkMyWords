@@ -2,14 +2,11 @@ public class Window : Gtk.Window{
     private Document doc;
     private WebKit.WebView  html_view;
     private Toolbar toolbar;
-
-    private API api;
     
     public signal void updated ();
     
     public Window (MarkMyWordsApp app) {
-        this.api = app.api;
-
+        set_application (app);
         setup_ui ();
         setup_events ();
     }
@@ -45,10 +42,20 @@ public class Window : Gtk.Window{
         toolbar.open_clicked.connect (open_action);
         toolbar.save_clicked.connect (save_action);
     }
-    
+
+    private string process (string raw_mk) {
+        var mkd = new Markdown.Document.for_string (raw_mk.data, 0);
+        mkd.compile (0);
+
+        string result;
+        mkd.get_document (out result);
+
+        return result;
+    }
+
     private void update_html_view () {
         string text = doc.get_text ();
-        string html = api.mk_converter(text);
+        string html = process (text);
         html_view.load_html (html, null);
         updated ();
     }
@@ -81,15 +88,10 @@ public class Window : Gtk.Window{
         dialog.add_filter (all_filter);
 
         if (dialog.run () == Gtk.ResponseType.ACCEPT) {
-            var file_loc = dialog.get_filename ();
-            print ("%s\n", file_loc);
-            string code;
-            if (api.read_file (file_loc, out code)) {
-                doc.reset ();
-                doc.set_text (code);
-            } else {
-                warning ("error reading file");
-            }
+            var file = dialog.get_file ();
+            FileHandler.load_content_from_file.begin (file, (obj, res) => {
+                doc.set_text (FileHandler.load_content_from_file.end (res));
+            });
         }
         dialog.close ();
             
@@ -119,12 +121,10 @@ public class Window : Gtk.Window{
         dialog.add_filter (all_filter);
 
         if (dialog.run () == Gtk.ResponseType.ACCEPT) {
-            var file_loc = dialog.get_filename ();
-            print ("%s\n", file_loc);
-            var code = doc.get_text ();
-            api.write_file (file_loc, code, code.length);
-        }
-        dialog.close ();
-    }
+            dialog.close ();
 
+            var file = dialog.get_file ();
+            FileHandler.write_file (file, doc.get_text ());
+        }
+    }
 }

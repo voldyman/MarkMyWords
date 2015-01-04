@@ -41,6 +41,9 @@ link_libraries(${DEPS_LIBRARIES})
 link_directories(${DEPS_LIBRARY_DIRS})
 link_directories(${CMAKE_BINARY_DIR})
 
+include_directories(${CMAKE_BINARY_DIR})
+include_directories(${CMAKE_SOURCE_DIR})
+
 find_package(Vala REQUIRED)
 include(ValaVersion)
 ensure_vala_version("0.26.0" MINIMUM)
@@ -55,49 +58,37 @@ set (CMAKE_C_FLAGS "-ggdb")
 set (PREFIX ${CMAKE_INSTALL_PREFIX})
 set (DOLLAR "$")
 
-configure_file (${CMAKE_SOURCE_DIR}/ui/config.h.cmake ${CMAKE_BINARY_DIR}/ui/config.h)
+configure_file (${CMAKE_SOURCE_DIR}/src/config.h.cmake ${CMAKE_BINARY_DIR}/src/config.h)
 add_definitions (-DGETTEXT_PACKAGE=\"${GETTEXT_PACKAGE}\")
 
 include(ValaPrecompile)
+
 vala_precompile(VALA_C
-  ui/Application.vala
-  ui/Window.vala
-  ui/Toolbar.vala
-  ui/API.vala
-  ui/Document.vala
+  src/Main.vala
+  src/Application.vala
+  src/Window.vala
+  src/Toolbar.vala
+  src/API.vala
+  src/Document.vala
+  src/FileHandler.vala
 PACKAGES
   gtksourceview-3.0
   gtk+-3.0
   webkit2gtk-4.0
+  discount
 OPTIONS
   --vapidir=${CMAKE_SOURCE_DIR}/vapi
   --thread
-GENERATE_HEADER
-  vala-ui
 )
 
-add_library(vala-ui STATIC ${VALA_C})
+add_executable(mark-my-words ${VALA_C})
 
-# main c++ core
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
-set(MarkMyWords_SOURCES
-  src/main.cc
-  src/api.cc
-  src/api_gtk.cc)
-
-include_directories(${CMAKE_BINARY_DIR})
-include_directories(${CMAKE_SOURCE_DIR})
-
-add_executable(mark-my-words ${MarkMyWords_SOURCES})
+target_link_libraries(mark-my-words
+  ${DISCOUNT_LIB_PATH})
 
 add_dependencies(mark-my-words
   discount
-  vala-ui)
-
-target_link_libraries(mark-my-words
-  vala-ui
-  ${DISCOUNT_LIB_PATH})
+)
 
 install (TARGETS mark-my-words RUNTIME DESTINATION bin)
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/mark-my-words.desktop DESTINATION ${DATADIR}/applications/)
