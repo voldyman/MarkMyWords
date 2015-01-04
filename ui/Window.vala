@@ -58,6 +58,8 @@ public class Window : Gtk.Window{
     }
 
     private void open_action () {
+        debug ("Open clicked\n");
+
         var dialog = new Gtk.FileChooserDialog (
             _("Select markdown file to open"),
             this,
@@ -65,18 +67,32 @@ public class Window : Gtk.Window{
             _("_Cancel"), Gtk.ResponseType.CANCEL,
             _("_Open"), Gtk.ResponseType.ACCEPT);
 
-        var filter = new Gtk.FileFilter ();
-        filter.add_mime_type ("text/plain");
-        filter.add_mime_type ("text/x-markdown");
+        var mk_filter = new Gtk.FileFilter ();
+        mk_filter.set_filter_name ("Markdown File");
+        mk_filter.add_pattern ("*.md, *.markdown");
+        mk_filter.add_mime_type ("text/plain");
+        mk_filter.add_mime_type ("text/x-markdown");
 
-        dialog.set_filter (filter);
+        var all_filter = new Gtk.FileFilter ();
+        all_filter.set_filter_name ("All Files");
+        all_filter.add_pattern ("*");
+
+        dialog.add_filter (mk_filter);
+        dialog.add_filter (all_filter);
 
         if (dialog.run () == Gtk.ResponseType.ACCEPT) {
-            print ("%s\n", dialog.get_filename ());
+            var file_loc = dialog.get_filename ();
+            print ("%s\n", file_loc);
+            string code;
+            if (api.read_file (file_loc, out code)) {
+                doc.reset ();
+                doc.set_text (code);
+            } else {
+                warning ("error reading file");
+            }
         }
         dialog.close ();
             
-        debug ("Open clicked\n");
     }
 
     private void save_action () {
@@ -90,7 +106,7 @@ public class Window : Gtk.Window{
             _("_Save"), Gtk.ResponseType.ACCEPT);
 
         var mk_filter = new Gtk.FileFilter ();
-        mk_filter.set_filter_name ("Markdown");
+        mk_filter.set_filter_name ("Markdown File");
         mk_filter.add_mime_type ("text/plain");
         mk_filter.add_mime_type ("text/x-markdown");
         mk_filter.add_pattern ("*.md, *.markdown");
