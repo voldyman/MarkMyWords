@@ -2,7 +2,10 @@ public class Window : Gtk.Window{
     private DocumentView doc;
     private WebKit.WebView  html_view;
     private Toolbar toolbar;
-    
+
+    // current state
+    private File? current_file = null;
+
     public signal void updated ();
     
     public Window (MarkMyWordsApp app) {
@@ -61,11 +64,11 @@ public class Window : Gtk.Window{
     }
 
     private void new_action () {
+        current_file = null;
         doc.reset ();
     }
 
     private void open_action () {
-        debug ("Open clicked\n");
 
         var dialog = new Gtk.FileChooserDialog (
             _("Select markdown file to open"),
@@ -88,9 +91,10 @@ public class Window : Gtk.Window{
         dialog.add_filter (all_filter);
 
         if (dialog.run () == Gtk.ResponseType.ACCEPT) {
-            var file = dialog.get_file ();
-            FileHandler.load_content_from_file.begin (file, (obj, res) => {
+            var new_file = dialog.get_file ();
+            FileHandler.load_content_from_file.begin (new_file, (obj, res) => {
                 doc.set_text (FileHandler.load_content_from_file.end (res));
+                current_file = new_file;
             });
         }
         dialog.close ();
@@ -99,6 +103,25 @@ public class Window : Gtk.Window{
 
     private void save_action () {
         debug ("Save clicked\n");
+        if (current_file == null) {
+            var file = get_file_from_user ();
+
+            if (file == null) {
+                return;
+            } else {
+                current_file = file;
+            }
+        }
+
+        try {
+            FileHandler.write_file (current_file, doc.get_text ());
+        } catch (Error e) {
+            warning ("%s: %s", e.message, current_file.get_basename ());
+        }
+    }
+
+    private File? get_file_from_user () {
+        File? result = null;
 
         var dialog = new Gtk.FileChooserDialog (
             _("Select destination markdown file"),
@@ -123,8 +146,8 @@ public class Window : Gtk.Window{
         if (dialog.run () == Gtk.ResponseType.ACCEPT) {
             dialog.close ();
 
-            var file = dialog.get_file ();
-            FileHandler.write_file (file, doc.get_text ());
+            result = dialog.get_file ();
         }
+        return result;
     }
 }
