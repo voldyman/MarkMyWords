@@ -8,7 +8,7 @@ a minimal markdown editor
 
 ###Screenshot
 
-![screenshot](https://github.com/voldyman/MarkMyWords/raw/master/screenshots/screenshot-2014-12-31.png)
+![screenshot](https://github.com/voldyman/MarkMyWords/raw/master/screenshots/screenshot-2015-1-4.png)
 
 Author: Akshay Shekher
 
@@ -18,3 +18,16 @@ Author: Akshay Shekher
     mkdir build && cd build 
     cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr ../
     make
+
+
+###Todo
+
+[x] Markdown Parsing
+[x] Live Preview
+[x] File IO
+[ ] State management
+[ ] Export HTML
+[ ] Github markdown
+[ ] Preferences
+
+
