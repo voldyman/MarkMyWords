@@ -89,11 +89,18 @@ public class Window : Gtk.Window{
             _("_Cancel"), Gtk.ResponseType.CANCEL,
             _("_Save"), Gtk.ResponseType.ACCEPT);
 
-        var filter = new Gtk.FileFilter ();
-        filter.add_mime_type ("text/plain");
-        filter.add_mime_type ("text/x-markdown");
+        var mk_filter = new Gtk.FileFilter ();
+        mk_filter.set_filter_name ("Markdown");
+        mk_filter.add_mime_type ("text/plain");
+        mk_filter.add_mime_type ("text/x-markdown");
+        mk_filter.add_pattern ("*.md, *.markdown");
 
-        dialog.set_filter (filter);
+        var all_filter = new Gtk.FileFilter ();
+        all_filter.set_filter_name ("All Files");
+        all_filter.add_pattern ("*");
+
+        dialog.add_filter (mk_filter);
+        dialog.add_filter (all_filter);
 
         if (dialog.run () == Gtk.ResponseType.ACCEPT) {
             var file_loc = dialog.get_filename ();
