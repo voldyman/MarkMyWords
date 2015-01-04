@@ -1,11 +1,11 @@
 
-public class Document : Gtk.ScrolledWindow {
+public class DocumentView : Gtk.ScrolledWindow {
     private Gtk.SourceView code_view;
     private Gtk.SourceBuffer code_buffer;
 
     public signal void changed ();
 
-    public Document () {
+    public DocumentView () {
         setup_code_view ();
     }
 

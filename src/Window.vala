@@ -1,5 +1,5 @@
 public class Window : Gtk.Window{
-    private Document doc;
+    private DocumentView doc;
     private WebKit.WebView  html_view;
     private Toolbar toolbar;
     
@@ -26,7 +26,7 @@ public class Window : Gtk.Window{
         get_size (out width, null);
         box.set_position (width/2);
 
-        doc = new Document ();
+        doc = new DocumentView ();
         box.add1 (doc);
 
         html_view = new WebKit.WebView ();
