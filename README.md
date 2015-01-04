@@ -3,8 +3,12 @@ MarkMyWords
 
 a minimal markdown editor
 
-
 **status**: work in progress
+
+aur package by [emersion](https://github.com/emersion)
+
+https://github.com/emersion/aur-markmywords
+
 
 ###Screenshot
 
