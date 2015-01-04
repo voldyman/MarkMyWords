@@ -80,6 +80,8 @@ public class Window : Gtk.Window{
     }
 
     private void save_action () {
+        debug ("Save clicked\n");
+
         var dialog = new Gtk.FileChooserDialog (
             _("Select destination markdown file"),
             this,
@@ -94,11 +96,12 @@ public class Window : Gtk.Window{
         dialog.set_filter (filter);
 
         if (dialog.run () == Gtk.ResponseType.ACCEPT) {
-            print ("%s\n", dialog.get_filename ());
+            var file_loc = dialog.get_filename ();
+            print ("%s\n", file_loc);
+            var code = doc.get_text ();
+            api.write_file (file_loc, code, code.length);
         }
         dialog.close ();
-
-        debug ("Save clicked\n");
     }
 
 }
