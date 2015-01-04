@@ -47,8 +47,8 @@ public class Window : Gtk.Window{
     }
 
     private string process (string raw_mk) {
-        var mkd = new Markdown.Document.for_string (raw_mk.data, 0);
-        mkd.compile (0);
+        var mkd = new Markdown.Document (raw_mk.data);
+        mkd.compile ();
 
         string result;
         mkd.get_document (out result);
