@@ -22,12 +22,11 @@ Author: Akshay Shekher
 
 ###Todo
 
-[x] Markdown Parsing
-[x] Live Preview
-[x] File IO
-[ ] State management
-[ ] Export HTML
-[ ] Github markdown
-[ ] Preferences
-
+- [x] Markdown Parsing
+- [x] Live Preview
+- [x] File IO
+- [ ] State management
+- [ ] Export HTML
+- [ ] Github markdown
+- [ ] Preferences
 
