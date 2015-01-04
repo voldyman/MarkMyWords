@@ -68,7 +68,6 @@ vala_precompile(VALA_C
   src/Application.vala
   src/Window.vala
   src/Toolbar.vala
-  src/API.vala
   src/Document.vala
   src/FileHandler.vala
 PACKAGES
