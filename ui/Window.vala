@@ -54,7 +54,7 @@ public class Window : Gtk.Window{
     }
 
     private void new_action () {
-        debug ("New Clicked");
+        doc.reset ();
     }
 
     private void open_action () {

@@ -9,6 +9,10 @@ public class Document : Gtk.ScrolledWindow {
         setup_code_view ();
     }
 
+    public void reset () {
+        code_buffer.text = "";
+    }
+
     public string get_text () {
         return code_view.buffer.text;
     }
