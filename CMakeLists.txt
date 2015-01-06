@@ -66,10 +66,10 @@ include(ValaPrecompile)
 vala_precompile(VALA_C
   src/Main.vala
   src/Application.vala
-  src/Window.vala
-  src/Toolbar.vala
-  src/DocumentView.vala
-  src/FileHandler.vala
+  src/Widgets/Window.vala
+  src/Widgets/Toolbar.vala
+  src/Widgets/DocumentView.vala
+  src/Services/FileHandler.vala
 PACKAGES
   gtksourceview-3.0
   gtk+-3.0
