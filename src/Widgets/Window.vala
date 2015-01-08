@@ -6,6 +6,7 @@ public class Window : Gtk.Window{
     // current state
     private File? current_file = null;
     private bool timer_scheduled = false;
+    private uint timer_id = 0;
     // average word length = 5.1
     // average typing speed = 40 words per minute
     // 204 keys per minute == 0.294 seconds per key
@@ -55,10 +56,11 @@ public class Window : Gtk.Window{
     }
 
     private void schedule_timer () {
-        if (!timer_scheduled) {
-            Timeout.add (TIME_TO_REFRESH, render_func);
-            timer_scheduled = true;
+        if (timer_scheduled) {
+            Source.remove(timer_id);
         }
+        timer_id = Timeout.add (TIME_TO_REFRESH, render_func);
+        timer_scheduled = true;
     }
 
     private bool render_func () {
