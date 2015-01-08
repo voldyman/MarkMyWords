@@ -30,7 +30,7 @@ Author: Akshay Shekher
 - [x] Live Preview
 - [x] File IO
 - [x] State management
-- [ ] Export HTML
+- [x] Export HTML
 - [ ] Export PDF
 - [ ] Github markdown
 - [ ] Preferences

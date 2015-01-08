@@ -80,8 +80,16 @@ public class Window : Gtk.Window{
     }
 
     private void export_html_action () {
-        print ("Export html\n");
         var file = get_file_from_user (DialogType.HTML_OUT);
+
+        string text = doc.get_text ();
+        string html = process (text);
+
+        try {
+            FileHandler.write_file (file, html);
+        } catch (Error e) {
+            warning ("Could not export HTML: %s", e.message);
+        }
     }
 
     private void export_pdf_action () {
