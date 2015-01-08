@@ -42,8 +42,8 @@ class Toolbar : Gtk.HeaderBar {
 
         export_html = new Gtk.MenuItem.with_label (_("Export HTML"));
 
-        menu.add (export_pdf);
         menu.add (export_html);
+        menu.add (export_pdf);
         menu.show_all ();
 
         export_button.set_popup (menu);
