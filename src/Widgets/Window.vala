@@ -5,6 +5,12 @@ public class Window : Gtk.Window{
 
     // current state
     private File? current_file = null;
+    private bool timer_scheduled = false;
+    // average word length = 5.1
+    // average typing speed = 40 words per minute
+    // 204 keys per minute == 0.294 seconds per key
+    // we'll make it render after 0.3 seconds
+    private const int TIME_TO_REFRESH = 3 * 100;
 
     public signal void updated ();
 
@@ -39,13 +45,26 @@ public class Window : Gtk.Window{
     }
 
     private void setup_events () {
-        doc.changed.connect (update_html_view);
+        doc.changed.connect (schedule_timer);
 
         toolbar.new_clicked.connect (new_action);
         toolbar.open_clicked.connect (open_action);
         toolbar.save_clicked.connect (save_action);
         toolbar.export_html_clicked.connect (export_html_action);
         toolbar.export_pdf_clicked.connect (export_pdf_action);
+    }
+
+    private void schedule_timer () {
+        if (!timer_scheduled) {
+            Timeout.add (TIME_TO_REFRESH, render_func);
+            timer_scheduled = true;
+        }
+    }
+
+    private bool render_func () {
+        update_html_view ();
+        timer_scheduled = false;
+        return false;
     }
 
     private string process (string raw_mk) {
