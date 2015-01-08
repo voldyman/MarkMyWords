@@ -35,8 +35,8 @@ class Toolbar : Gtk.HeaderBar {
         save_button.set_tooltip_text (_("Save file"));
 
         export_button = new MenuButton ();
-        export_button.image = new Image.from_icon_name ("document-export",
-                                                        IconSize.LARGE_TOOLBAR);
+        export_button.image = get_export_image ();
+
         var menu = new Gtk.Menu ();
         export_pdf = new Gtk.MenuItem.with_label (_("Export PDF"));
 
@@ -76,5 +76,22 @@ class Toolbar : Gtk.HeaderBar {
             export_html_clicked ();
         });
 
+    }
+
+    private Gtk.Image get_export_image () {
+        var icon_name = "document-export";
+        var backup_icon_name = "document-revert-rtl";
+        Gtk.Image image;
+
+        Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
+
+        if (icon_theme.has_icon (icon_name)) {
+            image = new Image.from_icon_name (icon_name,
+                                              IconSize.LARGE_TOOLBAR);
+        } else {
+            image = new Image.from_icon_name (backup_icon_name,
+                                              IconSize.LARGE_TOOLBAR);
+        }
+        return image;
     }
 }
