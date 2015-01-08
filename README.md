@@ -29,8 +29,8 @@ Author: Akshay Shekher
 - [x] Markdown Parsing
 - [x] Live Preview
 - [x] File IO
-- [ ] State management
-- [ ] Export HTML
+- [x] State management
+- [x] Export HTML
 - [ ] Github markdown
 - [ ] Preferences
 
