@@ -44,6 +44,8 @@ public class Window : Gtk.Window{
         toolbar.new_clicked.connect (new_action);
         toolbar.open_clicked.connect (open_action);
         toolbar.save_clicked.connect (save_action);
+        toolbar.export_html_clicked.connect (export_html_action);
+        toolbar.export_pdf_clicked.connect (export_pdf_action);
     }
 
     private string process (string raw_mk) {
@@ -99,6 +101,14 @@ public class Window : Gtk.Window{
         }
         dialog.close ();
             
+    }
+
+    private void export_html_action () {
+        print ("Export html\n");
+    }
+
+    private void export_pdf_action () {
+        print ("Export pdf\n");
     }
 
     private void save_action () {
