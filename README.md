@@ -9,6 +9,13 @@ aur package by [emersion](https://github.com/emersion)
 
 https://github.com/emersion/aur-markmywords
 
+PPA:  ppa:voldyman/markmywords
+
+```
+sudo add-apt-repository  ppa:voldyman/markmywords
+sudo apt-get update
+sudo apt-get install mark-my-words
+```
 
 ###Screenshot
 
