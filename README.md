@@ -5,7 +5,7 @@ a minimal markdown editor
 
 **status**: work in progress
 
-aur package by [emersion](https://github.com/emersion)
+aur package by [emersion](https://github.com/emersion) at https://github.com/emersion/aur-markmywords
 
 https://github.com/emersion/aur-markmywords
 
