@@ -21,6 +21,10 @@ public class DocumentView : Gtk.ScrolledWindow {
         return code_view.buffer.text;
     }
 
+    public void give_focus () {
+        code_view.grab_focus ();
+    }
+
     private void setup_code_view () {
         // need to setup language
         var manager = Gtk.SourceLanguageManager.get_default ();

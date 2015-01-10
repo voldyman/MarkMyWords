@@ -63,10 +63,12 @@ public class Window : Gtk.Window{
         box.set_position (width/2);
 
         doc = new DocumentView ();
-        box.add1 (doc);
-
         html_view = new WebKit.WebView ();
+
+        box.add1 (doc);
         box.add2 (html_view);
+
+        doc.give_focus ();
 
         add (box);
     }
