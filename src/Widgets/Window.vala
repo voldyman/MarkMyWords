@@ -5,6 +5,9 @@ public class Window : Gtk.Window{
 
     // current state
     private File? current_file = null;
+    private bool file_modified = false;
+
+    // timer related variables
     private bool timer_scheduled = false;
     private uint timer_id = 0;
     // average word length = 5.1
@@ -19,6 +22,29 @@ public class Window : Gtk.Window{
         set_application (app);
         setup_ui ();
         setup_events ();
+    }
+
+    public override bool delete_event (Gdk.EventAny ev) {
+        var dont_quit = false;
+
+        if (file_modified) {
+            var d = new UnsavedChangesDialog ();
+            var result = d.run ();
+            switch (result) {
+            case UnsavedChangesResult.QUIT:
+                dont_quit = false;
+                break;
+
+            // anything other than quit means cancel
+            case UnsavedChangesResult.CANCEL:
+            default:
+                dont_quit = true;
+                break;
+            }
+            d.destroy ();
+        }
+
+        return dont_quit;
     }
 
     private void setup_ui () {
@@ -47,12 +73,17 @@ public class Window : Gtk.Window{
 
     private void setup_events () {
         doc.changed.connect (schedule_timer);
+        doc.changed.connect (update_state);
 
         toolbar.new_clicked.connect (new_action);
         toolbar.open_clicked.connect (open_action);
         toolbar.save_clicked.connect (save_action);
         toolbar.export_html_clicked.connect (export_html_action);
         toolbar.export_pdf_clicked.connect (export_pdf_action);
+    }
+
+    private void update_state () {
+        file_modified = true;
     }
 
     private void schedule_timer () {
@@ -100,6 +131,25 @@ public class Window : Gtk.Window{
         });
     }
 
+    private void save_action () {
+        if (current_file == null) {
+            var file = get_file_from_user (DialogType.MARKDOWN_OUT);
+
+            if (file == null) {
+                return;
+            } else {
+                current_file = file;
+            }
+        }
+
+        try {
+            FileHandler.write_file (current_file, doc.get_text ());
+            file_modified = false;
+        } catch (Error e) {
+            warning ("%s: %s", e.message, current_file.get_basename ());
+        }
+    }
+
     private void export_html_action () {
         var file = get_file_from_user (DialogType.HTML_OUT);
 
@@ -116,25 +166,6 @@ public class Window : Gtk.Window{
     private void export_pdf_action () {
         print ("Export pdf\n");
         var file = get_file_from_user (DialogType.PDF_OUT);
-    }
-
-    private void save_action () {
-        debug ("Save clicked\n");
-        if (current_file == null) {
-            var file = get_file_from_user (DialogType.MARKDOWN_OUT);
-
-            if (file == null) {
-                return;
-            } else {
-                current_file = file;
-            }
-        }
-
-        try {
-            FileHandler.write_file (current_file, doc.get_text ());
-        } catch (Error e) {
-            warning ("%s: %s", e.message, current_file.get_basename ());
-        }
     }
 
     private enum DialogType {
