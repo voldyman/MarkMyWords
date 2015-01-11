@@ -1,38 +1,37 @@
-MarkMyWords
--------------------
+# MarkMyWords
 
-a minimal markdown editor
+A minimal markdown editor
 
-**status**: work in progress
+**Status**: work in progress
 
-aur package by [emersion](https://github.com/emersion) at https://github.com/emersion/aur-markmywords
+Installation:
+* AUR package by [emersion](https://github.com/emersion) at https://github.com/emersion/aur-markmywords
+* PPA: _ppa:voldyman/markmywords_
+  
+  ```shell
+  sudo add-apt-repository ppa:voldyman/markmywords
+  sudo apt-get update
+  sudo apt-get install mark-my-words
+  ```
 
-https://github.com/emersion/aur-markmywords
-
-PPA:  ppa:voldyman/markmywords
-
-```
-sudo add-apt-repository  ppa:voldyman/markmywords
-sudo apt-get update
-sudo apt-get install mark-my-words
-```
-
-###Screenshot
+## Screenshot
 
 ![screenshot](https://github.com/voldyman/MarkMyWords/raw/master/screenshots/screenshot-2015-1-4.png)
 
 Author: Akshay Shekher
 
 ## How to build
-    sudo apt-get install libwebkit2gtk-3.0-dev 
-    sudo apt-get install libgtksourceview-3.0-dev
-    git clone https://github.com/voldyman/MarkMyWords.git
-    mkdir build && cd build 
-    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr ../
-    make
 
+```shell
+sudo apt-get install libwebkit2gtk-3.0-dev 
+sudo apt-get install libgtksourceview-3.0-dev
+git clone https://github.com/voldyman/MarkMyWords.git
+mkdir build && cd build 
+cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr ../
+make
+```
 
-###Todo
+## Todo
 
 - [x] Markdown Parsing
 - [x] Live Preview
@@ -42,4 +41,3 @@ Author: Akshay Shekher
 - [ ] Export PDF
 - [ ] Github markdown
 - [ ] Preferences
-
