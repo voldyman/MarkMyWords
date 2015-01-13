@@ -27,8 +27,8 @@ public class MarkMyWordsApp : Gtk.Application {
     }
 
     private int _command_line (ApplicationCommandLine command_line) {
-        var context = new OptionContext ("MarkMyWords");
-        context.add_main_entries (entries, "mark-my-words");
+        var context = new OptionContext (MarkMyWords.APP_NAME);
+        context.add_main_entries (entries, MarkMyWords.APP_SYSTEM_NAME);
         context.add_group (Gtk.get_option_group (true));
 
         string[] args = command_line.get_arguments ();
@@ -42,8 +42,8 @@ public class MarkMyWordsApp : Gtk.Application {
         }
 
         if (print_version) {
-            stdout.printf ("%s %s\n", "MarkMyWords", "0.1");
-            stdout.printf ("Copyright 2014-2015 'MarkMyWords' Developers.\n");
+            stdout.printf ("%s %s\n", MarkMyWords.APP_NAME, MarkMyWords.APP_VERSION);
+            stdout.printf ("Copyright 2014-2015 '%s' Developers.\n", MarkMyWords.APP_NAME);
         } else if (show_about_dialog) {
             show_about ();
         } else {

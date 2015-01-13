@@ -54,10 +54,10 @@ public class Window : Gtk.Window {
         set_default_size (600, 480);
         window_position = Gtk.WindowPosition.CENTER;
         set_hide_titlebar_when_maximized (false);
-        icon_name = "accessories-text-editor";
+        icon_name = MarkMyWords.ICON_NAME;
 
         toolbar = new Toolbar ();
-        toolbar.set_title ("Mark My Words");
+        toolbar.set_title (MarkMyWords.APP_NAME);
         set_titlebar (toolbar);
 
         var box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);

@@ -66,6 +66,7 @@ include(ValaPrecompile)
 vala_precompile(VALA_C
   src/Main.vala
   src/Application.vala
+  src/Meta.vala
   src/Widgets/Window.vala
   src/Widgets/Toolbar.vala
   src/Widgets/DocumentView.vala

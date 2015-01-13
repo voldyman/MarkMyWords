@@ -3,21 +3,21 @@ public class AboutDialog : Gtk.AboutDialog {
     public AboutDialog () {
         this.set_default_size (450, 500);
         this.get_content_area ().margin = 10;
-        this.title = "About MarkMyWords";
+        this.title = "About %s".printf (MarkMyWords.APP_NAME);
         setup_content ();
 
         this.response.connect (response_handler);
     }
 
     private void setup_content () {
-        program_name = "MarkMyWords";
+        program_name = MarkMyWords.APP_NAME;
         logo_icon_name = "accessories-text-editor";
         
         comments = "A text editor that allows you to easily format your" +
                    "text using the markdown markup langauge.";
 
         website = "http://github.com/voldyman/MarkMyWords";
-        version = "0.1";
+        version = MarkMyWords.APP_VERSION;
 
         authors = { "<a href='http://tripent.net'>Akshay Shekher</a>" };
 
