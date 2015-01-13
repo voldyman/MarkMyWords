@@ -10,4 +10,9 @@ public class MarkMyWordsApp : Gtk.Application {
         add_window (window);
         window.show_all ();
     }
+
+    public void show_about () {
+        var dialog = new AboutDialog ();
+        dialog.run ();
+    }
 }

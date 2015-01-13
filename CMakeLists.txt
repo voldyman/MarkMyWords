@@ -70,6 +70,7 @@ vala_precompile(VALA_C
   src/Widgets/Toolbar.vala
   src/Widgets/DocumentView.vala
   src/Widgets/UnsavedChangesDialog.vala
+  src/Widgets/AboutDialog.vala
   src/Services/FileHandler.vala
 PACKAGES
   gtksourceview-3.0

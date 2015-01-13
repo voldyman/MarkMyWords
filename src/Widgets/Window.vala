@@ -1,4 +1,5 @@
-public class Window : Gtk.Window{
+public class Window : Gtk.Window {
+    private MarkMyWordsApp app;
     private DocumentView doc;
     private WebKit.WebView  html_view;
     private Toolbar toolbar;
@@ -19,6 +20,8 @@ public class Window : Gtk.Window{
     public signal void updated ();
 
     public Window (MarkMyWordsApp app) {
+        this.app = app;
+
         set_application (app);
         setup_ui ();
         setup_events ();
@@ -64,6 +67,9 @@ public class Window : Gtk.Window{
 
         doc = new DocumentView ();
         html_view = new WebKit.WebView ();
+        var webkit_settings = new WebKit.Settings ();
+        webkit_settings.enable_page_cache = true;
+        webkit_settings.enable_developer_extras = false;
 
         box.add1 (doc);
         box.add2 (html_view);
@@ -82,6 +88,7 @@ public class Window : Gtk.Window{
         toolbar.save_clicked.connect (save_action);
         toolbar.export_html_clicked.connect (export_html_action);
         toolbar.export_pdf_clicked.connect (export_pdf_action);
+        toolbar.about_clicked.connect (about_action);
     }
 
     private void update_state () {
@@ -168,6 +175,11 @@ public class Window : Gtk.Window{
     private void export_pdf_action () {
         print ("Export pdf\n");
         var file = get_file_from_user (DialogType.PDF_OUT);
+    }
+
+    private void about_action () {
+        print ("About Clicked\n");
+        app.show_about ();
     }
 
     private enum DialogType {

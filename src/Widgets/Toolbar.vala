@@ -9,11 +9,15 @@ class Toolbar : Gtk.HeaderBar {
     private Gtk.MenuItem export_pdf;
     private Gtk.MenuItem export_html;
 
+    private MenuButton settings_button;
+    private Gtk.MenuItem about;
+
     public signal void new_clicked ();
     public signal void open_clicked ();
     public signal void save_clicked ();
     public signal void export_html_clicked ();
     public signal void export_pdf_clicked ();
+    public signal void about_clicked ();
 
     public Toolbar () {
         this.show_close_button = true;
@@ -37,21 +41,33 @@ class Toolbar : Gtk.HeaderBar {
         export_button = new MenuButton ();
         export_button.image = get_export_image ();
 
-        var menu = new Gtk.Menu ();
+        var export_menu = new Gtk.Menu ();
         export_pdf = new Gtk.MenuItem.with_label (_("Export PDF"));
 
         export_html = new Gtk.MenuItem.with_label (_("Export HTML"));
 
-        menu.add (export_html);
-        menu.add (export_pdf);
-        menu.show_all ();
+        export_menu.add (export_html);
+        export_menu.add (export_pdf);
+        export_menu.show_all ();
 
-        export_button.set_popup (menu);
+        export_button.set_popup (export_menu);
+
+        settings_button = new MenuButton ();
+        settings_button.image = new Gtk.Image.from_icon_name ("open-menu",
+                                                              IconSize.LARGE_TOOLBAR);
+
+        var settings_menu = new Gtk.Menu ();
+        about = new Gtk.MenuItem.with_label (_("About"));
+
+        settings_menu.add (about);
+        settings_menu.show_all ();
+        settings_button.set_popup (settings_menu);
 
         pack_start (new_button);
         pack_start (open_button);
         pack_start (save_button);
 
+        pack_end (settings_button);
         pack_end (export_button);
     }
 
@@ -74,6 +90,10 @@ class Toolbar : Gtk.HeaderBar {
 
         export_html.activate.connect (() => {
             export_html_clicked ();
+        });
+
+        about.activate.connect (() => {
+            about_clicked ();
         });
 
     }
