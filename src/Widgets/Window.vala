@@ -50,6 +50,25 @@ public class Window : Gtk.Window {
         return dont_quit;
     }
 
+    public void use_file (File? file) {
+        current_file = file;
+        file_modified = false;
+
+        // update the html output
+        update_html_view ();
+    }
+
+    public void reset_file () {
+        remove_timer ();
+        current_file = null;
+        doc.reset ();
+        
+        file_modified = false;
+
+        // update html output
+        update_html_view ();
+    }
+
     private void setup_ui () {
         set_default_size (600, 480);
         window_position = Gtk.WindowPosition.CENTER;
@@ -96,11 +115,14 @@ public class Window : Gtk.Window {
     }
 
     private void schedule_timer () {
+        timer_id = Timeout.add (TIME_TO_REFRESH, render_func);
+        timer_scheduled = true;
+    }
+
+    private void remove_timer () {
         if (timer_scheduled) {
             Source.remove(timer_id);
         }
-        timer_id = Timeout.add (TIME_TO_REFRESH, render_func);
-        timer_scheduled = true;
     }
 
     private bool render_func () {
@@ -127,8 +149,7 @@ public class Window : Gtk.Window {
     }
 
     private void new_action () {
-        current_file = null;
-        doc.reset ();
+        reset_file ();
     }
 
     private void open_action () {
@@ -136,7 +157,7 @@ public class Window : Gtk.Window {
 
         FileHandler.load_content_from_file.begin (new_file, (obj, res) => {
             doc.set_text (FileHandler.load_content_from_file.end (res));
-            current_file = new_file;
+            use_file (new_file);
         });
     }
 
