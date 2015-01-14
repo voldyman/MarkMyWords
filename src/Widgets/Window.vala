@@ -51,11 +51,14 @@ public class Window : Gtk.Window {
     }
 
     public void use_file (File? file) {
+        if (file != null) {
+            FileHandler.load_content_from_file.begin (file, (obj, res) => {
+                doc.set_text (FileHandler.load_content_from_file.end (res));
+                update_html_view ();
+            });
+        }
         current_file = file;
         file_modified = false;
-
-        // update the html output
-        update_html_view ();
     }
 
     public void reset_file () {
@@ -154,11 +157,7 @@ public class Window : Gtk.Window {
 
     private void open_action () {
         var new_file = get_file_from_user (DialogType.MARKDOWN_IN);
-
-        FileHandler.load_content_from_file.begin (new_file, (obj, res) => {
-            doc.set_text (FileHandler.load_content_from_file.end (res));
-            use_file (new_file);
-        });
+        use_file (new_file);
     }
 
     private void save_action () {
