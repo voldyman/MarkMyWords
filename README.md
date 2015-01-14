@@ -37,6 +37,7 @@ make
 - [x] Live Preview
 - [x] File IO
 - [x] State management
+- [x] Monitor file for changes
 - [x] Export HTML
 - [ ] Export PDF
 - [ ] Github markdown
