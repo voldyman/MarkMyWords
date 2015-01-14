@@ -7,6 +7,7 @@ public class Window : Gtk.Window {
     // current state
     private File? current_file = null;
     private bool file_modified = false;
+    private FileMonitor? file_monitor = null;
 
     // timer related variables
     private bool timer_scheduled = false;
@@ -50,11 +51,14 @@ public class Window : Gtk.Window {
         return dont_quit;
     }
 
-    public void use_file (File? file) {
+    public void use_file (File? file, bool should_monitor = true) {
         if (file != null) {
             FileHandler.load_content_from_file.begin (file, (obj, res) => {
                 doc.set_text (FileHandler.load_content_from_file.end (res));
                 update_html_view ();
+                if (should_monitor) {
+                    setup_file_monitor ();
+                }
             });
         }
         current_file = file;
@@ -67,6 +71,8 @@ public class Window : Gtk.Window {
         doc.reset ();
         
         file_modified = false;
+        file_monitor.cancel ();
+        file_monitor = null;
 
         // update html output
         update_html_view ();
@@ -111,6 +117,32 @@ public class Window : Gtk.Window {
         toolbar.export_html_clicked.connect (export_html_action);
         toolbar.export_pdf_clicked.connect (export_pdf_action);
         toolbar.about_clicked.connect (about_action);
+    }
+
+    private void setup_file_monitor () {
+        if (file_monitor != null) {
+            file_monitor.cancel ();
+        }
+
+        try {
+            file_monitor = current_file.monitor_file (FileMonitorFlags.NONE);
+        } catch (Error e) {
+            warning ("Could not monitor file");
+        }
+        file_monitor.changed.connect (file_changed_event);
+    }
+
+    private void file_changed_event (File old_file, File? new_file,
+                                     FileMonitorEvent event_type) {
+        switch (event_type) {
+        case FileMonitorEvent.CHANGED:
+            use_file (old_file, false);
+            break;
+
+        case FileMonitorEvent.MOVED:
+            use_file (new_file);
+            break;
+        }
     }
 
     private void update_state () {
@@ -193,12 +225,10 @@ public class Window : Gtk.Window {
     }
 
     private void export_pdf_action () {
-        print ("Export pdf\n");
         var file = get_file_from_user (DialogType.PDF_OUT);
     }
 
     private void about_action () {
-        print ("About Clicked\n");
         app.show_about ();
     }
 
