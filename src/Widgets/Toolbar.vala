@@ -8,6 +8,7 @@ class Toolbar : Gtk.HeaderBar {
     private MenuButton export_button;
     private Gtk.MenuItem export_pdf;
     private Gtk.MenuItem export_html;
+    private Gtk.MenuItem export_print;
 
     private MenuButton settings_button;
     private Gtk.MenuItem about;
@@ -17,6 +18,7 @@ class Toolbar : Gtk.HeaderBar {
     public signal void save_clicked ();
     public signal void export_html_clicked ();
     public signal void export_pdf_clicked ();
+    public signal void export_print_clicked ();
     public signal void about_clicked ();
 
     public Toolbar () {
@@ -43,11 +45,12 @@ class Toolbar : Gtk.HeaderBar {
 
         var export_menu = new Gtk.Menu ();
         export_pdf = new Gtk.MenuItem.with_label (_("Export PDF"));
-
         export_html = new Gtk.MenuItem.with_label (_("Export HTML"));
+        export_print = new Gtk.MenuItem.with_label (_("Print"));
 
         export_menu.add (export_html);
         export_menu.add (export_pdf);
+        export_menu.add (export_print);
         export_menu.show_all ();
 
         export_button.set_popup (export_menu);
@@ -90,6 +93,10 @@ class Toolbar : Gtk.HeaderBar {
 
         export_html.activate.connect (() => {
             export_html_clicked ();
+        });
+
+        export_print.activate.connect (() => {
+            export_print_clicked ();
         });
 
         about.activate.connect (() => {

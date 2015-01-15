@@ -116,6 +116,7 @@ public class Window : Gtk.Window {
         toolbar.save_clicked.connect (save_action);
         toolbar.export_html_clicked.connect (export_html_action);
         toolbar.export_pdf_clicked.connect (export_pdf_action);
+        toolbar.export_print_clicked.connect (export_print_action);
         toolbar.about_clicked.connect (about_action);
     }
 
@@ -226,6 +227,26 @@ public class Window : Gtk.Window {
 
     private void export_pdf_action () {
         var file = get_file_from_user (DialogType.PDF_OUT);
+
+        try { // TODO: we have to write an empty file so we can get file path
+            FileHandler.write_file (file, "");
+        } catch (Error e) {
+            warning ("Could not write initial PDF file: %s", e.message);
+            return;
+        }
+
+        var op = new WebKit.PrintOperation (html_view);
+        var settings = new Gtk.PrintSettings ();
+        settings.set_printer (dgettext ("gtk30", "Print to File"));
+        settings[Gtk.PRINT_SETTINGS_OUTPUT_URI] = "file://" + file.get_path ();
+        op.set_print_settings (settings);
+
+        op.print ();
+    }
+
+    private void export_print_action () {
+        var op = new WebKit.PrintOperation (html_view);
+        op.run_dialog (this);
     }
 
     private void about_action () {
