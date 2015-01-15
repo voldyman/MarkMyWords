@@ -9,8 +9,7 @@ public class UnsavedChangesDialog : Gtk.MessageDialog {
         use_markup = true;
         set_markup ("<span weight='bold' size='larger'>" +
                     _("Are you sure you want to quit MarkMyWords?") + "</span>\n\n" +
-                    _("The current file has some unsaved changes which " + 
-                      "would be lost if you quit."));
+                    _("The current file has some unsaved changes which would be lost if you quit."));
 
         var cancel_button = new Gtk.Button.with_label (_("Cancel"));
         cancel_button.show ();
