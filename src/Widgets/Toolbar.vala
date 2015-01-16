@@ -41,7 +41,8 @@ class Toolbar : Gtk.HeaderBar {
         save_button.set_tooltip_text (_("Save file"));
 
         export_button = new MenuButton ();
-        export_button.image = get_icon_image_with_fallback ("document-export", "document-revert-rtl");
+        export_button.image = get_image_with_fallback ("document-export",
+                                                       "document-revert-rtl");
 
         var export_menu = new Gtk.Menu ();
         export_pdf = new Gtk.MenuItem.with_label (_("Export PDF"));
@@ -56,7 +57,8 @@ class Toolbar : Gtk.HeaderBar {
         export_button.set_popup (export_menu);
 
         settings_button = new MenuButton ();
-        settings_button.image = get_icon_image_with_fallback ("open-menu", "preferences-system");
+        settings_button.image = get_image_with_fallback ("open-menu",
+                                                         "preferences-system");
 
         var settings_menu = new Gtk.Menu ();
         about = new Gtk.MenuItem.with_label (_("About"));
@@ -104,7 +106,8 @@ class Toolbar : Gtk.HeaderBar {
 
     }
 
-    private Gtk.Image get_icon_image_with_fallback (string icon_name, string fallback_icon_name) {
+    private Gtk.Image get_image_with_fallback (string icon_name,
+                                               string fallback_icon_name) {
         string available_icon_name;
 
         Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
@@ -114,6 +117,7 @@ class Toolbar : Gtk.HeaderBar {
         } else {
             available_icon_name = fallback_icon_name;
         }
-        return new Image.from_icon_name (available_icon_name, IconSize.LARGE_TOOLBAR);
+        return new Image.from_icon_name (available_icon_name,
+                                         IconSize.LARGE_TOOLBAR);
     }
 }
