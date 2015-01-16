@@ -69,7 +69,7 @@ public class Window : Gtk.Window {
         remove_timer ();
         current_file = null;
         doc.reset ();
-        
+
         file_modified = false;
         file_monitor.cancel ();
         file_monitor = null;
