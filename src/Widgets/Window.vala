@@ -228,8 +228,8 @@ public class Window : Gtk.Window {
     private void export_pdf_action () {
         var file = get_file_from_user (DialogType.PDF_OUT);
 
-        try { // TODO: we have to write an empty file so we can get file path
-            FileHandler.write_file (file, "");
+        try {
+            FileHandler.create_file_if_not_exists (file);
         } catch (Error e) {
             warning ("Could not write initial PDF file: %s", e.message);
             return;
