@@ -39,6 +39,6 @@ make
 - [x] State management
 - [x] Monitor file for changes
 - [x] Export HTML
-- [ ] Export PDF
+- [x] Export PDF
 - [ ] Github markdown
 - [ ] Preferences
