@@ -6,7 +6,9 @@ public enum UnsavedChangesResult {
 
 public class UnsavedChangesDialog : Gtk.MessageDialog {
 
-    public UnsavedChangesDialog.for_quit () {
+    public UnsavedChangesDialog.for_quit (Gtk.Window parent) {
+        set_transient_for (parent);
+
         use_markup = true;
         set_markup ("<span weight='bold' size='larger'>" +
                     _("Are you sure you want to quit MarkMyWords?") + "</span>\n\n" +
@@ -29,7 +31,9 @@ public class UnsavedChangesDialog : Gtk.MessageDialog {
         set_image (warning_image);
     }
 
-    public UnsavedChangesDialog.for_close_file () {
+    public UnsavedChangesDialog.for_close_file (Gtk.Window parent) {
+        set_transient_for (parent);
+        
         use_markup = true;
         set_markup ("<span weight='bold' size='larger'>" +
                     _("Save changes to document before closing?") + "</span>\n\n" +

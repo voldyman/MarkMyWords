@@ -32,7 +32,7 @@ public class Window : Gtk.Window {
         var dont_quit = false;
 
         if (file_modified) {
-            var d = new UnsavedChangesDialog.for_quit ();
+            var d = new UnsavedChangesDialog.for_quit (this);
             var result = d.run ();
             switch (result) {
             case UnsavedChangesResult.QUIT:
@@ -230,7 +230,7 @@ public class Window : Gtk.Window {
 
     private void new_action () {
         if (file_modified) {
-            var dialog = new UnsavedChangesDialog.for_close_file ();
+            var dialog = new UnsavedChangesDialog.for_close_file (this);
             var result = dialog.run ();
             dialog.destroy ();
 
