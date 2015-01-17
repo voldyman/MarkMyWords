@@ -32,7 +32,7 @@ public class Window : Gtk.Window {
         var dont_quit = false;
 
         if (file_modified) {
-            var d = new UnsavedChangesDialog ();
+            var d = new UnsavedChangesDialog.for_quit (this);
             var result = d.run ();
             switch (result) {
             case UnsavedChangesResult.QUIT:
@@ -69,7 +69,7 @@ public class Window : Gtk.Window {
         remove_timer ();
         current_file = null;
         doc.reset ();
-        
+
         file_modified = false;
         file_monitor.cancel ();
         file_monitor = null;
@@ -108,6 +108,7 @@ public class Window : Gtk.Window {
     }
 
     private void setup_events () {
+        this.key_press_event.connect (key_pressed);
         doc.changed.connect (schedule_timer);
         doc.changed.connect (update_state);
 
@@ -116,7 +117,51 @@ public class Window : Gtk.Window {
         toolbar.save_clicked.connect (save_action);
         toolbar.export_html_clicked.connect (export_html_action);
         toolbar.export_pdf_clicked.connect (export_pdf_action);
+        toolbar.export_print_clicked.connect (export_print_action);
         toolbar.about_clicked.connect (about_action);
+    }
+
+    public bool key_pressed (Gdk.EventKey ev) {
+        bool handled_event = false;
+        bool ctrl_pressed = modifier_pressed (ev,
+                                              Gdk.ModifierType.CONTROL_MASK);
+
+        switch (ev.keyval) {
+        case Gdk.Key.o:
+            if (ctrl_pressed) {
+                handled_event = true;
+                open_action ();
+            }
+            break;
+
+        case Gdk.Key.n:
+            if (ctrl_pressed) {
+                handled_event = true;
+                new_action ();
+            }
+            break;
+
+        case Gdk.Key.s:
+            if (ctrl_pressed) {
+                handled_event = true;
+                save_action ();
+            }
+            break;
+
+        case Gdk.Key.q:
+            if (ctrl_pressed) {
+                handled_event = true;
+                close_action ();
+            }
+            break;
+        }
+        return handled_event;
+    }
+
+    private bool modifier_pressed (Gdk.EventKey event,
+                                   Gdk.ModifierType modifier) {
+
+        return (event.state & modifier)  == modifier;
     }
 
     private void setup_file_monitor () {
@@ -124,12 +169,15 @@ public class Window : Gtk.Window {
             file_monitor.cancel ();
         }
 
-        try {
-            file_monitor = current_file.monitor_file (FileMonitorFlags.NONE);
-        } catch (Error e) {
-            warning ("Could not monitor file");
+        if (current_file != null) {
+            try {
+                file_monitor = current_file.monitor_file (
+                    FileMonitorFlags.NONE);
+            } catch (Error e) {
+                warning ("Could not monitor file");
+            }
+            file_monitor.changed.connect (file_changed_event);
         }
-        file_monitor.changed.connect (file_changed_event);
     }
 
     private void file_changed_event (File old_file, File? new_file,
@@ -184,6 +232,21 @@ public class Window : Gtk.Window {
     }
 
     private void new_action () {
+        if (file_modified) {
+            var dialog = new UnsavedChangesDialog.for_close_file (this);
+            var result = dialog.run ();
+            dialog.destroy ();
+
+            if (result == UnsavedChangesResult.CANCEL) {
+                return;
+            } else if (result == UnsavedChangesResult.SAVE) {
+                save_action ();
+            } else {
+                // the user doesn't care about the file,
+                // close it anyway
+                reset_file ();
+            }
+        }
         reset_file ();
     }
 
@@ -211,6 +274,10 @@ public class Window : Gtk.Window {
         }
     }
 
+    private void close_action () {
+        close ();
+    }
+
     private void export_html_action () {
         var file = get_file_from_user (DialogType.HTML_OUT);
 
@@ -226,6 +293,26 @@ public class Window : Gtk.Window {
 
     private void export_pdf_action () {
         var file = get_file_from_user (DialogType.PDF_OUT);
+
+        try {
+            FileHandler.create_file_if_not_exists (file);
+        } catch (Error e) {
+            warning ("Could not write initial PDF file: %s", e.message);
+            return;
+        }
+
+        var op = new WebKit.PrintOperation (html_view);
+        var settings = new Gtk.PrintSettings ();
+        settings.set_printer (dgettext ("gtk30", "Print to File"));
+        settings[Gtk.PRINT_SETTINGS_OUTPUT_URI] = "file://" + file.get_path ();
+        op.set_print_settings (settings);
+
+        op.print ();
+    }
+
+    private void export_print_action () {
+        var op = new WebKit.PrintOperation (html_view);
+        op.run_dialog (this);
     }
 
     private void about_action () {

@@ -1,0 +1,99 @@
+# MARKMYWORDS
+# Copyright (C) 2015 Akshay Shekher
+# This file is distributed under the same license as the MarkMyWords package.
+# Akshay Shekher <voldyman666@gmail.com>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: markmywords 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-15 18:36+0100\n"
+"PO-Revision-Date: 2015-01-15 18:37+0100\n"
+"Last-Translator: Emersion <contact@emersion.fr>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.3\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ../src/Widgets/Toolbar.vala:62
+msgid "About"
+msgstr "À propos"
+
+#: ../src/Widgets/UnsavedChangesDialog.vala:11
+msgid "Are you sure you want to quit MarkMyWords?"
+msgstr "Voulez-vous vraiment quitter MarkMyWords ?"
+
+#: ../src/Widgets/UnsavedChangesDialog.vala:14
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ../src/Widgets/Toolbar.vala:48
+msgid "Export HTML"
+msgstr "Exporter en HTML"
+
+#: ../src/Widgets/Toolbar.vala:47
+msgid "Export PDF"
+msgstr "Exporter en PDF"
+
+#: ../src/Widgets/Toolbar.vala:33
+msgid "New file"
+msgstr "Nouveau fichier"
+
+#: ../src/Widgets/Window.vala:283
+msgid "Open"
+msgstr "Ouvrir"
+
+#: ../src/Widgets/Toolbar.vala:37
+msgid "Open file"
+msgstr "Ouvrir un fichier"
+
+#: ../src/Widgets/Toolbar.vala:49
+msgid "Print"
+msgstr "Imprimer"
+
+#: ../src/Widgets/Window.vala:240
+msgid "Print to File"
+msgstr "Imprimer dans un fichier"
+
+#: ../src/Widgets/UnsavedChangesDialog.vala:19
+msgid "Quit MarkMyWords"
+msgstr "Quitter MarkMyWords"
+
+#: ../src/Widgets/Window.vala:275 ../src/Widgets/Window.vala:291
+#: ../src/Widgets/Window.vala:308
+msgid "Save"
+msgstr "Enregistrer"
+
+#: ../src/Widgets/Toolbar.vala:41
+msgid "Save file"
+msgstr "Enregistrer le fichier"
+
+#: ../src/Widgets/Window.vala:289
+msgid "Select destination HTML file"
+msgstr "Sélectionner un fichier HTML de destination"
+
+#: ../src/Widgets/Window.vala:306
+msgid "Select destination PDF file"
+msgstr "Sélectionner un fichier PDF de destination"
+
+#: ../src/Widgets/Window.vala:273
+msgid "Select destination markdown file"
+msgstr "Sélectionner un fichier Markdown de destination"
+
+#: ../src/Widgets/Window.vala:281
+msgid "Select markdown file to open"
+msgstr "Sélectionner un fichier Markdown à ouvrir"
+
+#: ../src/Widgets/UnsavedChangesDialog.vala:12
+msgid "The current file has some unsaved changes which would be lost if you quit."
+msgstr "Le fichier actuel possède des changements qui seront perdus si vous quittez."
+
+#: ../src/Widgets/Window.vala:331
+msgid "_Cancel"
+msgstr "_Annuler"
+
+#~ msgid "The current file has some unsaved changes which "
+#~ msgstr "Le fichier actuel a été modifié "

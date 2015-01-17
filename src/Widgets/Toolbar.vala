@@ -8,6 +8,7 @@ class Toolbar : Gtk.HeaderBar {
     private MenuButton export_button;
     private Gtk.MenuItem export_pdf;
     private Gtk.MenuItem export_html;
+    private Gtk.MenuItem export_print;
 
     private MenuButton settings_button;
     private Gtk.MenuItem about;
@@ -17,6 +18,7 @@ class Toolbar : Gtk.HeaderBar {
     public signal void save_clicked ();
     public signal void export_html_clicked ();
     public signal void export_pdf_clicked ();
+    public signal void export_print_clicked ();
     public signal void about_clicked ();
 
     public Toolbar () {
@@ -39,22 +41,24 @@ class Toolbar : Gtk.HeaderBar {
         save_button.set_tooltip_text (_("Save file"));
 
         export_button = new MenuButton ();
-        export_button.image = get_export_image ();
+        export_button.image = get_image_with_fallback ("document-export",
+                                                       "document-revert-rtl");
 
         var export_menu = new Gtk.Menu ();
         export_pdf = new Gtk.MenuItem.with_label (_("Export PDF"));
-
         export_html = new Gtk.MenuItem.with_label (_("Export HTML"));
+        export_print = new Gtk.MenuItem.with_label (_("Print"));
 
         export_menu.add (export_html);
         export_menu.add (export_pdf);
+        export_menu.add (export_print);
         export_menu.show_all ();
 
         export_button.set_popup (export_menu);
 
         settings_button = new MenuButton ();
-        settings_button.image = new Gtk.Image.from_icon_name ("open-menu",
-                                                              IconSize.LARGE_TOOLBAR);
+        settings_button.image = get_image_with_fallback ("open-menu",
+                                                         "preferences-system");
 
         var settings_menu = new Gtk.Menu ();
         about = new Gtk.MenuItem.with_label (_("About"));
@@ -92,26 +96,28 @@ class Toolbar : Gtk.HeaderBar {
             export_html_clicked ();
         });
 
+        export_print.activate.connect (() => {
+            export_print_clicked ();
+        });
+
         about.activate.connect (() => {
             about_clicked ();
         });
 
     }
 
-    private Gtk.Image get_export_image () {
-        var icon_name = "document-export";
-        var backup_icon_name = "document-revert-rtl";
-        Gtk.Image image;
+    private Gtk.Image get_image_with_fallback (string icon_name,
+                                               string fallback_icon_name) {
+        string available_icon_name;
 
         Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
 
         if (icon_theme.has_icon (icon_name)) {
-            image = new Image.from_icon_name (icon_name,
-                                              IconSize.LARGE_TOOLBAR);
+            available_icon_name = icon_name;
         } else {
-            image = new Image.from_icon_name (backup_icon_name,
-                                              IconSize.LARGE_TOOLBAR);
+            available_icon_name = fallback_icon_name;
         }
-        return image;
+        return new Image.from_icon_name (available_icon_name,
+                                         IconSize.LARGE_TOOLBAR);
     }
 }
