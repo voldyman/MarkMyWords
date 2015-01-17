@@ -99,10 +99,6 @@ public class Window : Gtk.Window {
         });
 
         this.load_prefs ();
-
-        if (prefs.editor_scheme == "") {
-            prefs.editor_scheme = doc.get_default_scheme ();
-        }
     }
 
     private void load_prefs () {
