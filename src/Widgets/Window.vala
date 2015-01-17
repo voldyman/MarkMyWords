@@ -253,7 +253,15 @@ public class Window : Gtk.Window {
         string result;
         mkd.get_document (out result);
 
-        return result;
+        string html = "<html><head>";
+        if (prefs.render_stylesheet != "") {
+            html += "<link rel=\"stylesheet\" href=\""+prefs.render_stylesheet+"\"/>";
+        }
+        html += "</head><body class=\"markdown-body\">";
+        html += result;
+        html += "</body></html>";
+
+        return html;
     }
 
     private void update_html_view () {

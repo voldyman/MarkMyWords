@@ -3,6 +3,7 @@ public class Preferences : Object {
 
     public string editor_font { get; set; default = ""; }
     public string editor_scheme { get; set; default = ""; }
+    public string render_stylesheet { get; set; default = ""; }
 
     public void load_from_file (string filepath) {
         var file = File.new_for_path (filepath);
