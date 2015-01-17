@@ -108,6 +108,7 @@ public class Window : Gtk.Window {
     }
 
     private void setup_events () {
+//        this.key_press_event.connect (key_press_event);
         doc.changed.connect (schedule_timer);
         doc.changed.connect (update_state);
 
@@ -118,6 +119,41 @@ public class Window : Gtk.Window {
         toolbar.export_pdf_clicked.connect (export_pdf_action);
         toolbar.export_print_clicked.connect (export_print_action);
         toolbar.about_clicked.connect (about_action);
+    }
+
+    public override bool key_press_event (Gdk.EventKey ev) {
+        bool control_pressed = is_modifier_pressed (ev, Gdk.ModifierType.CONTROL_MASK);
+
+        switch (ev.keyval) {
+        case Gdk.Key.o:
+            if (control_pressed) {
+                open_action ();
+            }
+            break;
+
+        case Gdk.Key.n:
+            if (control_pressed) {
+                new_action ();
+            }
+            break;
+
+        case Gdk.Key.s:
+            if (control_pressed) {
+                save_action ();
+            }
+            break;
+
+        case Gdk.Key.q:
+            if (control_pressed) {
+                close_action ();
+            }
+            break;
+        }
+        return false;
+    }
+
+    private bool is_modifier_pressed (Gdk.EventKey event, Gdk.ModifierType modifier) {
+        return (event.state & modifier)  == modifier;
     }
 
     private void setup_file_monitor () {
@@ -210,6 +246,10 @@ public class Window : Gtk.Window {
         } catch (Error e) {
             warning ("%s: %s", e.message, current_file.get_basename ());
         }
+    }
+
+    private void close_action () {
+        close ();
     }
 
     private void export_html_action () {
