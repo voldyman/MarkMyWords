@@ -11,6 +11,7 @@ class Toolbar : Gtk.HeaderBar {
     private Gtk.MenuItem export_print;
 
     private MenuButton settings_button;
+    private Gtk.MenuItem preferences;
     private Gtk.MenuItem about;
 
     public signal void new_clicked ();
@@ -19,6 +20,7 @@ class Toolbar : Gtk.HeaderBar {
     public signal void export_html_clicked ();
     public signal void export_pdf_clicked ();
     public signal void export_print_clicked ();
+    public signal void preferences_clicked ();
     public signal void about_clicked ();
 
     public Toolbar () {
@@ -61,8 +63,10 @@ class Toolbar : Gtk.HeaderBar {
                                                          "preferences-system");
 
         var settings_menu = new Gtk.Menu ();
+        preferences = new Gtk.MenuItem.with_label (_("Preferences"));
         about = new Gtk.MenuItem.with_label (_("About"));
 
+        settings_menu.add (preferences);
         settings_menu.add (about);
         settings_menu.show_all ();
         settings_button.set_popup (settings_menu);
@@ -98,6 +102,10 @@ class Toolbar : Gtk.HeaderBar {
 
         export_print.activate.connect (() => {
             export_print_clicked ();
+        });
+
+        preferences.activate.connect (() => {
+            preferences_clicked ();
         });
 
         about.activate.connect (() => {

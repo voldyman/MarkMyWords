@@ -25,6 +25,11 @@ public class DocumentView : Gtk.ScrolledWindow {
         code_view.grab_focus ();
     }
 
+    public void set_font (string name) {
+        var font = Pango.FontDescription.from_string (name);
+        code_view.override_font (font);
+    }
+
     private void setup_code_view () {
         // need to setup language
         var manager = Gtk.SourceLanguageManager.get_default ();

@@ -3,6 +3,7 @@ public class Window : Gtk.Window {
     private DocumentView doc;
     private WebKit.WebView  html_view;
     private Toolbar toolbar;
+    private Preferences prefs;
 
     // current state
     private File? current_file = null;
@@ -24,6 +25,7 @@ public class Window : Gtk.Window {
         this.app = app;
 
         set_application (app);
+        setup_prefs ();
         setup_ui ();
         setup_events ();
     }
@@ -78,6 +80,14 @@ public class Window : Gtk.Window {
         update_html_view ();
     }
 
+    private void setup_prefs () {
+        this.prefs = new Preferences ();
+
+        this.prefs.notify["editor-font"].connect((s, p) => {
+            doc.set_font (this.prefs.editor_font);
+        });
+    }
+
     private void setup_ui () {
         set_default_size (600, 480);
         window_position = Gtk.WindowPosition.CENTER;
@@ -118,6 +128,7 @@ public class Window : Gtk.Window {
         toolbar.export_html_clicked.connect (export_html_action);
         toolbar.export_pdf_clicked.connect (export_pdf_action);
         toolbar.export_print_clicked.connect (export_print_action);
+        toolbar.preferences_clicked.connect (preferences_action);
         toolbar.about_clicked.connect (about_action);
     }
 
@@ -313,6 +324,11 @@ public class Window : Gtk.Window {
     private void export_print_action () {
         var op = new WebKit.PrintOperation (html_view);
         op.run_dialog (this);
+    }
+
+    private void preferences_action () {
+        var dialog = new PreferencesDialog(this, this.prefs);
+        dialog.show_all ();
     }
 
     private void about_action () {
