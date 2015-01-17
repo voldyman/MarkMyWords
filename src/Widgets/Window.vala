@@ -86,6 +86,23 @@ public class Window : Gtk.Window {
         this.prefs.notify["editor-font"].connect((s, p) => {
             doc.set_font (this.prefs.editor_font);
         });
+
+        this.prefs.notify["editor-scheme"].connect((s, p) => {
+            doc.set_scheme (this.prefs.editor_scheme);
+        });
+
+        this.prefs.notify.connect((s, p) => {
+            stdout.printf ("Updated pref: %s\n", p.name);
+            this.save_prefs ();
+        });
+    }
+
+    private void load_prefs () {
+        // TODO
+    }
+
+    private void save_prefs () {
+        // TODO
     }
 
     private void setup_ui () {

@@ -30,6 +30,12 @@ public class DocumentView : Gtk.ScrolledWindow {
         code_view.override_font (font);
     }
 
+    public void set_scheme (string id) {
+        var style_manager = Gtk.SourceStyleSchemeManager.get_default ();
+        var style = style_manager.get_scheme (id);
+        code_buffer.set_style_scheme (style);
+    }
+
     private void setup_code_view () {
         // need to setup language
         var manager = Gtk.SourceLanguageManager.get_default ();
@@ -46,9 +52,7 @@ public class DocumentView : Gtk.ScrolledWindow {
         code_view.left_margin = 5;
         code_view.pixels_above_lines = 5;
 
-        var style_manager = Gtk.SourceStyleSchemeManager.get_default ();
-        var style = style_manager.get_scheme ("solarizeddark");
-        code_buffer.set_style_scheme (style);
+        this.set_scheme ("solarizeddark");
 
         code_view.show_line_numbers = true;
 
