@@ -32,7 +32,7 @@ public class Window : Gtk.Window {
         var dont_quit = false;
 
         if (file_modified) {
-            var d = new UnsavedChangesDialog ();
+            var d = new UnsavedChangesDialog.for_quit ();
             var result = d.run ();
             switch (result) {
             case UnsavedChangesResult.QUIT:
@@ -108,7 +108,7 @@ public class Window : Gtk.Window {
     }
 
     private void setup_events () {
-//        this.key_press_event.connect (key_press_event);
+        this.key_press_event.connect (key_pressed);
         doc.changed.connect (schedule_timer);
         doc.changed.connect (update_state);
 
@@ -121,38 +121,46 @@ public class Window : Gtk.Window {
         toolbar.about_clicked.connect (about_action);
     }
 
-    public override bool key_press_event (Gdk.EventKey ev) {
-        bool control_pressed = is_modifier_pressed (ev, Gdk.ModifierType.CONTROL_MASK);
+    public bool key_pressed (Gdk.EventKey ev) {
+        bool handled_event = false;
+        bool ctrl_pressed = modifier_pressed (ev,
+                                              Gdk.ModifierType.CONTROL_MASK);
 
         switch (ev.keyval) {
         case Gdk.Key.o:
-            if (control_pressed) {
+            if (ctrl_pressed) {
+                handled_event = true;
                 open_action ();
             }
             break;
 
         case Gdk.Key.n:
-            if (control_pressed) {
+            if (ctrl_pressed) {
+                handled_event = true;
                 new_action ();
             }
             break;
 
         case Gdk.Key.s:
-            if (control_pressed) {
+            if (ctrl_pressed) {
+                handled_event = true;
                 save_action ();
             }
             break;
 
         case Gdk.Key.q:
-            if (control_pressed) {
+            if (ctrl_pressed) {
+                handled_event = true;
                 close_action ();
             }
             break;
         }
-        return false;
+        return handled_event;
     }
 
-    private bool is_modifier_pressed (Gdk.EventKey event, Gdk.ModifierType modifier) {
+    private bool modifier_pressed (Gdk.EventKey event,
+                                   Gdk.ModifierType modifier) {
+
         return (event.state & modifier)  == modifier;
     }
 
@@ -221,6 +229,21 @@ public class Window : Gtk.Window {
     }
 
     private void new_action () {
+        if (file_modified) {
+            var dialog = new UnsavedChangesDialog.for_close_file ();
+            var result = dialog.run ();
+            dialog.destroy ();
+
+            if (result == UnsavedChangesResult.CANCEL) {
+                return;
+            } else if (result == UnsavedChangesResult.SAVE) {
+                save_action ();
+            } else {
+                // the user doesn't care about the file,
+                // close it anyway
+                reset_file ();
+            }
+        }
         reset_file ();
     }
 
