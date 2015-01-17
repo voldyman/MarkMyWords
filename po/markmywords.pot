@@ -1,0 +1,96 @@
+# MARKMYWORDS
+# Copyright (C) 2015 Akshay Shekher
+# This file is distributed under the same license as the MarkMyWords package.
+# Akshay Shekher <voldyman666@gmail.com>, 2015.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: markmywords 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-15 18:36+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/Widgets/Toolbar.vala:62
+msgid "About"
+msgstr ""
+
+#: ../src/Widgets/UnsavedChangesDialog.vala:11
+msgid "Are you sure you want to quit MarkMyWords?"
+msgstr ""
+
+#: ../src/Widgets/UnsavedChangesDialog.vala:14
+msgid "Cancel"
+msgstr ""
+
+#: ../src/Widgets/Toolbar.vala:48
+msgid "Export HTML"
+msgstr ""
+
+#: ../src/Widgets/Toolbar.vala:47
+msgid "Export PDF"
+msgstr ""
+
+#: ../src/Widgets/Toolbar.vala:33
+msgid "New file"
+msgstr ""
+
+#: ../src/Widgets/Window.vala:283
+msgid "Open"
+msgstr ""
+
+#: ../src/Widgets/Toolbar.vala:37
+msgid "Open file"
+msgstr ""
+
+#: ../src/Widgets/Toolbar.vala:49
+msgid "Print"
+msgstr ""
+
+#: ../src/Widgets/Window.vala:240
+msgid "Print to File"
+msgstr ""
+
+#: ../src/Widgets/UnsavedChangesDialog.vala:19
+msgid "Quit MarkMyWords"
+msgstr ""
+
+#: ../src/Widgets/Window.vala:275 ../src/Widgets/Window.vala:291
+#: ../src/Widgets/Window.vala:308
+msgid "Save"
+msgstr ""
+
+#: ../src/Widgets/Toolbar.vala:41
+msgid "Save file"
+msgstr ""
+
+#: ../src/Widgets/Window.vala:289
+msgid "Select destination HTML file"
+msgstr ""
+
+#: ../src/Widgets/Window.vala:306
+msgid "Select destination PDF file"
+msgstr ""
+
+#: ../src/Widgets/Window.vala:273
+msgid "Select destination markdown file"
+msgstr ""
+
+#: ../src/Widgets/Window.vala:281
+msgid "Select markdown file to open"
+msgstr ""
+
+#: ../src/Widgets/UnsavedChangesDialog.vala:12
+msgid ""
+"The current file has some unsaved changes which would be lost if you quit."
+msgstr ""
+
+#: ../src/Widgets/Window.vala:331
+msgid "_Cancel"
+msgstr ""
