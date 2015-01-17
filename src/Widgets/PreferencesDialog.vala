@@ -19,7 +19,9 @@ public class PreferencesDialog : Gtk.Window {
         font_btn.use_font = true;
         font_btn.use_size = true;
 
-        font_btn.set_font_name (prefs.editor_font);
+        if (prefs.editor_font != "") {
+            font_btn.set_font_name (prefs.editor_font);
+        }
 
         font_btn.font_set.connect (() => {
             unowned string name = font_btn.get_font_name ();
@@ -71,6 +73,13 @@ public class PreferencesDialog : Gtk.Window {
 
         hbox.pack_start (scheme_label, false, false, 0);
         hbox.pack_start (scheme_box, false, false, 0);
+
+        // Close button
+        /*hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
+        vbox.pack_start (hbox, false, false, 0);
+
+        var close_btn = new Gtk.Button.with_label (_("Close"));
+        hbox.pack_end (close_btn, false, false, 0);*/
     }
 
     private Gtk.SourceStyleScheme[] get_source_schemes () {

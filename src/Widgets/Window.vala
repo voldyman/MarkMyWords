@@ -1,4 +1,6 @@
 public class Window : Gtk.Window {
+    const string CONFIG_FILE = "~/.config/mark-my-words/main.conf";
+
     private MarkMyWordsApp app;
     private DocumentView doc;
     private WebKit.WebView  html_view;
@@ -81,28 +83,34 @@ public class Window : Gtk.Window {
     }
 
     private void setup_prefs () {
-        this.prefs = new Preferences ();
+        prefs = new Preferences ();
 
-        this.prefs.notify["editor-font"].connect((s, p) => {
+        prefs.notify["editor-font"].connect ((s, p) => {
             doc.set_font (this.prefs.editor_font);
         });
 
-        this.prefs.notify["editor-scheme"].connect((s, p) => {
+        prefs.notify["editor-scheme"].connect ((s, p) => {
             doc.set_scheme (this.prefs.editor_scheme);
         });
 
-        this.prefs.notify.connect((s, p) => {
+        prefs.notify.connect ((s, p) => {
             stdout.printf ("Updated pref: %s\n", p.name);
             this.save_prefs ();
         });
+
+        this.load_prefs ();
+
+        if (prefs.editor_scheme == "") {
+            prefs.editor_scheme = doc.get_default_scheme ();
+        }
     }
 
     private void load_prefs () {
-        // TODO
+        prefs.load_from_file (CONFIG_FILE);
     }
 
     private void save_prefs () {
-        // TODO
+        prefs.save_to_file (CONFIG_FILE);
     }
 
     private void setup_ui () {

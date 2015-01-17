@@ -36,6 +36,15 @@ public class DocumentView : Gtk.ScrolledWindow {
         code_buffer.set_style_scheme (style);
     }
 
+    public string get_default_scheme () {
+        var style_manager = Gtk.SourceStyleSchemeManager.get_default ();
+        if ("solarized-dark" in style_manager.scheme_ids) { // In Gnome
+            return "solarized-dark";
+        } else { // In Elementary
+            return "solarizeddark";
+        }
+    }
+
     private void setup_code_view () {
         // need to setup language
         var manager = Gtk.SourceLanguageManager.get_default ();
@@ -51,8 +60,6 @@ public class DocumentView : Gtk.ScrolledWindow {
         // make it look pretty
         code_view.left_margin = 5;
         code_view.pixels_above_lines = 5;
-
-        this.set_scheme ("solarizeddark");
 
         code_view.show_line_numbers = true;
 
