@@ -169,12 +169,15 @@ public class Window : Gtk.Window {
             file_monitor.cancel ();
         }
 
-        try {
-            file_monitor = current_file.monitor_file (FileMonitorFlags.NONE);
-        } catch (Error e) {
-            warning ("Could not monitor file");
+        if (current_file != null) {
+            try {
+                file_monitor = current_file.monitor_file (
+                    FileMonitorFlags.NONE);
+            } catch (Error e) {
+                warning ("Could not monitor file");
+            }
+            file_monitor.changed.connect (file_changed_event);
         }
-        file_monitor.changed.connect (file_changed_event);
     }
 
     private void file_changed_event (File old_file, File? new_file,
