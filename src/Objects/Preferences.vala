@@ -21,7 +21,7 @@ public class Preferences : Object {
 
         this.notify.connect ((s, p) => {
             stdout.printf ("Updated pref: %s\n", p.name);
-            Value val = new Value (typeof (string));
+            Value val = Value (typeof (string));
             this.get_property (p.name.replace("-", "_"), ref val);
             settings.set_string (p.name, val.get_string());
         });

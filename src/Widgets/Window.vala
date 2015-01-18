@@ -94,6 +94,10 @@ public class Window : Gtk.Window {
         prefs.notify["editor-scheme"].connect ((s, p) => {
             doc.set_scheme (this.prefs.editor_scheme);
         });
+
+        prefs.notify["render-stylesheet"].connect ((s, p) => {
+            update_html_view ();
+        });
     }
 
     private void setup_ui () {

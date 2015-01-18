@@ -8,11 +8,23 @@ public class PreferencesDialog : Gtk.Window {
         this.set_transient_for (parent);
         this.border_width = 10;
 
-        var vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, 10);
+        int margin = 10;
+
+        var vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, margin);
         this.add (vbox);
 
+        Gtk.Box hbox;
+
+        // EDITOR
+        hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, margin);
+        vbox.pack_start (hbox, false, false, 0);
+
+        var editor_label = new Gtk.Label ("<b>" + _("Editor") + "</b>");
+        editor_label.set_use_markup (true);
+        hbox.pack_start (editor_label, false, true, 0);
+
         // Editor font
-        var hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
+        hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, margin);
         vbox.pack_start (hbox, false, false, 0);
 
         font_btn = new Gtk.FontButton ();
@@ -74,6 +86,14 @@ public class PreferencesDialog : Gtk.Window {
         hbox.pack_start (scheme_label, false, false, 0);
         hbox.pack_start (scheme_box, false, false, 0);
 
+        // RENDERING
+        hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, margin);
+        vbox.pack_start (hbox, false, false, 0);
+
+        var rendering_label = new Gtk.Label ("<b>" + _("Rendering") + "</b>");
+        rendering_label.set_use_markup (true);
+        hbox.pack_start (rendering_label, false, true, 0);
+
         // Stylesheet
         var stylesheet_none = new Gtk.RadioButton.with_label_from_widget (null, "Do not use a stylesheet");
         var stylesheet_default = new Gtk.RadioButton.with_label_from_widget (stylesheet_none, "Use the default stylesheet");
@@ -110,7 +130,7 @@ public class PreferencesDialog : Gtk.Window {
             stylesheet_chooser.set_sensitive (false);
         }
 
-        hbox.pack_start (stylesheet_label, false, false, 0);
+        hbox.pack_start (stylesheet_label, false, false, 20);
         hbox.pack_start (stylesheet_chooser, false, false, 0);
 
         stylesheet_none.toggled.connect((b) => {
