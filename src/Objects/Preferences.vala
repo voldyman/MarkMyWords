@@ -8,14 +8,18 @@ public class Preferences : Object {
     public int autosave_interval { get; set; default = 0; }
 
     public void load () {
-        // TODO: use granite.settings?
+        string schema_id = "org.markmywords";
         string settings_dir = "../schemas";
-        var sss = new SettingsSchemaSource.from_directory (settings_dir, null, false);
-        var schema = sss.lookup ("org.markmywords", false);
-        if (sss.lookup == null) {
-            return;
+        SettingsSchema schema = null;
+        try { // Get schema from build dir if available
+            var sss = new SettingsSchemaSource.from_directory (settings_dir, null, false);
+            schema = sss.lookup (schema_id, false);
+        } catch (Error e) {}
+        if (schema != null) {
+            settings = new Settings.full (schema, null, null);
+        } else {
+            settings = new Settings (schema_id);
         }
-        settings = new Settings.full (schema, null, null);
 
         this.editor_font = settings.get_string ("editor-font");
         this.editor_scheme = settings.get_string ("editor-scheme");
