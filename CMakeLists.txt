@@ -60,7 +60,9 @@ set (DOLLAR "$")
 
 configure_file (${CMAKE_SOURCE_DIR}/src/config.h.cmake ${CMAKE_BINARY_DIR}/src/config.h)
 add_definitions (-DGETTEXT_PACKAGE=\"${GETTEXT_PACKAGE}\")
+
 add_subdirectory (po)
+add_subdirectory (schemas)
 
 include(ValaPrecompile)
 

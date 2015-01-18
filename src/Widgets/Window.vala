@@ -30,6 +30,8 @@ public class Window : Gtk.Window {
         setup_prefs ();
         setup_ui ();
         setup_events ();
+
+        prefs.load ();
     }
 
     public override bool delete_event (Gdk.EventAny ev) {
@@ -92,21 +94,6 @@ public class Window : Gtk.Window {
         prefs.notify["editor-scheme"].connect ((s, p) => {
             doc.set_scheme (this.prefs.editor_scheme);
         });
-
-        prefs.notify.connect ((s, p) => {
-            stdout.printf ("Updated pref: %s\n", p.name);
-            this.save_prefs ();
-        });
-
-        this.load_prefs ();
-    }
-
-    private void load_prefs () {
-        prefs.load_from_file (CONFIG_FILE);
-    }
-
-    private void save_prefs () {
-        prefs.save_to_file (CONFIG_FILE);
     }
 
     private void setup_ui () {
