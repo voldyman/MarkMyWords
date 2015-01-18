@@ -1,6 +1,4 @@
 public class Window : Gtk.Window {
-    const string CONFIG_FILE = "~/.config/mark-my-words/main.conf";
-
     private MarkMyWordsApp app;
     private DocumentView doc;
     private WebKit.WebView  html_view;
@@ -11,6 +9,10 @@ public class Window : Gtk.Window {
     private File? current_file = null;
     private bool file_modified = false;
     private FileMonitor? file_monitor = null;
+
+    // autosave timer related variables
+    private bool autosave_timer_scheduled = false;
+    private uint autosave_timer_id = 0;
 
     // timer related variables
     private bool timer_scheduled = false;
@@ -101,6 +103,10 @@ public class Window : Gtk.Window {
 
         prefs.notify["prefer-dark-theme"].connect ((s, p) => {
             Gtk.Settings.get_default().set("gtk-application-prefer-dark-theme", prefs.prefer_dark_theme);
+        });
+
+        prefs.notify["autosave-interval"].connect ((s, p) => {
+            schedule_autosave_timer ();
         });
     }
 
@@ -222,6 +228,29 @@ public class Window : Gtk.Window {
 
     private void update_state () {
         file_modified = true;
+    }
+
+    private void schedule_autosave_timer () {
+        if (autosave_timer_scheduled) {
+            remove_autosave_timer ();
+        }
+        if (prefs.autosave_interval > 0) {
+            autosave_timer_id = Timeout.add (prefs.autosave_interval * 60 * 1000, autosave_func);
+            autosave_timer_scheduled = true;
+        }
+    }
+
+    private void remove_autosave_timer () {
+        if (autosave_timer_scheduled) {
+            Source.remove(autosave_timer_id);
+        }
+    }
+
+    private bool autosave_func () {
+        if (current_file != null) {
+            save_action ();
+        }
+        return true;
     }
 
     private void schedule_timer () {

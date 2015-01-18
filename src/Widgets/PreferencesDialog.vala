@@ -86,6 +86,43 @@ public class PreferencesDialog : Gtk.Window {
         hbox.pack_start (scheme_label, false, false, 0);
         hbox.pack_start (scheme_box, false, false, 0);
 
+        // Autosave
+        hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
+        vbox.pack_start (hbox, false, false, 0);
+
+        var autosave_btn = new Gtk.CheckButton.with_label ("Save automatically every");
+        var autosave_spin = new Gtk.SpinButton.with_range (0, 999, 1);
+        autosave_btn.set_active (prefs.autosave_interval != 0);
+        autosave_spin.set_value ((prefs.autosave_interval != 0) ? prefs.autosave_interval : 10);
+
+        hbox.pack_start (autosave_btn, false, false, 0);
+        hbox.pack_start (autosave_spin, false, false, 0);
+        hbox.pack_start (new Gtk.Label ("minutes"), false, false, 0);
+
+        autosave_btn.toggled.connect((b) => {
+            var activated = autosave_btn.get_active ();
+            prefs.autosave_interval = (activated) ? (int) autosave_spin.get_value () : 0;
+        });
+        autosave_spin.changed.connect(() => {
+            if (!autosave_btn.get_active ()) {
+                return;
+            }
+            prefs.autosave_interval = (int) autosave_spin.get_value ();
+        });
+
+        // Dark theme
+        hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
+        vbox.pack_start (hbox, false, false, 0);
+
+        var dark_theme_btn = new Gtk.CheckButton.with_label ("Enable dark theme");
+        dark_theme_btn.set_active (prefs.prefer_dark_theme);
+
+        dark_theme_btn.toggled.connect((b) => {
+            prefs.prefer_dark_theme = dark_theme_btn.get_active ();
+        });
+
+        hbox.pack_start (dark_theme_btn, false, true, 0);
+
         // RENDERING
         hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, margin);
         vbox.pack_start (hbox, false, false, 0);
