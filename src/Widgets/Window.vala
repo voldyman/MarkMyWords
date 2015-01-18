@@ -88,15 +88,19 @@ public class Window : Gtk.Window {
         prefs = new Preferences ();
 
         prefs.notify["editor-font"].connect ((s, p) => {
-            doc.set_font (this.prefs.editor_font);
+            doc.set_font (prefs.editor_font);
         });
 
         prefs.notify["editor-scheme"].connect ((s, p) => {
-            doc.set_scheme (this.prefs.editor_scheme);
+            doc.set_scheme (prefs.editor_scheme);
         });
 
         prefs.notify["render-stylesheet"].connect ((s, p) => {
             update_html_view ();
+        });
+
+        prefs.notify["prefer-dark-theme"].connect ((s, p) => {
+            Gtk.Settings.get_default().set("gtk-application-prefer-dark-theme", prefs.prefer_dark_theme);
         });
     }
 

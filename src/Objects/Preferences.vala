@@ -4,6 +4,7 @@ public class Preferences : Object {
     public string editor_font { get; set; default = ""; }
     public string editor_scheme { get; set; default = ""; }
     public string render_stylesheet { get; set; default = ""; }
+    public bool prefer_dark_theme { get; set; default = false; }
 
     public void load () {
         // TODO: use granite.settings?
@@ -18,6 +19,7 @@ public class Preferences : Object {
         this.editor_font = settings.get_string ("editor-font");
         this.editor_scheme = settings.get_string ("editor-scheme");
         this.render_stylesheet = settings.get_string ("render-stylesheet");
+        this.prefer_dark_theme = settings.get_boolean ("prefer-dark-theme");
 
         this.notify.connect ((s, p) => {
             stdout.printf ("Updated pref: %s\n", p.name);

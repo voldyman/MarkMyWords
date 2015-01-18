@@ -19,5 +19,11 @@
 			<description>The rendering stylesheet URI</description>
 		</key>
 
+		<key name="prefer-dark-theme" type="b">
+			<default>false</default>
+			<summary>Prefer dark theme</summary>
+			<description>Switch on/off window dark theme</description>
+		</key>
+
 	</schema>
 </schemalist>
