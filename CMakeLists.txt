@@ -32,7 +32,7 @@ pkg_check_modules(DEPS REQUIRED
   gtksourceview-3.0>=3.10
   gthread-2.0
   gtk+-3.0>=3.9.10
-  webkit2gtk-3.0
+  PKG_CHECK_MODULES([webkit2gtk-3.0], [webkit2gtk-4.0])
 )
 
 add_definitions(${DEPS_CFLAGS})
@@ -60,7 +60,9 @@ set (DOLLAR "$")
 
 configure_file (${CMAKE_SOURCE_DIR}/src/config.h.cmake ${CMAKE_BINARY_DIR}/src/config.h)
 add_definitions (-DGETTEXT_PACKAGE=\"${GETTEXT_PACKAGE}\")
+
 add_subdirectory (po)
+add_subdirectory (schemas)
 
 include(ValaPrecompile)
 
@@ -71,9 +73,11 @@ vala_precompile(VALA_C
   src/Widgets/Window.vala
   src/Widgets/Toolbar.vala
   src/Widgets/DocumentView.vala
+  src/Widgets/PreferencesDialog.vala
   src/Widgets/UnsavedChangesDialog.vala
   src/Widgets/AboutDialog.vala
   src/Services/FileHandler.vala
+  src/Objects/Preferences.vala
 PACKAGES
   gtksourceview-3.0
   gtk+-3.0

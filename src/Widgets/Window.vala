@@ -3,11 +3,16 @@ public class Window : Gtk.Window {
     private DocumentView doc;
     private WebKit.WebView  html_view;
     private Toolbar toolbar;
+    private Preferences prefs;
 
     // current state
     private File? current_file = null;
     private bool file_modified = false;
     private FileMonitor? file_monitor = null;
+
+    // autosave timer related variables
+    private bool autosave_timer_scheduled = false;
+    private uint autosave_timer_id = 0;
 
     // timer related variables
     private bool timer_scheduled = false;
@@ -24,8 +29,11 @@ public class Window : Gtk.Window {
         this.app = app;
 
         set_application (app);
+        setup_prefs ();
         setup_ui ();
         setup_events ();
+
+        prefs.load ();
     }
 
     public override bool delete_event (Gdk.EventAny ev) {
@@ -78,6 +86,30 @@ public class Window : Gtk.Window {
         update_html_view ();
     }
 
+    private void setup_prefs () {
+        prefs = new Preferences ();
+
+        prefs.notify["editor-font"].connect ((s, p) => {
+            doc.set_font (prefs.editor_font);
+        });
+
+        prefs.notify["editor-scheme"].connect ((s, p) => {
+            doc.set_scheme (prefs.editor_scheme);
+        });
+
+        prefs.notify["render-stylesheet"].connect ((s, p) => {
+            update_html_view ();
+        });
+
+        prefs.notify["prefer-dark-theme"].connect ((s, p) => {
+            Gtk.Settings.get_default().set("gtk-application-prefer-dark-theme", prefs.prefer_dark_theme);
+        });
+
+        prefs.notify["autosave-interval"].connect ((s, p) => {
+            schedule_autosave_timer ();
+        });
+    }
+
     private void setup_ui () {
         set_default_size (600, 480);
         window_position = Gtk.WindowPosition.CENTER;
@@ -118,6 +150,7 @@ public class Window : Gtk.Window {
         toolbar.export_html_clicked.connect (export_html_action);
         toolbar.export_pdf_clicked.connect (export_pdf_action);
         toolbar.export_print_clicked.connect (export_print_action);
+        toolbar.preferences_clicked.connect (preferences_action);
         toolbar.about_clicked.connect (about_action);
     }
 
@@ -197,6 +230,29 @@ public class Window : Gtk.Window {
         file_modified = true;
     }
 
+    private void schedule_autosave_timer () {
+        if (autosave_timer_scheduled) {
+            remove_autosave_timer ();
+        }
+        if (prefs.autosave_interval > 0) {
+            autosave_timer_id = Timeout.add (prefs.autosave_interval * 60 * 1000, autosave_func);
+            autosave_timer_scheduled = true;
+        }
+    }
+
+    private void remove_autosave_timer () {
+        if (autosave_timer_scheduled) {
+            Source.remove(autosave_timer_id);
+        }
+    }
+
+    private bool autosave_func () {
+        if (current_file != null) {
+            save_action ();
+        }
+        return true;
+    }
+
     private void schedule_timer () {
         timer_id = Timeout.add (TIME_TO_REFRESH, render_func);
         timer_scheduled = true;
@@ -221,7 +277,15 @@ public class Window : Gtk.Window {
         string result;
         mkd.get_document (out result);
 
-        return result;
+        string html = "<html><head>";
+        if (prefs.render_stylesheet != "") {
+            html += "<link rel=\"stylesheet\" href=\""+prefs.render_stylesheet+"\"/>";
+        }
+        html += "</head><body class=\"markdown-body\">";
+        html += result;
+        html += "</body></html>";
+
+        return html;
     }
 
     private void update_html_view () {
@@ -313,6 +377,11 @@ public class Window : Gtk.Window {
     private void export_print_action () {
         var op = new WebKit.PrintOperation (html_view);
         op.run_dialog (this);
+    }
+
+    private void preferences_action () {
+        var dialog = new PreferencesDialog(this, this.prefs);
+        dialog.show_all ();
     }
 
     private void about_action () {

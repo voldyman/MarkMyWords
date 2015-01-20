@@ -1,0 +1,35 @@
+<schemalist>
+	<schema id="org.markmywords" path="/org/markmywords/" gettext-domain="markmywords">
+
+		<key name="editor-font" type="s">
+			<default>""</default>
+			<summary>Editor font</summary>
+			<description>The editor's font family and size</description>
+		</key>
+
+		<key name="editor-scheme" type="s">
+			<default>""</default>
+			<summary>Editor scheme</summary>
+			<description>The editor's color scheme</description>
+		</key>
+
+		<key name="render-stylesheet" type="s">
+			<default>""</default>
+			<summary>Render stylesheet</summary>
+			<description>The rendering stylesheet URI</description>
+		</key>
+
+		<key name="prefer-dark-theme" type="b">
+			<default>false</default>
+			<summary>Prefer dark theme</summary>
+			<description>Switch on/off window dark theme</description>
+		</key>
+
+		<key name="autosave-interval" type="i">
+			<default>0</default>
+			<summary>Autosave interval</summary>
+			<description>Save file automatically every n minutes</description>
+		</key>
+
+	</schema>
+</schemalist>
