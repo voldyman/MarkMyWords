@@ -102,7 +102,7 @@ public class PreferencesDialog : Gtk.Window {
         hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
         vbox.pack_start (hbox, false, false, 0);
 
-        autosave_btn = new Gtk.CheckButton.with_label ("Save automatically every");
+        autosave_btn = new Gtk.CheckButton.with_label (_("Save automatically every"));
         autosave_spin = new Gtk.SpinButton.with_range (0, 999, 1);
         autosave_btn.set_active (prefs.autosave_interval != 0);
         if (prefs.autosave_interval != 0) {
@@ -113,13 +113,13 @@ public class PreferencesDialog : Gtk.Window {
 
         hbox.pack_start (autosave_btn, false, false, 0);
         hbox.pack_start (autosave_spin, false, false, 0);
-        hbox.pack_start (new Gtk.Label ("minutes"), false, false, 0);
+        hbox.pack_start (new Gtk.Label (_("minutes")), false, false, 0);
 
         // Dark theme
         hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
         vbox.pack_start (hbox, false, false, 0);
 
-        dark_theme_btn = new Gtk.CheckButton.with_label ("Enable dark theme");
+        dark_theme_btn = new Gtk.CheckButton.with_label (_("Enable dark theme"));
         dark_theme_btn.set_active (prefs.prefer_dark_theme);
 
         dark_theme_btn.toggled.connect((b) => {
@@ -138,11 +138,11 @@ public class PreferencesDialog : Gtk.Window {
 
         // Stylesheet
         stylesheet_none = new Gtk.RadioButton.with_label_from_widget (null,
-            "Do not use a stylesheet");
+            _("Do not use a stylesheet"));
         stylesheet_default = new Gtk.RadioButton.with_label_from_widget (stylesheet_none,
-            "Use the default stylesheet");
+            _("Use the default stylesheet"));
         stylesheet_custom = new Gtk.RadioButton.with_label_from_widget (stylesheet_none,
-            "Use a custom stylesheet");
+            _("Use a custom stylesheet"));
 
         vbox.pack_start (stylesheet_none, false, false, 0);
         vbox.pack_start (stylesheet_default, false, false, 0);
@@ -151,7 +151,7 @@ public class PreferencesDialog : Gtk.Window {
         hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
         vbox.pack_start (hbox, false, false, 0);
 
-        stylesheet_chooser = new Gtk.FileChooserButton ("Choose a stylesheet",
+        stylesheet_chooser = new Gtk.FileChooserButton (_("Choose a stylesheet"),
             Gtk.FileChooserAction.OPEN);
 
         Gtk.FileFilter stylesheet_filter = new Gtk.FileFilter ();

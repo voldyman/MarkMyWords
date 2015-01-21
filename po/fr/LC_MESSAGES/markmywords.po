@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: markmywords 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-15 18:36+0100\n"
-"PO-Revision-Date: 2015-01-15 18:37+0100\n"
+"POT-Creation-Date: 2015-01-20 17:46+0100\n"
+"PO-Revision-Date: 2015-01-20 17:48+0100\n"
 "Last-Translator: Emersion <contact@emersion.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -18,82 +18,153 @@ msgstr ""
 "X-Generator: Poedit 1.7.3\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ../src/Widgets/Toolbar.vala:62
+#: src/Widgets/Toolbar.vala:67
 msgid "About"
 msgstr "À propos"
 
-#: ../src/Widgets/UnsavedChangesDialog.vala:11
+#: src/Widgets/UnsavedChangesDialog.vala:14
 msgid "Are you sure you want to quit MarkMyWords?"
 msgstr "Voulez-vous vraiment quitter MarkMyWords ?"
 
-#: ../src/Widgets/UnsavedChangesDialog.vala:14
+#: src/Widgets/UnsavedChangesDialog.vala:17
+#: src/Widgets/UnsavedChangesDialog.vala:45
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../src/Widgets/Toolbar.vala:48
+#: src/Widgets/PreferencesDialog.vala:154
+msgid "Choose a stylesheet"
+msgstr "Sélectionner une feuille de style"
+
+#: src/Widgets/UnsavedChangesDialog.vala:40
+msgid "Close Without Saving"
+msgstr "Fermer sans enregistrer"
+
+#: src/Widgets/PreferencesDialog.vala:161
+msgid "Custom _stylesheet:"
+msgstr "Feuille de _style personnalisée :"
+
+#: src/Widgets/PreferencesDialog.vala:141
+msgid "Do not use a stylesheet"
+msgstr "Ne pas utiliser de feuille de style"
+
+#: src/Widgets/PreferencesDialog.vala:48
+msgid "Editor"
+msgstr "Éditeur"
+
+#: src/Widgets/PreferencesDialog.vala:64
+msgid "Editor _font:"
+msgstr "_Police de l'éditeur :"
+
+#: src/Widgets/PreferencesDialog.vala:95
+msgid "Editor _theme:"
+msgstr "_Thème de l'éditeur :"
+
+#: src/Widgets/PreferencesDialog.vala:122
+msgid "Enable dark theme"
+msgstr "Activer le thème sombre"
+
+#: src/Widgets/Toolbar.vala:51
 msgid "Export HTML"
 msgstr "Exporter en HTML"
 
-#: ../src/Widgets/Toolbar.vala:47
+#: src/Widgets/Toolbar.vala:50
 msgid "Export PDF"
 msgstr "Exporter en PDF"
 
-#: ../src/Widgets/Toolbar.vala:33
+#: src/Widgets/Toolbar.vala:35
 msgid "New file"
 msgstr "Nouveau fichier"
 
-#: ../src/Widgets/Window.vala:283
+#: src/Widgets/Window.vala:418
 msgid "Open"
 msgstr "Ouvrir"
 
-#: ../src/Widgets/Toolbar.vala:37
+#: src/Widgets/Toolbar.vala:39
 msgid "Open file"
 msgstr "Ouvrir un fichier"
 
-#: ../src/Widgets/Toolbar.vala:49
+#: src/Widgets/PreferencesDialog.vala:32 src/Widgets/Toolbar.vala:66
+msgid "Preferences"
+msgstr "Préférences"
+
+#: src/Widgets/Toolbar.vala:52
 msgid "Print"
 msgstr "Imprimer"
 
-#: ../src/Widgets/Window.vala:240
+#: src/Widgets/Window.vala:370
 msgid "Print to File"
 msgstr "Imprimer dans un fichier"
 
-#: ../src/Widgets/UnsavedChangesDialog.vala:19
+#: src/Widgets/UnsavedChangesDialog.vala:22
 msgid "Quit MarkMyWords"
 msgstr "Quitter MarkMyWords"
 
-#: ../src/Widgets/Window.vala:275 ../src/Widgets/Window.vala:291
-#: ../src/Widgets/Window.vala:308
+#: src/Widgets/PreferencesDialog.vala:135
+msgid "Rendering"
+msgstr "Rendu"
+
+#: src/Widgets/UnsavedChangesDialog.vala:50 src/Widgets/Window.vala:410
+#: src/Widgets/Window.vala:426 src/Widgets/Window.vala:443
 msgid "Save"
 msgstr "Enregistrer"
 
-#: ../src/Widgets/Toolbar.vala:41
+#: src/Widgets/PreferencesDialog.vala:105
+msgid "Save automatically every"
+msgstr "Sauvegarder automatiquement toutes les"
+
+#: src/Widgets/UnsavedChangesDialog.vala:38
+msgid "Save changes to document before closing?"
+msgstr "Enregistrer les modifications avant de fermer ?"
+
+#: src/Widgets/Toolbar.vala:43
 msgid "Save file"
 msgstr "Enregistrer le fichier"
 
-#: ../src/Widgets/Window.vala:289
+#: src/Widgets/Window.vala:424
 msgid "Select destination HTML file"
 msgstr "Sélectionner un fichier HTML de destination"
 
-#: ../src/Widgets/Window.vala:306
+#: src/Widgets/Window.vala:441
 msgid "Select destination PDF file"
 msgstr "Sélectionner un fichier PDF de destination"
 
-#: ../src/Widgets/Window.vala:273
+#: src/Widgets/Window.vala:408
 msgid "Select destination markdown file"
 msgstr "Sélectionner un fichier Markdown de destination"
 
-#: ../src/Widgets/Window.vala:281
+#: src/Widgets/Window.vala:416
 msgid "Select markdown file to open"
 msgstr "Sélectionner un fichier Markdown à ouvrir"
 
-#: ../src/Widgets/UnsavedChangesDialog.vala:12
-msgid "The current file has some unsaved changes which would be lost if you quit."
-msgstr "Le fichier actuel possède des changements qui seront perdus si vous quittez."
+#: src/Widgets/UnsavedChangesDialog.vala:39
+msgid ""
+"The changes made to the current document haven't been saved and would be "
+"permanently lost."
+msgstr ""
+"Les modifications faites sur le document actuel n'ont pas été enregistrées "
+"et seraient définitivement perdues."
 
-#: ../src/Widgets/Window.vala:331
+#: src/Widgets/UnsavedChangesDialog.vala:15
+msgid ""
+"The current file has some unsaved changes which would be lost if you quit."
+msgstr ""
+"Le fichier actuel possède des changements qui seront perdus si vous quittez."
+
+#: src/Widgets/PreferencesDialog.vala:145
+msgid "Use a custom stylesheet"
+msgstr "Utiliser une feuille de style personnalisée"
+
+#: src/Widgets/PreferencesDialog.vala:143
+msgid "Use the default stylesheet"
+msgstr "Utiliser la feuille de style par défaut"
+
+#: src/Widgets/Window.vala:466
 msgid "_Cancel"
 msgstr "_Annuler"
+
+#: src/Widgets/PreferencesDialog.vala:116
+msgid "minutes"
+msgstr "minutes"
 
 #~ msgid "The current file has some unsaved changes which "
 #~ msgstr "Le fichier actuel a été modifié "

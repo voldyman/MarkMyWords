@@ -36,8 +36,7 @@ public class UnsavedChangesDialog : Gtk.MessageDialog {
         use_markup = true;
         set_markup ("<span weight='bold' size='larger'>" +
                     _("Save changes to document before closing?") + "</span>\n\n" +
-                    _("The changes made to the current document haven't been saved " + 
-                      "and would be permanently lost."));
+                    _("The changes made to the current document haven't been saved and would be permanently lost."));
         var close_button = new Gtk.Button.with_label (_("Close Without Saving"));
         close_button.show ();
         add_action_widget (close_button,
