@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.6)
 
 # build the markdown lib
 include(ExternalProject)
-set(DISCOUNT_DEP_PATH ${CMAKE_SOURCE_DIR}/deps/discount)
+set(DISCOUNT_DEP_PATH ${CMAKE_SOURCE_DIR}/deps/discount-2.1.7)
 set(DISCOUNT_LIB_PATH ${CMAKE_BINARY_DIR}/libmarkdown.a)
 set(DISCOUNT_INCLUDE_PATH ${DISCOUNT_DEP_PATH}/include)
 
@@ -15,6 +15,7 @@ ExternalProject_Add(discount
       ${DISCOUNT_DEP_PATH}/configure.sh --src=${DISCOUNT_DEP_PATH}
                                         --prefix=${CMAKE_BINARY_DIR}
                                         --libdir=${CMAKE_BINARY_DIR}
+                                        --with-fenced-code
   BUILD_COMMAND make install
   BUILD_IN_SOURCE 1
 )
