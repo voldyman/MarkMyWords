@@ -19,6 +19,12 @@
 			<description>The rendering stylesheet URI</description>
 		</key>
 
+		<key name="render-syntax-highlighting" type="b">
+			<default>false</default>
+			<summary>Enable syntax highlighting</summary>
+			<description>Switch on/off syntax highlighting when rendering</description>
+		</key>
+
 		<key name="prefer-dark-theme" type="b">
 			<default>false</default>
 			<summary>Prefer dark theme</summary>

@@ -18,6 +18,8 @@ public class PreferencesDialog : Gtk.Window {
     private Gtk.Label stylesheet_label;
     private Gtk.FileChooserButton stylesheet_chooser;
 
+    private Gtk.CheckButton syntax_highlighting_btn;
+
     private const string DEFAULT_STYLESHEET = "https://github.com/sindresorhus/github-markdown-css/raw/gh-pages/github-markdown.css";
 
     public PreferencesDialog (Window parent, Preferences prefs) {
@@ -122,10 +124,6 @@ public class PreferencesDialog : Gtk.Window {
         dark_theme_btn = new Gtk.CheckButton.with_label (_("Enable dark theme"));
         dark_theme_btn.set_active (prefs.prefer_dark_theme);
 
-        dark_theme_btn.toggled.connect((b) => {
-            prefs.prefer_dark_theme = dark_theme_btn.get_active ();
-        });
-
         hbox.pack_start (dark_theme_btn, false, true, 0);
 
         // RENDERING
@@ -177,6 +175,15 @@ public class PreferencesDialog : Gtk.Window {
 
         hbox.pack_start (stylesheet_label, false, false, 20);
         hbox.pack_start (stylesheet_chooser, false, false, 0);
+
+        // Dark theme
+        hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
+        vbox.pack_start (hbox, false, false, 0);
+
+        syntax_highlighting_btn = new Gtk.CheckButton.with_label (_("Enable syntax highlighting"));
+        syntax_highlighting_btn.set_active (prefs.render_syntax_highlighting);
+
+        hbox.pack_start (syntax_highlighting_btn, false, true, 0);
     }
 
     private void setup_events () {
@@ -208,6 +215,10 @@ public class PreferencesDialog : Gtk.Window {
             prefs.autosave_interval = (int) autosave_spin.get_value ();
         });
 
+        dark_theme_btn.toggled.connect((b) => {
+            prefs.prefer_dark_theme = dark_theme_btn.get_active ();
+        });
+
         stylesheet_none.toggled.connect((b) => {
             if (stylesheet_none.get_active ()) {
                 prefs.render_stylesheet = "";
@@ -225,6 +236,10 @@ public class PreferencesDialog : Gtk.Window {
         });
         stylesheet_chooser.selection_changed.connect (() => {
             prefs.render_stylesheet = stylesheet_chooser.get_uri ();
+        });
+
+        syntax_highlighting_btn.toggled.connect((b) => {
+            prefs.render_syntax_highlighting = syntax_highlighting_btn.get_active ();
         });
     }
 

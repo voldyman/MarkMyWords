@@ -101,6 +101,10 @@ public class Window : Gtk.Window {
             update_html_view ();
         });
 
+        prefs.notify["render-syntax-highlighting"].connect ((s, p) => {
+            update_html_view ();
+        });
+
         prefs.notify["prefer-dark-theme"].connect ((s, p) => {
             Gtk.Settings.get_default().set("gtk-application-prefer-dark-theme", prefs.prefer_dark_theme);
         });
@@ -338,6 +342,11 @@ public class Window : Gtk.Window {
         string html = "<html><head>";
         if (prefs.render_stylesheet != "") {
             html += "<link rel=\"stylesheet\" href=\""+prefs.render_stylesheet+"\"/>";
+        }
+        if (prefs.render_syntax_highlighting) {
+            html += "<link rel=\"stylesheet\" href=\"https://highlightjs.org/static/styles/github.css\"/>";
+            html += "<script src=\"https://highlightjs.org/static/highlight.pack.js\"></script>";
+            html += "<script>hljs.initHighlightingOnLoad();</script>";
         }
         html += "</head><body class=\"markdown-body\">";
         html += result;
