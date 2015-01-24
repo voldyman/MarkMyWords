@@ -41,4 +41,4 @@ make
 - [x] Export HTML
 - [x] Export PDF
 - [ ] Github markdown
-- [ ] Preferences
+- [x] Preferences
