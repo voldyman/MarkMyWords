@@ -278,14 +278,14 @@ public class Window : Gtk.Window {
         // Parse frontmatter
         if (raw_mk.length > 4 && raw_mk[0:4] == "---\n") {
             int i = 0;
-            bool frontmatter_closed = true;
+            bool valid_frontmatter = true;
             int last_newline = 3;
             int next_newline;
             string line = "";
             do {
                 next_newline = raw_mk.index_of_char('\n', last_newline + 1);
                 if (next_newline == -1) { // End of file
-                    frontmatter_closed = false;
+                    valid_frontmatter = false;
                     break;
                 }
                 line = raw_mk[last_newline+1:next_newline];
@@ -294,13 +294,16 @@ public class Window : Gtk.Window {
                 if (sep_index != -1) {
                     map += line[0:sep_index-1];
                     map += line[sep_index+1:line.length];
+                } else {
+                    valid_frontmatter = false;
+                    break;
                 }
 
                 last_newline = next_newline;
                 i++;
             } while (line != "---");
 
-            if (frontmatter_closed) {
+            if (valid_frontmatter) {
                 processed_mk = raw_mk[last_newline:raw_mk.length];
             }
         }
