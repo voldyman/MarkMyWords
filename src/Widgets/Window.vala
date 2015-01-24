@@ -270,6 +270,12 @@ public class Window : Gtk.Window {
         return false;
     }
 
+    /**
+     * Process the frontmatter of a markdown document, if it exists.
+     * Returns the frontmatter data and strips the frontmatter from the markdown doc.
+     *
+     * @see http://jekyllrb.com/docs/frontmatter/
+     */
     private string[] process_frontmatter (string raw_mk, out string processed_mk) {
         string[] map = {};
 
@@ -282,28 +288,32 @@ public class Window : Gtk.Window {
             int last_newline = 3;
             int next_newline;
             string line = "";
-            do {
+            while (true) {
                 next_newline = raw_mk.index_of_char('\n', last_newline + 1);
                 if (next_newline == -1) { // End of file
                     valid_frontmatter = false;
                     break;
                 }
                 line = raw_mk[last_newline+1:next_newline];
+                last_newline = next_newline;
+
+                if (line == "---") { // End of frontmatter
+                    break;
+                }
 
                 var sep_index = line.index_of_char(':');
                 if (sep_index != -1) {
                     map += line[0:sep_index-1];
                     map += line[sep_index+1:line.length];
-                } else {
+                } else { // No colon, invalid frontmatter
                     valid_frontmatter = false;
                     break;
                 }
 
-                last_newline = next_newline;
                 i++;
-            } while (line != "---");
+            }
 
-            if (valid_frontmatter) {
+            if (valid_frontmatter) { // Strip frontmatter if it's a valid one
                 processed_mk = raw_mk[last_newline:raw_mk.length];
             }
         }
