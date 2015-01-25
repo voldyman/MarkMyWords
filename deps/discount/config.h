@@ -1,6 +1,6 @@
 /*
- * configuration for markdown, generated Sun Jan 25 11:05:38 IST 2015
- * by voldyman@ares
+ * configuration for markdown, generated dim. janv. 25 13:55:52 CET 2015
+ * by simon@simon-desktop
  */
 #ifndef __AC_MARKDOWN_D
 #define __AC_MARKDOWN_D 1
@@ -8,6 +8,7 @@
 
 #define OS_LINUX 1
 #define USE_DISCOUNT_DL 1
+#define WITH_FENCED_CODE 1
 #define while(x) while( (x) != 0 )
 #define if(x) if( (x) != 0 )
 #define DWORD unsigned int
@@ -28,6 +29,6 @@
 #define TABSTOP 4
 #define HAVE_MALLOC_H 1
 #define PATH_FIND "/usr/bin/find"
-#define PATH_SED "/bin/sed"
+#define PATH_SED "/usr/bin/sed"
 
 #endif/* __AC_MARKDOWN_D */

@@ -1,2 +1,2 @@
 #! /bin/sh
-  /home/voldyman/code/MarkMyWords/deps/discount/configure.sh  '--src=/home/voldyman/code/MarkMyWords/deps/discount' '--prefix=/home/voldyman/code/MarkMyWords/build' '--libdir=/home/voldyman/code/MarkMyWords/build'
+  /home/simon/public_html/MarkMyWords/deps/discount/configure.sh  '--src=/home/simon/public_html/MarkMyWords/deps/discount' '--prefix=/home/simon/public_html/MarkMyWords/build' '--libdir=/home/simon/public_html/MarkMyWords/build' '--with-fenced-code'
