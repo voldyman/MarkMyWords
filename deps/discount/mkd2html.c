@@ -81,7 +81,7 @@ char **argv;
     CREATE(footers);
     pgm = basename(argv[0]);
 
-    while ( argc ) {
+    while ( argc > 1 ) {
 	if ( strcmp(argv[1], "-css") == 0 ) {
 	    EXPAND(css) = argv[2];
 	    argc -= 2;
@@ -159,7 +159,7 @@ char **argv;
 	"  <meta name=\"GENERATOR\" content=\"mkd2html %s\">\n", markdown_version);
 
     fprintf(output,"  <meta http-equiv=\"Content-Type\"\n"
-		   "        content=\"text/html; charset-us-ascii\">");
+		   "        content=\"text/html; charset=utf-8\">");
 
     for ( i=0; i < S(css); i++ )
 	fprintf(output, "  <link rel=\"stylesheet\"\n"

@@ -22,7 +22,7 @@ s;@srcdir@;/home/voldyman/code/MarkMyWords/deps/discount;g
 s;@prefix@;/home/voldyman/code/MarkMyWords/build;g
 s;@exedir@;/home/voldyman/code/MarkMyWords/build/bin;g
 s;@sbindir@;/home/voldyman/code/MarkMyWords/build/sbin;g
-s;@libdir@;/home/voldyman/code/MarkMyWords/build/lib;g
+s;@libdir@;/home/voldyman/code/MarkMyWords/build;g
 s;@libexec@;/home/voldyman/code/MarkMyWords/build/lib;g
 s;@confdir@;/etc;g
 s;@mandir@;/home/voldyman/code/MarkMyWords/build/man;g

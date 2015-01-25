@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 2.6)
 include(ExternalProject)
 set(DISCOUNT_DEP_PATH ${CMAKE_SOURCE_DIR}/deps/discount)
 set(DISCOUNT_LIB_PATH ${CMAKE_BINARY_DIR}/libmarkdown.a)
-set(DISCOUNT_INCLUDE_PATH ${DISCOUNT_DEP_PATH}/include)
+set(DISCOUNT_INCLUDE_PATH ${DISCOUNT_DEP_PATH})
 
 ExternalProject_Add(discount
   PREFIX ${DISCOUNT_DEP_PATH}

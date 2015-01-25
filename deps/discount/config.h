@@ -1,5 +1,5 @@
 /*
- * configuration for markdown, generated Wed Dec 24 09:47:34 IST 2014
+ * configuration for markdown, generated Sun Jan 25 11:05:38 IST 2015
  * by voldyman@ares
  */
 #ifndef __AC_MARKDOWN_D
