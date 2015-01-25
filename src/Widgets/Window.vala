@@ -371,9 +371,11 @@ public class Window : Gtk.Window {
 
             var syntax_js_uri = get_data_file_uri ("highlight.pack.js");
             var syntax_js = FileHandler.load_content_from_file_sync (File.new_for_uri (syntax_js_uri));
-            
+            // Escape </script> tag
+            syntax_js = syntax_js.replace("</script>", "\\<\\/script\\>");
+
             html += "<style>"+syntax_css+"</style>";
-            html += "<script>"+syntax_js.replace("</script>", "\\<\\/script\\>")+"</script>";
+            html += "<script>"+syntax_js+"</script>";
             html += "<script>hljs.initHighlightingOnLoad();</script>";
         }
         html += "</head><body><div class=\"markdown-body\">";
