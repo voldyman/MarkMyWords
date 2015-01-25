@@ -274,6 +274,23 @@ public class Window : Gtk.Window {
         return false;
     }
 
+    private string get_data_file_uri (string filename) {
+        File file = File.new_for_path ("../data/assets/"+filename);
+        if (file.query_exists ()) {
+            return file.get_uri ();
+        }
+
+        var data_dirs = Environment.get_system_data_dirs ();
+        foreach (var dir in data_dirs) {
+            file = File.new_for_uri (dir+"/mark-my-words/"+filename);
+            if (file.query_exists ()) {
+                return file.get_uri ();
+            }
+        }
+
+        return "";
+    }
+
     /**
      * Process the frontmatter of a markdown document, if it exists.
      * Returns the frontmatter data and strips the frontmatter from the markdown doc.
@@ -340,17 +357,28 @@ public class Window : Gtk.Window {
         mkd.get_document (out result);
 
         string html = "<html><head>";
-        if (prefs.render_stylesheet != "") {
-            html += "<link rel=\"stylesheet\" href=\""+prefs.render_stylesheet+"\"/>";
+        if (prefs.render_stylesheet) { // TODO: load css only once
+            var uri = prefs.render_stylesheet_uri;
+            if (uri == "") {
+                uri = get_data_file_uri ("github-markdown.css");
+            }
+            var css = FileHandler.load_content_from_file_sync (File.new_for_uri (uri));
+            html += "<style>"+css+"</style>";
         }
         if (prefs.render_syntax_highlighting) {
-            html += "<link rel=\"stylesheet\" href=\"https://highlightjs.org/static/styles/github.css\"/>";
-            html += "<script src=\"https://highlightjs.org/static/highlight.pack.js\"></script>";
+            var syntax_css_uri = get_data_file_uri ("github-syntax.css");
+            var syntax_css = FileHandler.load_content_from_file_sync (File.new_for_uri (syntax_css_uri));
+
+            var syntax_js_uri = get_data_file_uri ("highlight.pack.js");
+            var syntax_js = FileHandler.load_content_from_file_sync (File.new_for_uri (syntax_js_uri));
+            
+            html += "<style>"+syntax_css+"</style>";
+            html += "<script>"+syntax_js.replace("</script>", "\\<\\/script\\>")+"</script>";
             html += "<script>hljs.initHighlightingOnLoad();</script>";
         }
-        html += "</head><body class=\"markdown-body\">";
+        html += "</head><body><div class=\"markdown-body\">";
         html += result;
-        html += "</body></html>";
+        html += "</div></body></html>";
 
         return html;
     }

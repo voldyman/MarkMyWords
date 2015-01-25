@@ -159,13 +159,13 @@ public class PreferencesDialog : Gtk.Window {
         stylesheet_label = new Gtk.Label.with_mnemonic (_("Custom _stylesheet:"));
         stylesheet_label.mnemonic_widget = stylesheet_chooser;
 
-        if (prefs.render_stylesheet == "") {
+        if (!prefs.render_stylesheet) {
             stylesheet_none.set_active (true);
-        } else if (prefs.render_stylesheet == DEFAULT_STYLESHEET) {
+        } else if (prefs.render_stylesheet_uri == "") {
             stylesheet_default.set_active (true);
         } else {
             stylesheet_custom.set_active (true);
-            stylesheet_chooser.set_uri (prefs.render_stylesheet);
+            stylesheet_chooser.set_uri (prefs.render_stylesheet_uri);
         }
 
         if (!stylesheet_custom.get_active ()) {
@@ -221,12 +221,13 @@ public class PreferencesDialog : Gtk.Window {
 
         stylesheet_none.toggled.connect((b) => {
             if (stylesheet_none.get_active ()) {
-                prefs.render_stylesheet = "";
+                prefs.render_stylesheet = false;
             }
         });
         stylesheet_default.toggled.connect((b) => {
             if (stylesheet_default.get_active ()) {
-                prefs.render_stylesheet = DEFAULT_STYLESHEET;
+                prefs.render_stylesheet = true;
+                prefs.render_stylesheet_uri = "";
             }
         });
         stylesheet_custom.toggled.connect((b) => {
@@ -235,7 +236,8 @@ public class PreferencesDialog : Gtk.Window {
             stylesheet_chooser.set_sensitive (activated);
         });
         stylesheet_chooser.selection_changed.connect (() => {
-            prefs.render_stylesheet = stylesheet_chooser.get_uri ();
+            prefs.render_stylesheet = true;
+            prefs.render_stylesheet_uri = stylesheet_chooser.get_uri ();
         });
 
         syntax_highlighting_btn.toggled.connect((b) => {
