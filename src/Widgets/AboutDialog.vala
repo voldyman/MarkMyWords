@@ -19,7 +19,8 @@ public class AboutDialog : Gtk.AboutDialog {
         website = "http://github.com/voldyman/MarkMyWords";
         version = MarkMyWords.APP_VERSION;
 
-        authors = { "<a href='http://tripent.net'>Akshay Shekher</a>" };
+        authors = { "<a href='http://tripent.net'>Akshay Shekher</a>",
+                    "<a href='mailto://contact@emersion.fr'>Emersion</a>"};
 
     }
 
