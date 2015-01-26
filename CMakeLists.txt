@@ -28,17 +28,28 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 add_definitions(-w)
 
 find_package(PkgConfig)
+
+# either of webkitpackages would do
+pkg_search_module(WEBKIT REQUIRED
+  webkit2gtk-4.0
+  webkit2gtk-3.0
+)
+
+
 pkg_check_modules(DEPS REQUIRED
   gtksourceview-3.0>=3.10
   gthread-2.0
   gtk+-3.0>=3.9.10
-  PKG_CHECK_MODULES([webkit2gtk-3.0], [webkit2gtk-4.0])
 )
 
 add_definitions(${DEPS_CFLAGS})
+add_definitions(${WEBKIT_CFLAGS})
 
 link_libraries(${DEPS_LIBRARIES})
+link_libraries(${WEBKIT_LIBRARIES})
+
 link_directories(${DEPS_LIBRARY_DIRS})
+link_directories(${WEBKIT_LIBRARY_DIRS})
 link_directories(${CMAKE_BINARY_DIR})
 
 include_directories(${CMAKE_BINARY_DIR})
