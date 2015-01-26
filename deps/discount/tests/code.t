@@ -33,6 +33,17 @@ try 'backslashes in code(2)' '`printf "%s: \n", $1;`' \
 
 if ./markdown -V | grep FENCED-CODE >/dev/null; then
 
+try 'fenced code block with blank lines' \
+'~~~
+code!
+
+still code!
+~~~' \
+    '<pre><code>code!
+
+still code!
+</code></pre>'
+
 try 'fenced code block' \
 '~~~
 code!
@@ -99,6 +110,55 @@ code
 '<p>```
 code
 ~~~</p>'
+
+try 'fenced code block with lang attribute' \
+'```lang
+code
+```' \
+'<pre><code class="lang">code
+</code></pre>'
+
+try 'fenced code block with lang-name attribute' \
+'```lang-name
+code
+```' \
+'<pre><code class="lang-name">code
+</code></pre>'
+
+try 'fenced code block with lang_name attribute' \
+'```lang_name
+code
+```' \
+'<pre><code class="lang_name">code
+</code></pre>'
+
+try 'fenced code block with lang attribute and space' \
+'``` lang
+code
+```' \
+'<pre><code class="lang">code
+</code></pre>'
+
+try 'fenced code block with lang attribute and multiple spaces' \
+'```       lang
+code
+```' \
+'<pre><code class="lang">code
+</code></pre>'
+
+try 'fenced code block with lang-name attribute and space' \
+'``` lang-name
+code
+```' \
+'<pre><code class="lang-name">code
+</code></pre>'
+
+try 'fenced code block with lang_name attribute and space' \
+'``` lang_name
+code
+```' \
+'<pre><code class="lang_name">code
+</code></pre>'
 
 fi
 

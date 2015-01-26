@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 2.6)
 include(ExternalProject)
 set(DISCOUNT_DEP_PATH ${CMAKE_SOURCE_DIR}/deps/discount)
 set(DISCOUNT_LIB_PATH ${CMAKE_BINARY_DIR}/libmarkdown.a)
-set(DISCOUNT_INCLUDE_PATH ${DISCOUNT_DEP_PATH}/include)
+set(DISCOUNT_INCLUDE_PATH ${DISCOUNT_DEP_PATH})
 
 ExternalProject_Add(discount
   PREFIX ${DISCOUNT_DEP_PATH}
@@ -15,6 +15,7 @@ ExternalProject_Add(discount
       ${DISCOUNT_DEP_PATH}/configure.sh --src=${DISCOUNT_DEP_PATH}
                                         --prefix=${CMAKE_BINARY_DIR}
                                         --libdir=${CMAKE_BINARY_DIR}
+                                        --with-fenced-code
   BUILD_COMMAND make install
   BUILD_IN_SOURCE 1
 )
@@ -28,17 +29,28 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 add_definitions(-w)
 
 find_package(PkgConfig)
+
+# either of webkitpackages would do
+pkg_search_module(WEBKIT REQUIRED
+  webkit2gtk-4.0
+  webkit2gtk-3.0
+)
+
+
 pkg_check_modules(DEPS REQUIRED
   gtksourceview-3.0>=3.10
   gthread-2.0
   gtk+-3.0>=3.9.10
-  PKG_CHECK_MODULES([webkit2gtk-3.0], [webkit2gtk-4.0])
 )
 
 add_definitions(${DEPS_CFLAGS})
+add_definitions(${WEBKIT_CFLAGS})
 
 link_libraries(${DEPS_LIBRARIES})
+link_libraries(${WEBKIT_LIBRARIES})
+
 link_directories(${DEPS_LIBRARY_DIRS})
+link_directories(${WEBKIT_LIBRARY_DIRS})
 link_directories(${CMAKE_BINARY_DIR})
 
 include_directories(${CMAKE_BINARY_DIR})

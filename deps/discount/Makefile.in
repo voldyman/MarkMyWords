@@ -31,9 +31,11 @@ install: $(PGMS) $(DESTDIR)$(BINDIR) $(DESTDIR)$(LIBDIR) $(DESTDIR)$(INCDIR)
 install.everything: install install.samples install.man
 
 install.samples: $(SAMPLE_PGMS) install $(DESTDIR)$(BINDIR)
-	@INSTALL_PROGRAM@ $(SAMPLE_PGMS) $(DESTDIR)$(BINDIR)
 	@INSTALL_DIR@ $(DESTDIR)$(MANDIR)/man1
-	@INSTALL_DATA@ theme.1 makepage.1 mkd2html.1 $(DESTDIR)$(MANDIR)/man1
+	for x in $(SAMPLE_PGMS); do \
+	    @INSTALL_PROGRAM@ $$x $(DESTDIR)$(BINDIR)/$(SAMPLE_PFX)$$x; \
+	    @INSTALL_DATA@ $$x.1 $(DESTDIR)$(MANDIR)/man1/$(SAMPLE_PFX)$$x.1; \
+	done
 
 install.man:
 	@INSTALL_DIR@ $(DESTDIR)$(MANDIR)/man3
@@ -64,7 +66,7 @@ $(DESTDIR)$(LIBDIR):
 	@INSTALL_DIR@ $(DESTDIR)$(LIBDIR)
 
 version.o: version.c VERSION
-	$(CC) -DVERSION=\"`cat VERSION`\" -c version.c
+	$(CC) $(CFLAGS) -DVERSION=\"`cat VERSION`\" -c version.c
 
 VERSION:
 	@true
@@ -76,23 +78,23 @@ blocktags: mktags
 
 # example programs
 @THEME@theme:  theme.o $(MKDLIB) mkdio.h
-@THEME@	$(CC) $(LFLAGS) -o theme theme.o pgm_options.o -lmarkdown @LIBS@
+@THEME@	$(CC) $(CFLAGS) $(LFLAGS) -o theme theme.o pgm_options.o -lmarkdown @LIBS@
 
 
 mkd2html:  mkd2html.o $(MKDLIB) mkdio.h
-	$(CC) $(LFLAGS) -o mkd2html mkd2html.o -lmarkdown @LIBS@
+	$(CC) $(CFLAGS) $(LFLAGS) -o mkd2html mkd2html.o -lmarkdown @LIBS@
 
 markdown: main.o pgm_options.o $(MKDLIB)
-	$(CC) $(LFLAGS) -o markdown main.o pgm_options.o -lmarkdown @LIBS@
+	$(CC) $(CFLAGS) $(LFLAGS) -o markdown main.o pgm_options.o -lmarkdown @LIBS@
 	
 makepage:  makepage.c pgm_options.o $(MKDLIB) mkdio.h
-	$(CC) $(LFLAGS) -o makepage makepage.c pgm_options.o -lmarkdown @LIBS@
+	$(CC) $(CFLAGS) $(LFLAGS) -o makepage makepage.c pgm_options.o -lmarkdown @LIBS@
 
 pgm_options.o: pgm_options.c mkdio.h config.h
-	$(CC) -I. -c pgm_options.c
+	$(CC) $(CFLAGS) -I. -c pgm_options.c
 
 main.o: main.c mkdio.h config.h
-	$(CC) -I. -c main.c
+	$(CC) $(CFLAGS) -I. -c main.c
 
 $(MKDLIB): $(OBJS)
 	./librarian.sh make $(MKDLIB) VERSION $(OBJS)
@@ -115,7 +117,7 @@ clean:
 	rm -f $(MKDLIB) `./librarian.sh files $(MKDLIB) VERSION`
 
 distclean spotless: clean
-	rm -f @GENERATED_FILES@ @CONFIGURE_FILES@
+	rm -f @GENERATED_FILES@ @CONFIGURE_FILES@ ./mktags ./blocktags ./librarian.sh
 
 Csio.o: Csio.c cstring.h amalloc.h config.h markdown.h
 amalloc.o: amalloc.c

@@ -6,7 +6,7 @@ RANLIB=/usr/bin/ranlib
 
 BINDIR=/home/voldyman/code/MarkMyWords/build/bin
 MANDIR=/home/voldyman/code/MarkMyWords/build/man
-LIBDIR=/home/voldyman/code/MarkMyWords/build/lib
+LIBDIR=/home/voldyman/code/MarkMyWords/build
 INCDIR=/home/voldyman/code/MarkMyWords/build/include
 
 PGMS=markdown
@@ -31,9 +31,11 @@ install: $(PGMS) $(DESTDIR)$(BINDIR) $(DESTDIR)$(LIBDIR) $(DESTDIR)$(INCDIR)
 install.everything: install install.samples install.man
 
 install.samples: $(SAMPLE_PGMS) install $(DESTDIR)$(BINDIR)
-	/usr/bin/install -s -m 755 $(SAMPLE_PGMS) $(DESTDIR)$(BINDIR)
 	/home/voldyman/code/MarkMyWords/deps/discount/config.md $(DESTDIR)$(MANDIR)/man1
-	/usr/bin/install -m 444 theme.1 makepage.1 mkd2html.1 $(DESTDIR)$(MANDIR)/man1
+	for x in $(SAMPLE_PGMS); do \
+	    /usr/bin/install -s -m 755 $$x $(DESTDIR)$(BINDIR)/$(SAMPLE_PFX)$$x; \
+	    /usr/bin/install -m 444 $$x.1 $(DESTDIR)$(MANDIR)/man1/$(SAMPLE_PFX)$$x.1; \
+	done
 
 install.man:
 	/home/voldyman/code/MarkMyWords/deps/discount/config.md $(DESTDIR)$(MANDIR)/man3
@@ -64,7 +66,7 @@ $(DESTDIR)$(LIBDIR):
 	/home/voldyman/code/MarkMyWords/deps/discount/config.md $(DESTDIR)$(LIBDIR)
 
 version.o: version.c VERSION
-	$(CC) -DVERSION=\"`cat VERSION`\" -c version.c
+	$(CC) $(CFLAGS) -DVERSION=\"`cat VERSION`\" -c version.c
 
 VERSION:
 	@true
@@ -76,23 +78,23 @@ blocktags: mktags
 
 # example programs
 theme:  theme.o $(MKDLIB) mkdio.h
-	$(CC) $(LFLAGS) -o theme theme.o pgm_options.o -lmarkdown 
+	$(CC) $(CFLAGS) $(LFLAGS) -o theme theme.o pgm_options.o -lmarkdown 
 
 
 mkd2html:  mkd2html.o $(MKDLIB) mkdio.h
-	$(CC) $(LFLAGS) -o mkd2html mkd2html.o -lmarkdown 
+	$(CC) $(CFLAGS) $(LFLAGS) -o mkd2html mkd2html.o -lmarkdown 
 
 markdown: main.o pgm_options.o $(MKDLIB)
-	$(CC) $(LFLAGS) -o markdown main.o pgm_options.o -lmarkdown 
+	$(CC) $(CFLAGS) $(LFLAGS) -o markdown main.o pgm_options.o -lmarkdown 
 	
 makepage:  makepage.c pgm_options.o $(MKDLIB) mkdio.h
-	$(CC) $(LFLAGS) -o makepage makepage.c pgm_options.o -lmarkdown 
+	$(CC) $(CFLAGS) $(LFLAGS) -o makepage makepage.c pgm_options.o -lmarkdown 
 
 pgm_options.o: pgm_options.c mkdio.h config.h
-	$(CC) -I. -c pgm_options.c
+	$(CC) $(CFLAGS) -I. -c pgm_options.c
 
 main.o: main.c mkdio.h config.h
-	$(CC) -I. -c main.c
+	$(CC) $(CFLAGS) -I. -c main.c
 
 $(MKDLIB): $(OBJS)
 	./librarian.sh make $(MKDLIB) VERSION $(OBJS)
@@ -115,7 +117,7 @@ clean:
 	rm -f $(MKDLIB) `./librarian.sh files $(MKDLIB) VERSION`
 
 distclean spotless: clean
-	rm -f Makefile version.c mkdio.h config.cmd config.sub config.h config.mak config.log config.md
+	rm -f Makefile version.c mkdio.h config.cmd config.sub config.h config.mak config.log config.md ./mktags ./blocktags ./librarian.sh
 
 Csio.o: Csio.c cstring.h amalloc.h config.h markdown.h
 amalloc.o: amalloc.c
