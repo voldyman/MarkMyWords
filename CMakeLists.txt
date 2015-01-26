@@ -64,13 +64,13 @@ set (DATADIR "${CMAKE_INSTALL_PREFIX}/share")
 set (PKGDATADIR "${DATADIR}/markmywords")
 set (GETTEXT_PACKAGE "markmywords")
 set (RELEASE_NAME "TARS")
-set (VERSION "0.1")
+set (VERSION "0.3")
 set (VERSION_INFO "Release")
 set (CMAKE_C_FLAGS "-ggdb")
 set (PREFIX ${CMAKE_INSTALL_PREFIX})
 set (DOLLAR "$")
 
-configure_file (${CMAKE_SOURCE_DIR}/src/config.h.cmake ${CMAKE_BINARY_DIR}/src/config.h)
+configure_file (${CMAKE_SOURCE_DIR}/src/config.vala.cmake ${CMAKE_SOURCE_DIR}/src/config.vala)
 add_definitions (-DGETTEXT_PACKAGE=\"${GETTEXT_PACKAGE}\")
 
 add_subdirectory (po)
@@ -90,6 +90,7 @@ vala_precompile(VALA_C
   src/Widgets/AboutDialog.vala
   src/Services/FileHandler.vala
   src/Objects/Preferences.vala
+  src/config.vala
 PACKAGES
   gtksourceview-3.0
   gtk+-3.0
