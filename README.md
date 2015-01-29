@@ -16,7 +16,7 @@ Installation:
 
 ## Screenshot
 
-![screenshot](https://github.com/voldyman/MarkMyWords/raw/master/screenshots/screenshot-2015-1-4.png)
+![screenshot](https://github.com/voldyman/MarkMyWords/raw/master/screenshots/screenshot-2015-1-29.png)
 
 Author: Akshay Shekher
 
@@ -41,4 +41,4 @@ make
 - [x] Export HTML
 - [x] Export PDF
 - [ ] Github markdown
-- [ ] Preferences
+- [x] Preferences

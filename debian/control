@@ -1,5 +1,5 @@
 Source: mark-my-words
-Section: video
+Section: editors
 Priority: optional
 Maintainer: Cody Garver <codygarver@gmail.com>
 Build-Depends: cmake,
