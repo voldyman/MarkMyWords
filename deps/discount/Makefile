@@ -1,13 +1,13 @@
-CC=cc -Wno-implicit-int -I.
+CC=cc -Wno-return-type -Wno-implicit-int -I.
 LFLAGS=-L.
 CFLAGS=-g
 AR=/usr/bin/ar
 RANLIB=/usr/bin/ranlib
 
-BINDIR=/home/voldyman/code/MarkMyWords/build/bin
-MANDIR=/home/voldyman/code/MarkMyWords/build/man
-LIBDIR=/home/voldyman/code/MarkMyWords/build
-INCDIR=/home/voldyman/code/MarkMyWords/build/include
+BINDIR=/home/simon/public_html/MarkMyWords/build/bin
+MANDIR=/home/simon/public_html/MarkMyWords/build/man
+LIBDIR=/home/simon/public_html/MarkMyWords/build
+INCDIR=/home/simon/public_html/MarkMyWords/build/include
 
 PGMS=markdown
 SAMPLE_PGMS=mkd2html makepage
@@ -31,14 +31,14 @@ install: $(PGMS) $(DESTDIR)$(BINDIR) $(DESTDIR)$(LIBDIR) $(DESTDIR)$(INCDIR)
 install.everything: install install.samples install.man
 
 install.samples: $(SAMPLE_PGMS) install $(DESTDIR)$(BINDIR)
-	/home/voldyman/code/MarkMyWords/deps/discount/config.md $(DESTDIR)$(MANDIR)/man1
+	/home/simon/public_html/MarkMyWords/deps/discount/config.md $(DESTDIR)$(MANDIR)/man1
 	for x in $(SAMPLE_PGMS); do \
 	    /usr/bin/install -s -m 755 $$x $(DESTDIR)$(BINDIR)/$(SAMPLE_PFX)$$x; \
 	    /usr/bin/install -m 444 $$x.1 $(DESTDIR)$(MANDIR)/man1/$(SAMPLE_PFX)$$x.1; \
 	done
 
 install.man:
-	/home/voldyman/code/MarkMyWords/deps/discount/config.md $(DESTDIR)$(MANDIR)/man3
+	/home/simon/public_html/MarkMyWords/deps/discount/config.md $(DESTDIR)$(MANDIR)/man3
 	/usr/bin/install -m 444 $(MAN3PAGES) $(DESTDIR)$(MANDIR)/man3
 	for x in mkd_line mkd_generateline; do \
 	    ( echo '.\"' ; echo ".so man3/mkd-line.3" ) > $(DESTDIR)$(MANDIR)/man3/$$x.3;\
@@ -49,21 +49,21 @@ install.man:
 	for x in mkd_compile mkd_css mkd_generatecss mkd_generatehtml mkd_cleanup mkd_doc_title mkd_doc_author mkd_doc_date; do \
 	    ( echo '.\"' ; echo ".so man3/mkd-functions.3" ) > $(DESTDIR)$(MANDIR)/man3/$$x.3; \
 	done
-	/home/voldyman/code/MarkMyWords/deps/discount/config.md $(DESTDIR)$(MANDIR)/man7
+	/home/simon/public_html/MarkMyWords/deps/discount/config.md $(DESTDIR)$(MANDIR)/man7
 	/usr/bin/install -m 444 markdown.7 mkd-extensions.7 $(DESTDIR)$(MANDIR)/man7
-	/home/voldyman/code/MarkMyWords/deps/discount/config.md $(DESTDIR)$(MANDIR)/man1
+	/home/simon/public_html/MarkMyWords/deps/discount/config.md $(DESTDIR)$(MANDIR)/man1
 	/usr/bin/install -m 444 markdown.1 $(DESTDIR)$(MANDIR)/man1
 
 install.everything: install install.man
 
 $(DESTDIR)$(BINDIR):
-	/home/voldyman/code/MarkMyWords/deps/discount/config.md $(DESTDIR)$(BINDIR)
+	/home/simon/public_html/MarkMyWords/deps/discount/config.md $(DESTDIR)$(BINDIR)
 
 $(DESTDIR)$(INCDIR):
-	/home/voldyman/code/MarkMyWords/deps/discount/config.md $(DESTDIR)$(INCDIR)
+	/home/simon/public_html/MarkMyWords/deps/discount/config.md $(DESTDIR)$(INCDIR)
 
 $(DESTDIR)$(LIBDIR):
-	/home/voldyman/code/MarkMyWords/deps/discount/config.md $(DESTDIR)$(LIBDIR)
+	/home/simon/public_html/MarkMyWords/deps/discount/config.md $(DESTDIR)$(LIBDIR)
 
 version.o: version.c VERSION
 	$(CC) $(CFLAGS) -DVERSION=\"`cat VERSION`\" -c version.c

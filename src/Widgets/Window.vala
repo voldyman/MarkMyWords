@@ -14,6 +14,11 @@ public class Window : Gtk.Window {
     private bool autosave_timer_scheduled = false;
     private uint autosave_timer_id = 0;
 
+    // rendering assets caching
+    private string render_stylesheet = null;
+    private string syntax_stylesheet = null;
+    private string syntax_script = null;
+
     // timer related variables
     private bool timer_scheduled = false;
     private uint timer_id = 0;
@@ -98,6 +103,35 @@ public class Window : Gtk.Window {
         });
 
         prefs.notify["render-stylesheet"].connect ((s, p) => {
+            var uri = prefs.render_stylesheet_uri;
+            if (uri == "") {
+                uri = get_data_file_uri ("github-markdown.css");
+            }
+
+            var file = File.new_for_uri (uri);
+            FileHandler.load_content_from_file.begin (file, (obj, res) => {
+                render_stylesheet = FileHandler.load_content_from_file.end (res);
+                update_html_view ();
+            });
+        });
+
+        prefs.notify["render-syntax-highlighting"].connect ((s, p) => {
+            if (prefs.render_syntax_highlighting) {
+                if (syntax_stylesheet == null) {
+                    var css_uri = get_data_file_uri ("github-syntax.css");
+                    var css_file = File.new_for_uri (css_uri);
+                    syntax_stylesheet = FileHandler.load_content_from_file_sync (css_file);
+                }
+                if (syntax_script == null) {
+                    var js_uri = get_data_file_uri ("highlight.pack.js");
+                    var js_file = File.new_for_uri (js_uri);
+                    syntax_script = FileHandler.load_content_from_file_sync (js_file);
+
+                    // Escape </script> tag
+                    syntax_script = syntax_script.replace("</script>", "\\<\\/script\\>");
+                }
+            }
+
             update_html_view ();
         });
 
@@ -270,6 +304,22 @@ public class Window : Gtk.Window {
         return false;
     }
 
+    private string get_data_file_uri (string filename) {
+        stdout.printf(Constants.PKGDATADIR);
+
+        File file = File.new_for_path ("../data/assets/"+filename);
+        if (file.query_exists ()) {
+            return file.get_uri ();
+        }
+
+        file = File.new_for_uri (Constants.PKGDATADIR+"/"+filename);
+        if (file.query_exists ()) {
+            return file.get_uri ();
+        }
+
+        return "";
+    }
+
     /**
      * Process the frontmatter of a markdown document, if it exists.
      * Returns the frontmatter data and strips the frontmatter from the markdown doc.
@@ -336,12 +386,17 @@ public class Window : Gtk.Window {
         mkd.get_document (out result);
 
         string html = "<html><head>";
-        if (prefs.render_stylesheet != "") {
-            html += "<link rel=\"stylesheet\" href=\""+prefs.render_stylesheet+"\"/>";
+        if (prefs.render_stylesheet) {
+            html += "<style>"+render_stylesheet+"</style>";
         }
-        html += "</head><body class=\"markdown-body\">";
+        if (prefs.render_syntax_highlighting) {
+            html += "<style>"+syntax_stylesheet+"</style>";
+            html += "<script>"+syntax_script+"</script>";
+            html += "<script>hljs.initHighlightingOnLoad();</script>";
+        }
+        html += "</head><body><div class=\"markdown-body\">";
         html += result;
-        html += "</body></html>";
+        html += "</div></body></html>";
 
         return html;
     }

@@ -10,7 +10,7 @@ case "$ACTION" in
 make)   /usr/bin/ar crv $LIBRARY.a "$@"
 	/usr/bin/ranlib $LIBRARY.a
 	rm -f $LIBRARY
-	/bin/ln -s $LIBRARY.a $LIBRARY
+	/usr/bin/ln -s $LIBRARY.a $LIBRARY
 	;;
 files)  echo "${LIBRARY}.a"
 	;;

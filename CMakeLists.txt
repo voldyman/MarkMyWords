@@ -112,3 +112,4 @@ add_dependencies(mark-my-words
 
 install (TARGETS mark-my-words RUNTIME DESTINATION bin)
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/mark-my-words.desktop DESTINATION ${DATADIR}/applications/)
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/assets/* DESTINATION ${DATADIR}/mark-my-words/)

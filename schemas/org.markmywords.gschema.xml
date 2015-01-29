@@ -13,10 +13,22 @@
 			<description>The editor's color scheme</description>
 		</key>
 
-		<key name="render-stylesheet" type="s">
+		<key name="render-stylesheet" type="b">
+			<default>false</default>
+			<summary>Enable stylesheet</summary>
+			<description>Switch on/off stylesheet when rendering</description>
+		</key>
+
+		<key name="render-stylesheet-uri" type="s">
 			<default>""</default>
-			<summary>Render stylesheet</summary>
-			<description>The rendering stylesheet URI</description>
+			<summary>Render stylesheet URI</summary>
+			<description>The rendering stylesheet URI (empty to load the default one)</description>
+		</key>
+
+		<key name="render-syntax-highlighting" type="b">
+			<default>false</default>
+			<summary>Enable syntax highlighting</summary>
+			<description>Switch on/off syntax highlighting when rendering</description>
 		</key>
 
 		<key name="prefer-dark-theme" type="b">
