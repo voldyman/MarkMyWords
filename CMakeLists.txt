@@ -110,6 +110,13 @@ add_dependencies(mark-my-words
   discount
 )
 
-install (TARGETS mark-my-words RUNTIME DESTINATION bin)
-install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/mark-my-words.desktop DESTINATION ${DATADIR}/applications/)
-install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/assets/* DESTINATION ${DATADIR}/mark-my-words/)
+install(TARGETS mark-my-words RUNTIME
+  DESTINATION bin)
+
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/mark-my-words.desktop
+  DESTINATION ${DATADIR}/applications/)
+
+# install assets
+file(GLOB assets "${CMAKE_CURRENT_SOURCE_DIR}/data/assets/*")
+install (FILES ${assets}
+  DESTINATION ${DATADIR}/mark-my-words/)
