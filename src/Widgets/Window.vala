@@ -305,8 +305,6 @@ public class Window : Gtk.Window {
     }
 
     private string get_data_file_uri (string filename) {
-        stdout.printf(Constants.PKGDATADIR);
-
         File file = File.new_for_path ("../data/assets/"+filename);
         if (file.query_exists ()) {
             return file.get_uri ();
