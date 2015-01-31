@@ -4,6 +4,7 @@ public class Window : Gtk.Window {
     private WebKit.WebView  html_view;
     private Toolbar toolbar;
     private Preferences prefs;
+    private SavedState saved_state;
 
     // current state
     private File? current_file = null;
@@ -60,6 +61,9 @@ public class Window : Gtk.Window {
             }
             d.destroy ();
         }
+
+        // save state anyway
+        save_window_state ();
 
         return dont_quit;
     }
@@ -145,7 +149,7 @@ public class Window : Gtk.Window {
     }
 
     private void setup_ui () {
-        set_default_size (600, 480);
+        load_window_state ();
         window_position = Gtk.WindowPosition.CENTER;
         set_hide_titlebar_when_maximized (false);
         icon_name = MarkMyWords.ICON_NAME;
@@ -186,6 +190,48 @@ public class Window : Gtk.Window {
         toolbar.export_print_clicked.connect (export_print_action);
         toolbar.preferences_clicked.connect (preferences_action);
         toolbar.about_clicked.connect (about_action);
+    }
+
+    private void load_window_state () {
+        saved_state = new SavedState ();
+        saved_state.load ();
+
+        int window_width = saved_state.window_width;
+        int window_height = saved_state.window_height;
+        WindowState state = saved_state.window_state;
+        set_default_size (window_width, window_height);
+
+        if (state == WindowState.MAXIMIZED) {
+            maximize ();
+        } else if (state == WindowState.FULLSCREEN) {
+            fullscreen ();
+        }
+        int x = saved_state.opening_x;
+        int y = saved_state.opening_y;
+
+        move (x, y);
+    }
+
+    private void save_window_state () {
+        var window_state = get_state ();
+
+        if ((window_state & Gdk.WindowState.MAXIMIZED) != 0) {
+            saved_state.window_state = WindowState.MAXIMIZED;
+        } else if ((window_state & Gdk.WindowState.FULLSCREEN) != 0) {
+            saved_state.window_state = WindowState.FULLSCREEN;
+        } else {
+            saved_state.window_state = WindowState.NORMAL;
+        }
+
+        int width, height;
+        get_size (out width, out height);
+        saved_state.window_width = width;
+        saved_state.window_height = height;
+
+        int x, y;
+        get_position (out x, out y);
+        saved_state.opening_x = x;
+        saved_state.opening_y = y;
     }
 
     public bool key_pressed (Gdk.EventKey ev) {

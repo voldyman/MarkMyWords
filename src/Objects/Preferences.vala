@@ -10,7 +10,7 @@ public class Preferences : Object {
     public int autosave_interval { get; set; default = 0; }
 
     public void load () {
-        string schema_id = "org.markmywords";
+        string schema_id = "org.markmywords.settings";
         string settings_dir = "../schemas";
         SettingsSchema schema = null;
         try { // Get schema from build dir if available
