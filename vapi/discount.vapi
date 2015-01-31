@@ -9,7 +9,7 @@ namespace Markdown {
         public Document (uint8[] data, int flag = 0);
 
         [CCode (cname = "gfm_string")]
-        public Document.target_github_format (uint8[] data, int flag = 0);
+        public Document.gfm_format (uint8[] data, int flag = 0);
 
         [CCode (cname = "mkd_compile")]
         public void compile (int flag = 0);
