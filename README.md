@@ -40,5 +40,6 @@ make
 - [x] Monitor file for changes
 - [x] Export HTML
 - [x] Export PDF
-- [ ] Github markdown
 - [x] Preferences
+- [ ] Github markdown
+- [ ] Versatile keybindings
