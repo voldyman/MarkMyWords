@@ -496,7 +496,7 @@ public class Window : Gtk.Window {
     }
 
     private void about_action () {
-        app.show_about ();
+        app.show_about (this);
     }
 
     private enum DialogType {

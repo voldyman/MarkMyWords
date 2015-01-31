@@ -53,8 +53,13 @@ public class MarkMyWordsApp : Gtk.Application {
         return 0;
     }
 
-    public void show_about () {
+    public void show_about (Window? parent = null) {
         var dialog = new AboutDialog ();
+
+        if (parent != null) {
+            dialog.set_transient_for (parent);
+        } 
+
         dialog.run ();
     }
 
