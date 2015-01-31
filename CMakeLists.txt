@@ -64,7 +64,7 @@ set (DATADIR "${CMAKE_INSTALL_PREFIX}/share")
 set (PKGDATADIR "${DATADIR}/markmywords")
 set (GETTEXT_PACKAGE "markmywords")
 set (RELEASE_NAME "TARS")
-set (VERSION "0.4")
+set (VERSION "0.5")
 set (VERSION_INFO "Release")
 set (CMAKE_C_FLAGS "-ggdb")
 set (PREFIX ${CMAKE_INSTALL_PREFIX})
@@ -89,7 +89,9 @@ vala_precompile(VALA_C
   src/Widgets/UnsavedChangesDialog.vala
   src/Widgets/AboutDialog.vala
   src/Services/FileHandler.vala
+  src/Objects/Settings.vala
   src/Objects/Preferences.vala
+  src/Objects/SavedState.vala
   src/config.vala
 PACKAGES
   gtksourceview-3.0
