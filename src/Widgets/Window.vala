@@ -213,7 +213,8 @@ public class Window : Gtk.Window {
     }
 
     private void save_window_state () {
-        var window_state = get_state ();
+        // get Gdk.Window then get it's state
+        var window_state = get_window ().get_state ();
 
         if ((window_state & Gdk.WindowState.MAXIMIZED) != 0) {
             saved_state.window_state = WindowState.MAXIMIZED;
@@ -265,6 +266,17 @@ public class Window : Gtk.Window {
             if (ctrl_pressed) {
                 handled_event = true;
                 close_action ();
+            }
+            break;
+
+        case Gdk.Key.F11:
+            // get Gdk.Window's state
+            var window_state = get_window ().get_state ();
+
+            if ((window_state & Gdk.WindowState.FULLSCREEN) != 0) {
+                unfullscreen ();
+            } else {
+                fullscreen ();
             }
             break;
         }
