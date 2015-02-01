@@ -92,6 +92,7 @@ vala_precompile(VALA_C
   src/Objects/Settings.vala
   src/Objects/Preferences.vala
   src/Objects/SavedState.vala
+  src/Objects/Keybindings.vala
   src/config.vala
 PACKAGES
   gtksourceview-3.0

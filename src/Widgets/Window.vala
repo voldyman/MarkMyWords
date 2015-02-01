@@ -5,6 +5,7 @@ public class Window : Gtk.Window {
     private Toolbar toolbar;
     private Preferences prefs;
     private SavedState saved_state;
+    private Keybindings keybindings;
 
     // current state
     private File? current_file = null;
@@ -37,6 +38,7 @@ public class Window : Gtk.Window {
         set_application (app);
         setup_prefs ();
         setup_ui ();
+        setup_keybindings ();
         setup_events ();
 
         prefs.load ();
@@ -143,6 +145,10 @@ public class Window : Gtk.Window {
         toolbar.export_print_clicked.connect (export_print_action);
         toolbar.preferences_clicked.connect (preferences_action);
         toolbar.about_clicked.connect (about_action);
+    }
+
+    private void setup_keybindings () {
+        keybindings = new Keybindings ();
     }
 
     private void load_window_state () {

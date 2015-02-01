@@ -80,6 +80,13 @@
       <summary>Autosave interval</summary>
       <description>Save file automatically every n minutes</description>
     </key>
+  </schema>
+  <schema id="org.markmywords.keybindings" path="/org/markmywords/keybindings/" gettext-domain="markmywords">
 
+    <key name="underline" type="s">
+      <default>"Ctrl+i"</default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
   </schema>
 </schemalist>
