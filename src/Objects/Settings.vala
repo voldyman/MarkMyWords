@@ -1,7 +1,10 @@
 public class Settings : Object {
+    public signal void settings_changed (string key);
+
     protected GLib.Settings settings;
 
     private string schema_id;
+    private bool is_monitored = false;
 
     public Settings (string schema_id) {
         this.schema_id = schema_id;
@@ -18,17 +21,45 @@ public class Settings : Object {
         } else {
             settings = new GLib.Settings (schema_id);
         }
-        this.notify.connect ((s, p) => {
-            update_values (p);
-        });
+        this.notify.connect (handle_notify);
 
     }
 
     public virtual void load () {
         // load values here
     }
-    
+
+    public void start_monitor () {
+        if (!is_monitored) {
+            settings.changed.connect (handle_settings_changed);
+            is_monitored = true;
+        }   
+    }
+
+    public void stop_monitor () {
+        if (is_monitored) {
+            settings.changed.disconnect (handle_settings_changed);
+            is_monitored = false;
+        }
+    }
+
+    private void handle_settings_changed (string key) {
+        settings_changed (key);
+    }
+
+    private void handle_notify (Object sender, ParamSpec prop) {
+        update_values (prop);
+        handle_settings_changed (prop.name);
+    }
+
     private void update_values (ParamSpec prop) {
+        // only call stop monitored if
+        // settings were being monitored
+        bool was_monitored = is_monitored;
+        if (is_monitored) {
+            stop_monitor ();
+        }
+
         bool success = true;
         string key = prop.name;
         var type = prop.value_type;
@@ -68,6 +99,10 @@ public class Settings : Object {
                 }
             }
         }
-        
+        // if settings were monitored
+        // start monitoring them again
+        if (was_monitored) {
+            start_monitor ();
+        }
     }
 }
