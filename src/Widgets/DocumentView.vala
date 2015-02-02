@@ -20,19 +20,6 @@ public class DocumentView : Gtk.ScrolledWindow {
         bindings = new List<KBDInfo?> ();
     }
 
-    public void set_keybindings (Keybindings kbd) {
-        uint keyval;
-        Gdk.ModifierType mask;
-
-        Gtk.accelerator_parse (kbd.underline, out keyval, out mask);
-        var underline = KBDInfo () {
-            keyval = keyval,
-            mask = mask,
-            action = underline_text
-        };
-
-        bindings.append (underline);
-    }
 
     public void set_text (string text) {
         code_buffer.text = text;
@@ -98,7 +85,7 @@ public class DocumentView : Gtk.ScrolledWindow {
         code_buffer.changed.connect (() => {
             changed ();
         });
-        
+
         // make it look pretty
         code_view.left_margin = 5;
         code_view.pixels_above_lines = 5;
@@ -111,6 +98,191 @@ public class DocumentView : Gtk.ScrolledWindow {
     }
 
     private void underline_text () {
-        print ("Underlining");
+        message ("Underlining");
     }
+
+    private void bold_text () {
+        message ("bold");
+    }
+
+    private void italic_text () {
+        message ("italic");
+    }
+
+    private void strike_text () {
+        message ("strike");
+    }
+
+    private void link_text () {
+        message ("link");
+    }
+
+    private void image_text () {
+        message ("image");
+    }
+
+    private void code_text () {
+        message ("code");
+    }
+
+    private void highlight_text () {
+        message ("highlight");
+    }
+
+    private void task_list_text () {
+        message ("task_list");
+    }
+
+    private void ordered_list_text () {
+        message ("ordered list");
+    }
+
+    private void unordered_list_text () {
+        message ("unordered_list");
+    }
+
+    private void blockquote_text () {
+        message ("blockquote");
+    }
+
+    private void section_break_text () {
+        message ("section break");
+    }
+
+    private void page_break_text () {
+        message ("page break");
+    }
+
+    private void sentence_break_text () {
+        message ("sentence break");
+    }
+
+    public void set_keybindings (Keybindings kbd) {
+        uint keyval;
+        Gdk.ModifierType mask;
+
+        Gtk.accelerator_parse (kbd.underline, out keyval, out mask);
+        var underline = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = underline_text
+        };
+
+        Gtk.accelerator_parse (kbd.bold, out keyval, out mask);
+        var bold = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = bold_text
+        };
+
+        Gtk.accelerator_parse (kbd.italic, out keyval, out mask);
+        var italic = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = italic_text
+        };
+
+        Gtk.accelerator_parse (kbd.strike, out keyval, out mask);
+        var strike = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = strike_text
+        };
+
+        Gtk.accelerator_parse (kbd.link, out keyval, out mask);
+        var link = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = link_text
+        };
+
+        Gtk.accelerator_parse (kbd.image, out keyval, out mask);
+        var image = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = image_text
+        };
+
+        Gtk.accelerator_parse (kbd.code, out keyval, out mask);
+        var code = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = code_text
+        };
+
+        Gtk.accelerator_parse (kbd.highlight, out keyval, out mask);
+        var highlight = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = highlight_text
+        };
+
+        Gtk.accelerator_parse (kbd.task_list, out keyval, out mask);
+        var task_list = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = task_list_text
+        };
+
+        Gtk.accelerator_parse (kbd.ordered_list, out keyval, out mask);
+        var ordered_list = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = ordered_list_text
+        };
+
+        Gtk.accelerator_parse (kbd.unordered_list, out keyval, out mask);
+        var unordered_list = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = unordered_list_text
+        };
+
+        Gtk.accelerator_parse (kbd.blockquote, out keyval, out mask);
+        var blockquote = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = blockquote_text
+        };
+
+        Gtk.accelerator_parse (kbd.section_break, out keyval, out mask);
+        var section_break = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = section_break_text
+        };
+
+        Gtk.accelerator_parse (kbd.page_break, out keyval, out mask);
+        var page_break = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = page_break_text
+        };
+
+        Gtk.accelerator_parse (kbd.sentence_break, out keyval, out mask);
+        var sentence_break = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = sentence_break_text
+        };
+
+        bindings.append (underline);
+        bindings.append (bold);
+        bindings.append (italic);
+        bindings.append (strike);
+        bindings.append (link);
+        bindings.append (code);
+        bindings.append (highlight);
+        bindings.append (task_list);
+        bindings.append (ordered_list);
+        bindings.append (unordered_list);
+        bindings.append (blockquote);
+        bindings.append (section_break);
+        bindings.append (page_break);
+        bindings.append (sentence_break);
+        // this won't work as
+        // ctrl+shift+i is for gnome-inspector
+        bindings.append (image);
+     }
+
 }

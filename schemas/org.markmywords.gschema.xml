@@ -84,9 +84,94 @@
   <schema id="org.markmywords.keybindings" path="/org/markmywords/keybindings/" gettext-domain="markmywords">
 
     <key name="underline" type="s">
-      <default>"Ctrl+i"</default>
+      <default><![CDATA['<Ctrl>y']]></default>
       <summary>Insert the underline tag</summary>
       <description>This shortcut allows the use to insert an underline tag</description>
     </key>
+
+    <key name="bold" type="s">
+      <default><![CDATA['<Ctrl>b']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+
+    <key name="italic" type="s">
+      <default><![CDATA['<Ctrl>i']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+
+    <key name="strike" type="s">
+      <default><![CDATA['<Ctrl>u']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+
+    <key name="link" type="s">
+      <default><![CDATA['<Ctrl>l']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+
+    <key name="image" type="s">
+      <default><![CDATA['<Ctrl><Shift>i']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+
+    <key name="code" type="s">
+      <default><![CDATA['<Ctrl>k']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+
+    <key name="highlight" type="s">
+      <default><![CDATA['<Ctrl>t']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+
+    <key name="task-list" type="s">
+      <default><![CDATA['<Ctrl><Shift>c']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+
+    <key name="ordered-list" type="s">
+      <default><![CDATA['<Ctrl><Shift>o']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+
+    <key name="unordered-list" type="s">
+      <default><![CDATA['<Ctrl><Shift>l']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+
+    <key name="blockquote" type="s">
+      <default><![CDATA['<Ctrl><Shift>o']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+
+    <key name="section-break" type="s">
+      <default><![CDATA['<Ctrl><Alt>Enter']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+
+    <key name="page-break" type="s">
+      <default><![CDATA['<Ctrl><Shift>Enter']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+
+    <key name="sentence-break" type="s">
+      <default><![CDATA['<Ctrl><Shift><Alt>Enter']]></default>
+      <summary>Insert the underline tag</summary>
+      <description>This shortcut allows the use to insert an underline tag</description>
+    </key>
+    
   </schema>
 </schemalist>

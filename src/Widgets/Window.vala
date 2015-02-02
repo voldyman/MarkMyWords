@@ -152,6 +152,7 @@ public class Window : Gtk.Window {
 
     private void setup_keybindings () {
         keybindings = new Keybindings ();
+        keybindings.load ();
     }
 
     private void load_window_state () {
