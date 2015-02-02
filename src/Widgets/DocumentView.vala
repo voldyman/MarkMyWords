@@ -266,6 +266,7 @@ public class DocumentView : Gtk.ScrolledWindow {
             action = sentence_break_text
         };
 
+        bindings = new List<KBDInfo?> ();
         bindings.append (underline);
         bindings.append (bold);
         bindings.append (italic);

@@ -22,7 +22,6 @@ public class Settings : Object {
             settings = new GLib.Settings (schema_id);
         }
         this.notify.connect (handle_notify);
-
     }
 
     public virtual void load () {
@@ -44,6 +43,10 @@ public class Settings : Object {
     }
 
     private void handle_settings_changed (string key) {
+        this.notify.disconnect (handle_notify);
+        load ();
+        this.notify.connect (handle_notify);
+
         settings_changed (key);
     }
 

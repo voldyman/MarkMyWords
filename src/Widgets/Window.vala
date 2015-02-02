@@ -153,6 +153,12 @@ public class Window : Gtk.Window {
     private void setup_keybindings () {
         keybindings = new Keybindings ();
         keybindings.load ();
+        keybindings.start_monitor ();
+
+        keybindings.settings_changed.connect (() => {
+            doc.set_keybindings (keybindings);
+            print ("re loaded keybindings\n");
+        });
     }
 
     private void load_window_state () {
