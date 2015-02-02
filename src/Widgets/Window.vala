@@ -36,9 +36,11 @@ public class Window : Gtk.Window {
         this.app = app;
 
         set_application (app);
+
         setup_prefs ();
-        setup_ui ();
         setup_keybindings ();
+
+        setup_ui ();
         setup_events ();
 
         prefs.load ();
@@ -119,6 +121,7 @@ public class Window : Gtk.Window {
         box.set_position (width/2);
 
         doc = new DocumentView ();
+        doc.set_keybindings (keybindings);
         html_view = new WebKit.WebView ();
         var webkit_settings = new WebKit.Settings ();
         webkit_settings.enable_page_cache = true;

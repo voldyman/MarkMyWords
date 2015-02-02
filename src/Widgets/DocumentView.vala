@@ -1,12 +1,37 @@
+public delegate void KBDAction ();
+
+public struct KBDInfo {
+    uint keyval;
+    Gdk.ModifierType mask;
+
+    KBDAction action;
+}
 
 public class DocumentView : Gtk.ScrolledWindow {
     private Gtk.SourceView code_view;
     private Gtk.SourceBuffer code_buffer;
+    private List<KBDInfo?> bindings;
 
     public signal void changed ();
 
     public DocumentView () {
         setup_code_view ();
+
+        bindings = new List<KBDInfo?> ();
+    }
+
+    public void set_keybindings (Keybindings kbd) {
+        uint keyval;
+        Gdk.ModifierType mask;
+
+        Gtk.accelerator_parse (kbd.underline, out keyval, out mask);
+        var underline = KBDInfo () {
+            keyval = keyval,
+            mask = mask,
+            action = underline_text
+        };
+
+        bindings.append (underline);
     }
 
     public void set_text (string text) {
@@ -34,6 +59,23 @@ public class DocumentView : Gtk.ScrolledWindow {
         var style_manager = Gtk.SourceStyleSchemeManager.get_default ();
         var style = style_manager.get_scheme (id);
         code_buffer.set_style_scheme (style);
+    }
+
+    public override bool key_press_event (Gdk.EventKey ev) {
+        bool handled = false;
+
+        foreach (KBDInfo kbd in bindings) {
+            // check if the keys pressed match
+            // some value in the stored bindings
+            if ((ev.keyval == kbd.keyval) &&
+                ((ev.state & kbd.mask) != 0)) {
+
+                kbd.action ();
+                handled = true;
+            }
+        }
+
+        return handled;
     }
 
     private string get_default_scheme () {
@@ -66,5 +108,9 @@ public class DocumentView : Gtk.ScrolledWindow {
         this.set_scheme (this.get_default_scheme ());
 
         add (code_view);
+    }
+
+    private void underline_text () {
+        print ("Underlining");
     }
 }
