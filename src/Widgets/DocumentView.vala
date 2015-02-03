@@ -97,16 +97,34 @@ public class DocumentView : Gtk.ScrolledWindow {
         add (code_view);
     }
 
+    private void insert_tag_at_cursor (string tag_start, string tag_end) {
+        if (code_buffer.get_has_selection ()) {
+
+        } else {
+            code_buffer.insert_at_cursor (tag_start,
+                                          tag_start.length);
+
+            int pos = code_buffer.cursor_position;
+
+            code_buffer.insert_at_cursor (tag_end,
+                                          tag_end.length, true);
+
+            Gtk.TextIter iter;
+            code_buffer.get_iter_at_offset (out iter, pos);
+            code_buffer.place_cursor (iter);
+        }
+      }
+
     private void underline_text () {
-        message ("Underlining");
+//        insert_tag_at_cursor ("++", "++");
     }
 
     private void bold_text () {
-        message ("bold");
+//        insert_tag_at_cursor ("**", "**");
     }
 
     private void italic_text () {
-        message ("italic");
+//        insert_tag_at_cursor ("*", "*");
     }
 
     private void strike_text () {
@@ -284,6 +302,6 @@ public class DocumentView : Gtk.ScrolledWindow {
         // this won't work as
         // ctrl+shift+i is for gnome-inspector
         bindings.append (image);
-     }
+    }
 
 }
