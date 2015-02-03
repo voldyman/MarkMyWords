@@ -107,24 +107,24 @@ public class DocumentView : Gtk.ScrolledWindow {
             int pos = code_buffer.cursor_position;
 
             code_buffer.insert_at_cursor (tag_end,
-                                          tag_end.length, true);
+                                          tag_end.length);
 
             Gtk.TextIter iter;
             code_buffer.get_iter_at_offset (out iter, pos);
             code_buffer.place_cursor (iter);
-        }
+            }
       }
 
     private void underline_text () {
-//        insert_tag_at_cursor ("++", "++");
+        insert_tag_at_cursor ("++", "++");
     }
 
     private void bold_text () {
-//        insert_tag_at_cursor ("**", "**");
+        insert_tag_at_cursor ("**", "**");
     }
 
     private void italic_text () {
-//        insert_tag_at_cursor ("*", "*");
+        insert_tag_at_cursor ("*", "*");
     }
 
     private void strike_text () {
