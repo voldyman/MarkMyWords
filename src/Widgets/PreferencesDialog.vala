@@ -136,11 +136,13 @@ public class PreferencesDialog : Gtk.Window {
 
         // Stylesheet
         stylesheet_none = new Gtk.RadioButton.with_label_from_widget (null,
-            _("Do not use a stylesheet"));
+                                                                      _("Do not use a stylesheet"));
+
         stylesheet_default = new Gtk.RadioButton.with_label_from_widget (stylesheet_none,
-            _("Use the default stylesheet"));
+                                                                         _("Use the default stylesheet"));
+
         stylesheet_custom = new Gtk.RadioButton.with_label_from_widget (stylesheet_none,
-            _("Use a custom stylesheet"));
+                                                                        _("Use a custom stylesheet"));
 
         vbox.pack_start (stylesheet_none, false, false, 0);
         vbox.pack_start (stylesheet_default, false, false, 0);
@@ -150,7 +152,7 @@ public class PreferencesDialog : Gtk.Window {
         vbox.pack_start (hbox, false, false, 0);
 
         stylesheet_chooser = new Gtk.FileChooserButton (_("Choose a stylesheet"),
-            Gtk.FileChooserAction.OPEN);
+                                                        Gtk.FileChooserAction.OPEN);
 
         Gtk.FileFilter stylesheet_filter = new Gtk.FileFilter ();
         stylesheet_chooser.set_filter (stylesheet_filter);
@@ -249,6 +251,7 @@ public class PreferencesDialog : Gtk.Window {
         var style_manager = Gtk.SourceStyleSchemeManager.get_default ();
         unowned string[] scheme_ids = style_manager.get_scheme_ids ();
         Gtk.SourceStyleScheme[] schemes = {};
+
         foreach (string id in scheme_ids) {
             schemes += style_manager.get_scheme (id);
         }
