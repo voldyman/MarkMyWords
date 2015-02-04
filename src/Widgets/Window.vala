@@ -48,6 +48,7 @@ public class Window : Gtk.Window {
         if (file_modified) {
             var d = new UnsavedChangesDialog.for_quit (this);
             var result = d.run ();
+
             switch (result) {
             case UnsavedChangesResult.QUIT:
                 dont_quit = false;
