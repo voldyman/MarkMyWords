@@ -98,8 +98,16 @@ public class DocumentView : Gtk.ScrolledWindow {
     }
 
     private void insert_tag_at_cursor (string tag_start, string tag_end) {
-        if (code_buffer.get_has_selection ()) {
+        if (code_buffer.has_selection) {
+            Gtk.TextIter sel_start, sel_end;
+            code_buffer.get_selection_bounds (out sel_start, out sel_end);
 
+            var end_mark = code_buffer.create_mark (null, sel_end, true);
+
+            code_buffer.insert (ref sel_start, tag_start, tag_start.lenagth);
+
+            code_buffer.get_iter_at_mark (out sel_end, end_mark);
+            code_buffer.insert (ref sel_end, tag_end, tag_end.length);
         } else {
             code_buffer.insert_at_cursor (tag_start,
                                           tag_start.length);
@@ -128,19 +136,19 @@ public class DocumentView : Gtk.ScrolledWindow {
     }
 
     private void strike_text () {
-        message ("strike");
+        insert_tag_at_cursor ("~~", "~~");
     }
 
     private void link_text () {
-        message ("link");
+        insert_tag_at_cursor ("[", "]()");
     }
 
     private void image_text () {
-        message ("image");
+        insert_tag_at_cursor ("![", "]()");
     }
 
     private void code_text () {
-        message ("code");
+        insert_tag_at_cursor ("```", "```");
     }
 
     private void highlight_text () {
@@ -152,11 +160,12 @@ public class DocumentView : Gtk.ScrolledWindow {
     }
 
     private void ordered_list_text () {
-        message ("ordered list");
+        //TODO: add ordered list
+        insert_tag_at_cursor ("*", "");
     }
 
     private void unordered_list_text () {
-        message ("unordered_list");
+        insert_tag_at_cursor ("*", "");
     }
 
     private void blockquote_text () {
