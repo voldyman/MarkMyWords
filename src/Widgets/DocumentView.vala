@@ -10,14 +10,12 @@ public struct KBDInfo {
 public class DocumentView : Gtk.ScrolledWindow {
     private Gtk.SourceView code_view;
     private Gtk.SourceBuffer code_buffer;
-    private List<KBDInfo?> bindings;
+    private KBDInfo[] bindings;
 
     public signal void changed ();
 
     public DocumentView () {
         setup_code_view ();
-
-        bindings = new List<KBDInfo?> ();
     }
 
 
@@ -104,7 +102,7 @@ public class DocumentView : Gtk.ScrolledWindow {
 
             var end_mark = code_buffer.create_mark (null, sel_end, true);
 
-            code_buffer.insert (ref sel_start, tag_start, tag_start.lenagth);
+            code_buffer.insert (ref sel_start, tag_start, tag_start.length);
 
             code_buffer.get_iter_at_mark (out sel_end, end_mark);
             code_buffer.insert (ref sel_end, tag_end, tag_end.length);
@@ -293,24 +291,23 @@ public class DocumentView : Gtk.ScrolledWindow {
             action = sentence_break_text
         };
 
-        bindings = new List<KBDInfo?> ();
-        bindings.append (underline);
-        bindings.append (bold);
-        bindings.append (italic);
-        bindings.append (strike);
-        bindings.append (link);
-        bindings.append (code);
-        bindings.append (highlight);
-        bindings.append (task_list);
-        bindings.append (ordered_list);
-        bindings.append (unordered_list);
-        bindings.append (blockquote);
-        bindings.append (section_break);
-        bindings.append (page_break);
-        bindings.append (sentence_break);
+        bindings += underline;
+        bindings += bold;
+        bindings += italic;
+        bindings += strike;
+        bindings += link;
+        bindings += code;
+        bindings += highlight;
+        bindings += task_list;
+        bindings += ordered_list;
+        bindings += unordered_list;
+        bindings += blockquote;
+        bindings += section_break;
+        bindings += page_break;
+        bindings += sentence_break;
         // this won't work as
         // ctrl+shift+i is for gnome-inspector
-        bindings.append (image);
+        bindings += image;
     }
 
 }
