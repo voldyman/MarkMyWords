@@ -25,6 +25,9 @@ public class Menubar : IToolbar, Gtk.Toolbar {
         }
     }
     private void setup_ui () {
+        toolbar_style = Gtk.ToolbarStyle.ICONS;
+        set_icon_size (Gtk.IconSize.LARGE_TOOLBAR);
+        set_vexpand (false);
         var new_image = new Gtk.Image.from_icon_name ("document-new",
                                                       Gtk.IconSize.LARGE_TOOLBAR);
         new_button = new Gtk.ToolButton (new_image, null);

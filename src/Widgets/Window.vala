@@ -159,6 +159,7 @@ public class Window : Gtk.Window {
         icon_name = MarkMyWords.ICON_NAME;
 
         layout = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        layout.homogeneous = false;
 
         if (USE_HEADERBAR) {
             toolbar = new Toolbar ();
@@ -166,12 +167,12 @@ public class Window : Gtk.Window {
             set_titlebar (toolbar as Gtk.Widget);
         } else {
             var menubar = new Menubar (this);
-            menubar.expand = false;
             toolbar = menubar;
             layout.pack_start (menubar);
         }
 
         var box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
+        box.expand = true;
         int width;
         get_size (out width, null);
         box.set_position (width/2);
