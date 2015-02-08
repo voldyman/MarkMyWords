@@ -24,6 +24,7 @@
       <summary>The saved state of the window.</summary>
       <description>The saved state of the window.</description>
     </key>
+
     <key name="opening-x" type="i">
       <default>-1</default>
       <summary>Most recent x position of the window</summary>
@@ -79,6 +80,12 @@
       <default>0</default>
       <summary>Autosave interval</summary>
       <description>Save file automatically every n minutes</description>
+    </key>
+
+    <key name="use-headerbar" type="b">
+      <default>true</default>
+      <summary>Use headerbar</summary>
+      <description>Should the window use a headerbar or a toolbar</description>
     </key>
 
   </schema>
