@@ -30,8 +30,6 @@ public class Window : Gtk.Window {
     // we'll make it render after 0.3 seconds
     private const int TIME_TO_REFRESH = 3 * 100;
 
-    private const bool USE_HEADERBAR = false;
-
     public signal void updated ();
 
     public Window (MarkMyWordsApp app) {
@@ -101,7 +99,7 @@ public class Window : Gtk.Window {
 
     private void setup_prefs () {
         prefs = new Preferences ();
-
+        prefs.load ();
         prefs.notify["editor-font"].connect ((s, p) => {
             doc.set_font (prefs.editor_font);
         });
@@ -161,11 +159,12 @@ public class Window : Gtk.Window {
         layout = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
         layout.homogeneous = false;
 
-        if (USE_HEADERBAR) {
+        if (prefs.use_headerbar) {
             toolbar = new Toolbar ();
             toolbar.set_title (MarkMyWords.APP_NAME);
             set_titlebar (toolbar as Gtk.Widget);
         } else {
+            print ("Using menubar\n");
             var menubar = new Menubar (this);
             toolbar = menubar;
             layout.pack_start (menubar, false);
