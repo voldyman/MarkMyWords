@@ -105,8 +105,8 @@ class Toolbar : Gtk.HeaderBar, IToolbar {
 
     }
 
-    private Gtk.Image get_image_with_fallback (string icon_name,
-                                               string fallback_icon_name) {
+    public  static Gtk.Image get_image_with_fallback (string icon_name,
+                                                      string fallback_icon_name) {
         string available_icon_name;
 
         Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();

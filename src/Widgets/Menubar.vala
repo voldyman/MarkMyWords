@@ -32,17 +32,17 @@ public class Menubar : IToolbar, Gtk.Toolbar {
         new_button.set_tooltip_text (_("New file"));
 
         var open_image = new Gtk.Image.from_icon_name ("document-open",
-                                                     Gtk.IconSize.LARGE_TOOLBAR);
+                                                       Gtk.IconSize.LARGE_TOOLBAR);
         open_button = new Gtk.ToolButton (open_image, null);
         open_button.set_tooltip_text (_("Open file"));
 
         var save_image = new Gtk.Image.from_icon_name ("document-save",
-                                                     Gtk.IconSize.LARGE_TOOLBAR);
+                                                       Gtk.IconSize.LARGE_TOOLBAR);
         save_button = new Gtk.ToolButton (save_image, null);
         save_button.set_tooltip_text (_("Save file"));
 
-        var export_image = get_image_with_fallback ("document-export",
-                                                    "document-revert-rtl");
+        var export_image = Toolbar.get_image_with_fallback ("document-export",
+                                                            "document-revert-rtl");
 
         export_button = new Gtk.MenuToolButton (export_image, null);
 
@@ -58,8 +58,8 @@ public class Menubar : IToolbar, Gtk.Toolbar {
 
         export_button.set_menu (export_menu);
 
-        var settings_image = get_image_with_fallback ("open-menu",
-                                                      "preferences-system");
+        var settings_image = Toolbar.get_image_with_fallback ("open-menu",
+                                                              "preferences-system");
 
         settings_button = new Gtk.MenuToolButton (settings_image, null);
 
@@ -114,20 +114,4 @@ public class Menubar : IToolbar, Gtk.Toolbar {
         });
 
     }
-
-    private Gtk.Image get_image_with_fallback (string icon_name,
-                                               string fallback_icon_name) {
-        string available_icon_name;
-
-        Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
-
-        if (icon_theme.has_icon (icon_name)) {
-            available_icon_name = icon_name;
-        } else {
-            available_icon_name = fallback_icon_name;
-        }
-        return new Gtk.Image.from_icon_name (available_icon_name,
-                                             Gtk.IconSize.LARGE_TOOLBAR);
-    }
-
 }
