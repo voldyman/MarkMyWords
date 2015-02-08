@@ -168,7 +168,7 @@ public class Window : Gtk.Window {
         } else {
             var menubar = new Menubar (this);
             toolbar = menubar;
-            layout.pack_start (menubar);
+            layout.pack_start (menubar, false);
         }
 
         var box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
