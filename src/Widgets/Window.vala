@@ -1,8 +1,9 @@
 public class Window : Gtk.Window {
     private MarkMyWordsApp app;
+    private Gtk.Box layout;
     private DocumentView doc;
     private WebKit.WebView  html_view;
-    private Toolbar toolbar;
+    private IToolbar toolbar;
     private Preferences prefs;
     private SavedState saved_state;
 
@@ -28,6 +29,8 @@ public class Window : Gtk.Window {
     // 204 keys per minute == 0.294 seconds per key
     // we'll make it render after 0.3 seconds
     private const int TIME_TO_REFRESH = 3 * 100;
+
+    private const bool USE_HEADERBAR = false;
 
     public signal void updated ();
 
@@ -155,9 +158,18 @@ public class Window : Gtk.Window {
         set_hide_titlebar_when_maximized (false);
         icon_name = MarkMyWords.ICON_NAME;
 
-        toolbar = new Toolbar ();
-        toolbar.set_title (MarkMyWords.APP_NAME);
-        set_titlebar (toolbar);
+        layout = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+
+        if (USE_HEADERBAR) {
+            toolbar = new Toolbar ();
+            toolbar.set_title (MarkMyWords.APP_NAME);
+            set_titlebar (toolbar as Gtk.Widget);
+        } else {
+            var menubar = new Menubar (this);
+            menubar.expand = false;
+            toolbar = menubar;
+            layout.pack_start (menubar);
+        }
 
         var box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
         int width;
@@ -175,7 +187,9 @@ public class Window : Gtk.Window {
 
         doc.give_focus ();
 
-        add (box);
+        layout.pack_start (box);
+
+        add (layout);
     }
 
     private void setup_events () {

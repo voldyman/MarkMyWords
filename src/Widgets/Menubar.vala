@@ -1,41 +1,50 @@
-using Gtk;
+public class Menubar : IToolbar, Gtk.Toolbar {
+    private Gtk.Window parent_window;
+    private Gtk.ToolButton new_button;
+    private Gtk.ToolButton open_button;
+    private Gtk.ToolButton save_button;
 
-class Toolbar : Gtk.HeaderBar, IToolbar {
-    private Button new_button;
-    private Button open_button;
-    private Button save_button;
-
-    private MenuButton export_button;
+    private Gtk.MenuToolButton export_button;
     private Gtk.MenuItem export_pdf;
     private Gtk.MenuItem export_html;
     private Gtk.MenuItem export_print;
 
-    private MenuButton settings_button;
+    private Gtk.MenuToolButton settings_button;
     private Gtk.MenuItem preferences;
     private Gtk.MenuItem about;
 
-    public Toolbar () {
-        this.show_close_button = true;
+    public Menubar (Gtk.Window win) {
+        parent_window = win;
         setup_ui ();
         setup_events ();
     }
 
+    public void set_title (string title) {
+        if (parent != null) {
+            parent_window.title = title;
+        }
+    }
     private void setup_ui () {
-        new_button = new Button.from_icon_name ("document-new",
-                                                IconSize.LARGE_TOOLBAR);
+        var new_image = new Gtk.Image.from_icon_name ("document-new",
+                                                      Gtk.IconSize.LARGE_TOOLBAR);
+        new_button = new Gtk.ToolButton (new_image, null);
+
         new_button.set_tooltip_text (_("New file"));
 
-        open_button = new Button.from_icon_name ("document-open",
-                                                 IconSize.LARGE_TOOLBAR);
+        var open_image = new Gtk.Image.from_icon_name ("document-open",
+                                                     Gtk.IconSize.LARGE_TOOLBAR);
+        open_button = new Gtk.ToolButton (open_image, null);
         open_button.set_tooltip_text (_("Open file"));
 
-        save_button = new Button.from_icon_name ("document-save",
-                                                 IconSize.LARGE_TOOLBAR);
+        var save_image = new Gtk.Image.from_icon_name ("document-save",
+                                                     Gtk.IconSize.LARGE_TOOLBAR);
+        save_button = new Gtk.ToolButton (save_image, null);
         save_button.set_tooltip_text (_("Save file"));
 
-        export_button = new MenuButton ();
-        export_button.image = get_image_with_fallback ("document-export",
-                                                       "document-revert-rtl");
+        var export_image = get_image_with_fallback ("document-export",
+                                                    "document-revert-rtl");
+
+        export_button = new Gtk.MenuToolButton (export_image, null);
 
         var export_menu = new Gtk.Menu ();
         export_pdf = new Gtk.MenuItem.with_label (_("Export PDF"));
@@ -47,11 +56,12 @@ class Toolbar : Gtk.HeaderBar, IToolbar {
         export_menu.add (export_print);
         export_menu.show_all ();
 
-        export_button.set_popup (export_menu);
+        export_button.set_menu (export_menu);
 
-        settings_button = new MenuButton ();
-        settings_button.image = get_image_with_fallback ("open-menu",
-                                                         "preferences-system");
+        var settings_image = get_image_with_fallback ("open-menu",
+                                                      "preferences-system");
+
+        settings_button = new Gtk.MenuToolButton (settings_image, null);
 
         var settings_menu = new Gtk.Menu ();
         preferences = new Gtk.MenuItem.with_label (_("Preferences"));
@@ -60,14 +70,14 @@ class Toolbar : Gtk.HeaderBar, IToolbar {
         settings_menu.add (preferences);
         settings_menu.add (about);
         settings_menu.show_all ();
-        settings_button.set_popup (settings_menu);
+        settings_button.set_menu (settings_menu);
 
-        pack_start (new_button);
-        pack_start (open_button);
-        pack_start (save_button);
+        add (new_button);
+        add (open_button);
+        add (save_button);
 
-        pack_end (settings_button);
-        pack_end (export_button);
+        add (settings_button);
+        add (export_button);
     }
 
     private void setup_events () {
@@ -116,7 +126,8 @@ class Toolbar : Gtk.HeaderBar, IToolbar {
         } else {
             available_icon_name = fallback_icon_name;
         }
-        return new Image.from_icon_name (available_icon_name,
-                                         IconSize.LARGE_TOOLBAR);
+        return new Gtk.Image.from_icon_name (available_icon_name,
+                                             Gtk.IconSize.LARGE_TOOLBAR);
     }
+
 }
