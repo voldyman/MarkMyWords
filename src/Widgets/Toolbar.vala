@@ -1,6 +1,6 @@
 using Gtk;
 
-class Toolbar : Gtk.HeaderBar {
+class Toolbar : Gtk.HeaderBar, IToolbar {
     private Button new_button;
     private Button open_button;
     private Button save_button;
@@ -13,15 +13,6 @@ class Toolbar : Gtk.HeaderBar {
     private MenuButton settings_button;
     private Gtk.MenuItem preferences;
     private Gtk.MenuItem about;
-
-    public signal void new_clicked ();
-    public signal void open_clicked ();
-    public signal void save_clicked ();
-    public signal void export_html_clicked ();
-    public signal void export_pdf_clicked ();
-    public signal void export_print_clicked ();
-    public signal void preferences_clicked ();
-    public signal void about_clicked ();
 
     public Toolbar () {
         this.show_close_button = true;
@@ -114,8 +105,8 @@ class Toolbar : Gtk.HeaderBar {
 
     }
 
-    private Gtk.Image get_image_with_fallback (string icon_name,
-                                               string fallback_icon_name) {
+    public  static Gtk.Image get_image_with_fallback (string icon_name,
+                                                      string fallback_icon_name) {
         string available_icon_name;
 
         Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();

@@ -83,7 +83,9 @@ vala_precompile(VALA_C
   src/Application.vala
   src/Meta.vala
   src/Widgets/Window.vala
+  src/Widgets/IToolbar.vala
   src/Widgets/Toolbar.vala
+  src/Widgets/Menubar.vala
   src/Widgets/DocumentView.vala
   src/Widgets/PreferencesDialog.vala
   src/Widgets/UnsavedChangesDialog.vala

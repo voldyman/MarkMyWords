@@ -1,8 +1,9 @@
 public class Window : Gtk.Window {
     private MarkMyWordsApp app;
+    private Gtk.Box layout;
     private DocumentView doc;
     private WebKit.WebView  html_view;
-    private Toolbar toolbar;
+    private IToolbar toolbar;
     private Preferences prefs;
     private SavedState saved_state;
 
@@ -120,7 +121,7 @@ public class Window : Gtk.Window {
 
     private void setup_prefs () {
         prefs = new Preferences ();
-
+        prefs.load ();
         prefs.notify["editor-font"].connect ((s, p) => {
             doc.set_font (prefs.editor_font);
         });
@@ -177,11 +178,22 @@ public class Window : Gtk.Window {
         set_hide_titlebar_when_maximized (false);
         icon_name = MarkMyWords.ICON_NAME;
 
-        toolbar = new Toolbar ();
-        toolbar.set_title (MarkMyWords.APP_NAME);
-        set_titlebar (toolbar);
+        layout = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        layout.homogeneous = false;
+
+        if (prefs.use_headerbar) {
+            toolbar = new Toolbar ();
+            toolbar.set_title (MarkMyWords.APP_NAME);
+            set_titlebar (toolbar as Gtk.Widget);
+        } else {
+            print ("Using menubar\n");
+            var menubar = new Menubar (this);
+            toolbar = menubar;
+            layout.pack_start (menubar, false);
+        }
 
         var box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
+        box.expand = true;
         int width;
         get_size (out width, null);
         box.set_position (width/2);
@@ -197,7 +209,9 @@ public class Window : Gtk.Window {
 
         doc.give_focus ();
 
-        add (box);
+        layout.pack_start (box);
+
+        add (layout);
     }
 
     private void setup_events () {

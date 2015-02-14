@@ -6,7 +6,8 @@ public class Preferences : Settings {
     public bool render_syntax_highlighting { get; set; default = false; }
     public bool prefer_dark_theme { get; set; default = false; }
     public int autosave_interval { get; set; default = 0; }
-
+    public bool use_headerbar { get; set; }
+    
     public Preferences () {
         base ("org.markmywords.settings");
     }
@@ -19,5 +20,6 @@ public class Preferences : Settings {
         this.render_syntax_highlighting = settings.get_boolean ("render-syntax-highlighting");
         this.prefer_dark_theme = settings.get_boolean ("prefer-dark-theme");
         this.autosave_interval = settings.get_int ("autosave-interval");
+        this.use_headerbar = settings.get_boolean ("use-headerbar");
     }
 }
