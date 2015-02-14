@@ -60,7 +60,9 @@ public class DocumentView : Gtk.ScrolledWindow {
         // make it look pretty
         code_view.left_margin = 5;
         code_view.pixels_above_lines = 5;
-
+        // wrap text between words, we don't need to be
+        // very strict since people should be wrting text not code
+        code_view.wrap_mode = Gtk.WrapMode.WORD;
         code_view.show_line_numbers = true;
 
         this.set_scheme (this.get_default_scheme ());
