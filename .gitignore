@@ -4,3 +4,6 @@
 deps/discount/libmarkdown
 deps/discount/markdown
 deps/discount/src
+deps/discount/config.*
+deps/discount/tmp/discount-cfgcmd.txt
+
