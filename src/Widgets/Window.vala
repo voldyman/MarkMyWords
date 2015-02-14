@@ -1,14 +1,26 @@
 public class Window : Gtk.Window {
     private MarkMyWordsApp app;
+    private Gtk.Box layout;
     private DocumentView doc;
     private WebKit.WebView  html_view;
-    private Toolbar toolbar;
+    private IToolbar toolbar;
     private Preferences prefs;
     private SavedState saved_state;
     private Keybindings keybindings;
 
     // current state
-    private File? current_file = null;
+    private File? _current_file;
+    private File? current_file {
+        get {
+            return _current_file;
+        }
+        set {
+            _current_file = value;
+            add_filename_to_title ();
+        }
+        default = null;
+    }
+
     private bool file_modified = false;
     private FileMonitor? file_monitor = null;
 
@@ -52,6 +64,7 @@ public class Window : Gtk.Window {
         if (file_modified) {
             var d = new UnsavedChangesDialog.for_quit (this);
             var result = d.run ();
+
             switch (result) {
             case UnsavedChangesResult.QUIT:
                 dont_quit = false;
@@ -88,21 +101,82 @@ public class Window : Gtk.Window {
 
     public void reset_file () {
         remove_timer ();
-        current_file = null;
-        doc.reset ();
-
-        file_modified = false;
         file_monitor.cancel ();
         file_monitor = null;
 
+        file_modified = false;
+        current_file = null;
+        doc.reset ();
+
         // update html output
         update_html_view ();
+    }
+
+    private void add_filename_to_title () {
+        string title = MarkMyWords.APP_NAME;
+
+        if (current_file != null) {
+            var file = (!) current_file;
+            title = "%s - %s".printf (file.get_basename (),
+                                          MarkMyWords.APP_NAME);
+        }
+        toolbar.set_title (title);
     }
 
     private void setup_prefs () {
         prefs = new Preferences ();
         prefs.settings_changed.connect (settings_changed);
         prefs.start_monitor ();
+        prefs.load ();
+
+        prefs.notify["editor-font"].connect ((s, p) => {
+            doc.set_font (prefs.editor_font);
+        });
+
+        prefs.notify["editor-scheme"].connect ((s, p) => {
+            doc.set_scheme (prefs.editor_scheme);
+        });
+
+        prefs.notify["render-stylesheet"].connect ((s, p) => {
+            var uri = prefs.render_stylesheet_uri;
+            if (uri == "") {
+                uri = get_data_file_uri ("github-markdown.css");
+            }
+
+            var file = File.new_for_uri (uri);
+            FileHandler.load_content_from_file.begin (file, (obj, res) => {
+                render_stylesheet = FileHandler.load_content_from_file.end (res);
+                update_html_view ();
+            });
+        });
+
+        prefs.notify["render-syntax-highlighting"].connect ((s, p) => {
+            if (prefs.render_syntax_highlighting) {
+                if (syntax_stylesheet == null) {
+                    var css_uri = get_data_file_uri ("github-syntax.css");
+                    var css_file = File.new_for_uri (css_uri);
+                    syntax_stylesheet = FileHandler.load_content_from_file_sync (css_file);
+                }
+                if (syntax_script == null) {
+                    var js_uri = get_data_file_uri ("highlight.pack.js");
+                    var js_file = File.new_for_uri (js_uri);
+                    syntax_script = FileHandler.load_content_from_file_sync (js_file);
+
+                    // Escape </script> tag
+                    syntax_script = syntax_script.replace("</script>", "\\<\\/script\\>");
+                }
+            }
+
+            update_html_view ();
+        });
+
+        prefs.notify["prefer-dark-theme"].connect ((s, p) => {
+            Gtk.Settings.get_default().set("gtk-application-prefer-dark-theme", prefs.prefer_dark_theme);
+        });
+
+        prefs.notify["autosave-interval"].connect ((s, p) => {
+            schedule_autosave_timer ();
+        });
     }
 
     private void setup_ui () {
@@ -111,11 +185,22 @@ public class Window : Gtk.Window {
         set_hide_titlebar_when_maximized (false);
         icon_name = MarkMyWords.ICON_NAME;
 
-        toolbar = new Toolbar ();
-        toolbar.set_title (MarkMyWords.APP_NAME);
-        set_titlebar (toolbar);
+        layout = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        layout.homogeneous = false;
+
+        if (prefs.use_headerbar) {
+            toolbar = new Toolbar ();
+            toolbar.set_title (MarkMyWords.APP_NAME);
+            set_titlebar (toolbar as Gtk.Widget);
+        } else {
+            print ("Using menubar\n");
+            var menubar = new Menubar (this);
+            toolbar = menubar;
+            layout.pack_start (menubar, false);
+        }
 
         var box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
+        box.expand = true;
         int width;
         get_size (out width, null);
         box.set_position (width/2);
@@ -132,7 +217,9 @@ public class Window : Gtk.Window {
 
         doc.give_focus ();
 
-        add (box);
+        layout.pack_start (box);
+
+        add (layout);
     }
 
     private void setup_events () {
@@ -182,7 +269,8 @@ public class Window : Gtk.Window {
     }
 
     private void save_window_state () {
-        var window_state = get_state ();
+        // get Gdk.Window then get it's state
+        var window_state = get_window ().get_state ();
 
         if ((window_state & Gdk.WindowState.MAXIMIZED) != 0) {
             saved_state.window_state = WindowState.MAXIMIZED;
@@ -287,6 +375,17 @@ public class Window : Gtk.Window {
             if (ctrl_pressed) {
                 handled_event = true;
                 close_action ();
+            }
+            break;
+
+        case Gdk.Key.F11:
+            // get Gdk.Window's state
+            var window_state = get_window ().get_state ();
+
+            if ((window_state & Gdk.WindowState.FULLSCREEN) != 0) {
+                unfullscreen ();
+            } else {
+                fullscreen ();
             }
             break;
         }
