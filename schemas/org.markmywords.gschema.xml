@@ -5,6 +5,7 @@
     <value nick="Fullscreen" value="2" />
   </enum>
 
+  <!-- Settings for saved state  -->
   <schema id="org.markmywords.saved-state" path="/org/markmywords/saved-state/" gettext-domain="markmywords">
 
     <key name="window-width" type="i">
@@ -38,6 +39,8 @@
     </key>
 
   </schema>
+
+  <!-- General app settings -->
   <schema id="org.markmywords.settings" path="/org/markmywords/settings/" gettext-domain="markmywords">
 
     <key name="editor-font" type="s">
@@ -81,7 +84,16 @@
       <summary>Autosave interval</summary>
       <description>Save file automatically every n minutes</description>
     </key>
+
+    <key name="use-headerbar" type="b">
+      <default>true</default>
+      <summary>Use headerbar</summary>
+      <description>Should the window use a headerbar or a toolbar</description>
+    </key>
+
   </schema>
+
+  <!-- Settings for key bindings  -->
   <schema id="org.markmywords.keybindings" path="/org/markmywords/keybindings/" gettext-domain="markmywords">
 
     <key name="underline" type="s">
@@ -172,12 +184,6 @@
       <default><![CDATA['<Ctrl><Shift><Alt>Enter']]></default>
       <summary>Insert the underline tag</summary>
       <description>This shortcut allows the use to insert an underline tag</description>
-    </key>
-    
-    <key name="use-headerbar" type="b">
-      <default>true</default>
-      <summary>Use headerbar</summary>
-      <description>Should the window use a headerbar or a toolbar</description>
     </key>
 
   </schema>
