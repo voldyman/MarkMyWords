@@ -54,8 +54,6 @@ public class Window : Gtk.Window {
 
         setup_ui ();
         setup_events ();
-
-        prefs.load ();
     }
 
     public override bool delete_event (Gdk.EventAny ev) {
@@ -125,58 +123,8 @@ public class Window : Gtk.Window {
 
     private void setup_prefs () {
         prefs = new Preferences ();
-        prefs.settings_changed.connect (settings_changed);
-        prefs.start_monitor ();
         prefs.load ();
-
-        prefs.notify["editor-font"].connect ((s, p) => {
-            doc.set_font (prefs.editor_font);
-        });
-
-        prefs.notify["editor-scheme"].connect ((s, p) => {
-            doc.set_scheme (prefs.editor_scheme);
-        });
-
-        prefs.notify["render-stylesheet"].connect ((s, p) => {
-            var uri = prefs.render_stylesheet_uri;
-            if (uri == "") {
-                uri = get_data_file_uri ("github-markdown.css");
-            }
-
-            var file = File.new_for_uri (uri);
-            FileHandler.load_content_from_file.begin (file, (obj, res) => {
-                render_stylesheet = FileHandler.load_content_from_file.end (res);
-                update_html_view ();
-            });
-        });
-
-        prefs.notify["render-syntax-highlighting"].connect ((s, p) => {
-            if (prefs.render_syntax_highlighting) {
-                if (syntax_stylesheet == null) {
-                    var css_uri = get_data_file_uri ("github-syntax.css");
-                    var css_file = File.new_for_uri (css_uri);
-                    syntax_stylesheet = FileHandler.load_content_from_file_sync (css_file);
-                }
-                if (syntax_script == null) {
-                    var js_uri = get_data_file_uri ("highlight.pack.js");
-                    var js_file = File.new_for_uri (js_uri);
-                    syntax_script = FileHandler.load_content_from_file_sync (js_file);
-
-                    // Escape </script> tag
-                    syntax_script = syntax_script.replace("</script>", "\\<\\/script\\>");
-                }
-            }
-
-            update_html_view ();
-        });
-
-        prefs.notify["prefer-dark-theme"].connect ((s, p) => {
-            Gtk.Settings.get_default().set("gtk-application-prefer-dark-theme", prefs.prefer_dark_theme);
-        });
-
-        prefs.notify["autosave-interval"].connect ((s, p) => {
-            schedule_autosave_timer ();
-        });
+        prefs.settings_changed.connect (settings_changed);
     }
 
     private void setup_ui () {
@@ -313,7 +261,7 @@ public class Window : Gtk.Window {
                 update_html_view ();
             });
             break;
-            
+
         case "render-syntax-highlighting":
             if (prefs.render_syntax_highlighting) {
                 if (syntax_stylesheet == null) {
