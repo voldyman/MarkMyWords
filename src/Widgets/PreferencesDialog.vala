@@ -1,4 +1,4 @@
-public class PreferencesDialog : Gtk.Window {
+public class PreferencesDialog : Gtk.Dialog {
     private Preferences prefs;
 
     private Gtk.FontButton font_btn;
@@ -39,7 +39,6 @@ public class PreferencesDialog : Gtk.Window {
         int margin = 10;
 
         var vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, margin);
-        this.add (vbox);
 
         Gtk.Box hbox;
 
@@ -186,6 +185,8 @@ public class PreferencesDialog : Gtk.Window {
         syntax_highlighting_btn.set_active (prefs.render_syntax_highlighting);
 
         hbox.pack_start (syntax_highlighting_btn, false, true, 0);
+
+        get_content_area ().add (vbox);
     }
 
     private void setup_events () {
