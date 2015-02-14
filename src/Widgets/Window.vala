@@ -123,11 +123,10 @@ public class Window : Gtk.Window {
         prefs = new Preferences ();
         prefs.load ();
         prefs.notify["editor-font"].connect ((s, p) => {
-            string font = prefs.editor_font;
-            if (font == "") {
-                font = new GLib.Settings ("org.gnome.desktop.interface").get_string ("monospace-font-name");
+            if (prefs.editor_font == "") {
+                prefs.editor_font = new GLib.Settings ("org.gnome.desktop.interface").get_string ("monospace-font-name");
             }
-            doc.set_font (font);
+            doc.set_font (prefs.editor_font);
         });
 
         prefs.notify["editor-scheme"].connect ((s, p) => {
