@@ -97,12 +97,12 @@ public class Window : Gtk.Window {
 
     public void reset_file () {
         remove_timer ();
-        current_file = null;
-        doc.reset ();
-
-        file_modified = false;
         file_monitor.cancel ();
         file_monitor = null;
+
+        file_modified = false;
+        current_file = null;
+        doc.reset ();
 
         // update html output
         update_html_view ();
