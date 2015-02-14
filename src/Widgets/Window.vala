@@ -7,7 +7,18 @@ public class Window : Gtk.Window {
     private SavedState saved_state;
 
     // current state
-    private File? current_file = null;
+    private File? _current_file;
+    private File? current_file {
+        get {
+            return _current_file;
+        }
+        set {
+            _current_file = value;
+            add_filename_to_title ();
+        }
+        default = null;
+    }
+
     private bool file_modified = false;
     private FileMonitor? file_monitor = null;
 
@@ -94,6 +105,17 @@ public class Window : Gtk.Window {
 
         // update html output
         update_html_view ();
+    }
+
+    private void add_filename_to_title () {
+        string title = MarkMyWords.APP_NAME;
+
+        if (current_file != null) {
+            var file = (!) current_file;
+            title = "%s - %s".printf (file.get_basename (),
+                                          MarkMyWords.APP_NAME);
+        }
+        toolbar.set_title (title);
     }
 
     private void setup_prefs () {
