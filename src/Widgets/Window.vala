@@ -575,8 +575,10 @@ public class Window : Gtk.Window {
 
         var op = new WebKit.PrintOperation (html_view);
         var settings = new Gtk.PrintSettings ();
-        settings.set_printer (dgettext ("gtk30", "Print to File"));
+        settings[Gtk.PRINT_SETTINGS_PRINTER] = dgettext ("gtk30", "Print to File");
+
         settings[Gtk.PRINT_SETTINGS_OUTPUT_URI] = "file://" + file.get_path ();
+        settings[Gtk.PRINT_SETTINGS_OUTPUT_FILE_FORMAT] = "pdf";
         op.set_print_settings (settings);
 
         op.print ();
