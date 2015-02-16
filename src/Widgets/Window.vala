@@ -189,7 +189,6 @@ public class Window : Gtk.Window {
             toolbar.set_title (MarkMyWords.APP_NAME);
             set_titlebar (toolbar as Gtk.Widget);
         } else {
-            print ("Using menubar\n");
             var menubar = new Menubar (this);
             toolbar = menubar;
             layout.pack_start (menubar, false);
@@ -585,7 +584,10 @@ public class Window : Gtk.Window {
 
     private void export_print_action () {
         var op = new WebKit.PrintOperation (html_view);
-        op.run_dialog (this);
+        var response = op.run_dialog (this);
+        if (response == WebKit.PrintOperationResponse.PRINT) {
+            op.print ();
+        }
     }
 
     private void preferences_action () {
