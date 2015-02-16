@@ -229,8 +229,8 @@ public class PreferencesDialog : Gtk.Dialog {
         });
         stylesheet_default.toggled.connect((b) => {
             if (stylesheet_default.get_active ()) {
-                prefs.render_stylesheet = true;
                 prefs.render_stylesheet_uri = "";
+                prefs.render_stylesheet = true;
             }
         });
         stylesheet_custom.toggled.connect((b) => {
@@ -239,8 +239,8 @@ public class PreferencesDialog : Gtk.Dialog {
             stylesheet_chooser.set_sensitive (activated);
         });
         stylesheet_chooser.selection_changed.connect (() => {
-            prefs.render_stylesheet = true;
             prefs.render_stylesheet_uri = stylesheet_chooser.get_uri ();
+            prefs.render_stylesheet = true;
         });
 
         syntax_highlighting_btn.toggled.connect((b) => {
