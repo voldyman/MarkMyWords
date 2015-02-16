@@ -575,10 +575,13 @@ public class Window : Gtk.Window {
 
         var op = new WebKit.PrintOperation (html_view);
         var settings = new Gtk.PrintSettings ();
-        settings[Gtk.PRINT_SETTINGS_PRINTER] = dgettext ("gtk30", "Print to File");
+        settings.set (Gtk.PRINT_SETTINGS_PRINTER,
+                      dgettext ("gtk30", "Print to File"));
 
-        settings[Gtk.PRINT_SETTINGS_OUTPUT_URI] = "file://" + file.get_path ();
-        settings[Gtk.PRINT_SETTINGS_OUTPUT_FILE_FORMAT] = "pdf";
+        settings.set (Gtk.PRINT_SETTINGS_OUTPUT_URI,
+                  "file://" + file.get_path ());
+
+        settings.set (Gtk.PRINT_SETTINGS_OUTPUT_FILE_FORMAT, "pdf");
         op.set_print_settings (settings);
 
         op.print ();
@@ -587,8 +590,10 @@ public class Window : Gtk.Window {
     private void export_print_action () {
         var op = new WebKit.PrintOperation (html_view);
         var response = op.run_dialog (this);
+
         if (response == WebKit.PrintOperationResponse.PRINT) {
             op.print ();
+            update_html_view ();
         }
     }
 
