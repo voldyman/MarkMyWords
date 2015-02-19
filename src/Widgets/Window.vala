@@ -499,7 +499,9 @@ public class Window : Gtk.Window {
     private void update_html_view () {
         string text = doc.get_text ();
         string html = process (text);
-        html_view.load_html (html, null);
+        // TODO: find a better way to show local images
+        // reference: https://lists.webkit.org/pipermail/webkit-dev/2009-May/007658.html
+        html_view.load_html (html, "file://");
         updated ();
     }
 
