@@ -9,8 +9,16 @@ public class DocumentView : Gtk.ScrolledWindow {
         setup_code_view ();
     }
 
-    public void set_text (string text) {
+    public void set_text (string text, bool new_file = false) {
+        if (new_file) {
+            code_buffer.changed.disconnect (trigger_changed);
+        }
+
         code_buffer.text = text;
+
+        if (new_file) {
+            code_buffer.changed.connect (trigger_changed);
+        }
     }
 
     public void reset () {
@@ -45,6 +53,10 @@ public class DocumentView : Gtk.ScrolledWindow {
         }
     }
 
+    private void trigger_changed () {
+        changed ();
+    }
+
     private void setup_code_view () {
         // need to setup language
         var manager = Gtk.SourceLanguageManager.get_default ();
@@ -53,9 +65,7 @@ public class DocumentView : Gtk.ScrolledWindow {
 
         code_view = new Gtk.SourceView.with_buffer (code_buffer);
 
-        code_buffer.changed.connect (() => {
-            changed ();
-        });
+        code_buffer.changed.connect (trigger_changed);
         
         // make it look pretty
         code_view.left_margin = 5;

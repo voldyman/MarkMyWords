@@ -84,7 +84,7 @@ public class Window : Gtk.Window {
     public void use_file (File? file, bool should_monitor = true) {
         if (file != null) {
             FileHandler.load_content_from_file.begin (file, (obj, res) => {
-                doc.set_text (FileHandler.load_content_from_file.end (res));
+                doc.set_text (FileHandler.load_content_from_file.end (res), true);
                 update_html_view ();
                 if (should_monitor) {
                     setup_file_monitor ();
@@ -359,6 +359,7 @@ public class Window : Gtk.Window {
 
     private void update_state () {
         file_modified = true;
+        print ("Fiel modified\n");
     }
 
     private void schedule_autosave_timer () {
