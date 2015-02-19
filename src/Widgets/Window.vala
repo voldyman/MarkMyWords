@@ -359,7 +359,6 @@ public class Window : Gtk.Window {
 
     private void update_state () {
         file_modified = true;
-        print ("Fiel modified\n");
     }
 
     private void schedule_autosave_timer () {
