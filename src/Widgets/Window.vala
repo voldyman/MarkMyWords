@@ -136,7 +136,7 @@ public class Window : Gtk.Window {
         prefs.notify["render-stylesheet"].connect ((s, p) => {
             var uri = prefs.render_stylesheet_uri;
             if (uri == "") {
-                uri = get_data_file_uri ("github-markdown.css");
+                uri = get_data_file_uri ("default-view.css");
             }
 
             var file = File.new_for_uri (uri);
