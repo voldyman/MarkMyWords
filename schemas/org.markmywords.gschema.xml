@@ -47,7 +47,7 @@
     </key>
 
     <key name="editor-scheme" type="s">
-      <default>""</default>
+      <default>"solarized-light"</default>
       <summary>Editor scheme</summary>
       <description>The editor's color scheme</description>
     </key>
