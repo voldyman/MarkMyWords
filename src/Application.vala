@@ -20,9 +20,14 @@ public class MarkMyWordsApp : Gtk.Application {
         return res;
     }
 
-    private void new_window () {
+    private void new_window (File? open_file = null) {
         var window = new Window (this);
         add_window (window);
+
+        if (open_file != null) {
+            window.use_file (open_file);
+        }
+
         window.show_all ();
     }
 
@@ -32,10 +37,12 @@ public class MarkMyWordsApp : Gtk.Application {
         context.add_group (Gtk.get_option_group (true));
 
         string[] args = command_line.get_arguments ();
+        int unclaimed_args;
 
         try {
             unowned string[] tmp = args;
             context.parse (ref tmp);
+            unclaimed_args = tmp.length - 1;
         } catch (Error e) {
             stdout.printf ("%s: Error: %s \n", "MarkMyWords", e.message);
             return 0;
@@ -47,7 +54,13 @@ public class MarkMyWordsApp : Gtk.Application {
         } else if (show_about_dialog) {
             show_about ();
         } else {
-            new_window ();
+            File? file = null;
+            if (unclaimed_args > 0) {
+                message (args[unclaimed_args]);
+                file = File.new_for_commandline_arg (args[unclaimed_args]);
+            }
+
+            new_window (file);
         }
 
         return 0;
