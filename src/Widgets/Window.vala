@@ -1,11 +1,10 @@
-public class Window : Gtk.Window {
+public class Window : Gtk.ApplicationWindow {
     private MarkMyWordsApp app;
-    private Gtk.Box layout;
     private DocumentView doc;
-    private WebKit.WebView  html_view;
-    private IToolbar toolbar;
+    private WebKit.WebView html_view;
     private Preferences prefs;
     private SavedState saved_state;
+    private Gtk.HeaderBar? headerbar = null;
 
     // current state
     private File? _current_file;
@@ -43,10 +42,26 @@ public class Window : Gtk.Window {
 
     public signal void updated ();
 
+    // actions
+    private const GLib.ActionEntry win_actions[] =
+    {
+        { "new", new_action },
+        { "open", open_action },
+        { "save", save_action },
+
+        { "pdf", export_pdf_action },
+        { "html", export_html_action },
+        { "print", export_print_action },
+
+        { "preferences", preferences_action },
+        { "about", about_action }
+    };
+
     public Window (MarkMyWordsApp app) {
         this.app = app;
 
-        set_application (app);
+        add_action_entries (win_actions, this);
+
         setup_prefs ();
         setup_ui ();
         setup_events ();
@@ -116,7 +131,10 @@ public class Window : Gtk.Window {
             title = "%s - %s".printf (file.get_basename (),
                                           MarkMyWords.APP_NAME);
         }
-        toolbar.set_title (title);
+        if (headerbar != null)
+            headerbar.set_title (title);
+        else
+            set_title (title);
     }
 
     private void setup_prefs () {
@@ -179,23 +197,34 @@ public class Window : Gtk.Window {
         load_window_state ();
         window_position = Gtk.WindowPosition.CENTER;
         set_hide_titlebar_when_maximized (false);
-        icon_name = MarkMyWords.ICON_NAME;
-
-        layout = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-        layout.homogeneous = false;
-
-        if (prefs.use_headerbar) {
-            toolbar = new Toolbar ();
-            toolbar.set_title (MarkMyWords.APP_NAME);
-            set_titlebar (toolbar as Gtk.Widget);
-        } else {
-            var menubar = new Menubar (this);
-            toolbar = menubar;
-            layout.pack_start (menubar, false);
-        }
 
         var box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
         box.expand = true;
+
+        Gtk.Builder builder;
+        if (prefs.use_headerbar) {
+            builder = new Gtk.Builder.from_resource ("/com/voldyman/markmywords/ui/headerbar.ui");
+            headerbar = (Gtk.HeaderBar) builder.get_object ("headerbar");
+            headerbar.set_title (MarkMyWords.APP_NAME);
+
+            set_titlebar ((Gtk.Widget) headerbar);
+            add (box);
+        } else {
+            builder = new Gtk.Builder.from_resource ("/com/voldyman/markmywords/ui/toolbar.ui");
+            Gtk.Box layout = (Gtk.Box) builder.get_object ("layout");
+
+            layout.pack_start (box, false);
+            add (layout);
+        }
+
+        Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
+        Gtk.Image fallback1 = (Gtk.Image) builder.get_object ("fallback1");
+        Gtk.Image fallback2 = (Gtk.Image) builder.get_object ("fallback2");
+        if (!icon_theme.has_icon ("open-menu"))
+            fallback1.set_from_icon_name ("preferences-system", Gtk.IconSize.LARGE_TOOLBAR);
+        if (!icon_theme.has_icon ("document-export"))
+            fallback2.set_from_icon_name ("document-revert-rtl", Gtk.IconSize.LARGE_TOOLBAR);
+
         int width;
         get_size (out width, null);
         box.set_position (width/2);
@@ -211,24 +240,13 @@ public class Window : Gtk.Window {
 
         doc.give_focus ();
 
-        layout.pack_start (box);
-
-        add (layout);
+        box.show_all ();
     }
 
     private void setup_events () {
         this.key_press_event.connect (key_pressed);
         doc.changed.connect (schedule_timer);
         doc.changed.connect (update_state);
-
-        toolbar.new_clicked.connect (new_action);
-        toolbar.open_clicked.connect (open_action);
-        toolbar.save_clicked.connect (save_action);
-        toolbar.export_html_clicked.connect (export_html_action);
-        toolbar.export_pdf_clicked.connect (export_pdf_action);
-        toolbar.export_print_clicked.connect (export_print_action);
-        toolbar.preferences_clicked.connect (preferences_action);
-        toolbar.about_clicked.connect (about_action);
     }
 
     private void load_window_state () {
@@ -401,7 +419,7 @@ public class Window : Gtk.Window {
         return false;
     }
 
-    private string get_data_file_uri (string filename) {
+    private string get_data_file_uri (string filename) {    // TODO use GResource
         File file = File.new_for_path ("../data/assets/"+filename);
         if (file.query_exists ()) {
             return file.get_uri ();

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/com/voldyman/markmywords/ui">
+    <file preprocess="xml-stripblanks" alias="headerbar.ui">./headerbar.ui</file>
+    <file preprocess="xml-stripblanks" alias="toolbar.ui">./toolbar.ui</file>
+    <!-- <file alias="markmywords.css">./mark-my-words.css</file> -->
+  </gresource>
+  <!-- <gresource prefix="/com/voldyman/markmywords/gtk">
+    <file preprocess="xml-stripblanks" alias="menus.ui">./menus.ui</file>autoloads the menu "app-menu", and other things
+  </gresource> -->
+</gresources>

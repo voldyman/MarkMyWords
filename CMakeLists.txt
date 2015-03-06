@@ -56,6 +56,17 @@ link_directories(${CMAKE_BINARY_DIR})
 include_directories(${CMAKE_BINARY_DIR})
 include_directories(${CMAKE_SOURCE_DIR})
 
+include("${CMAKE_SOURCE_DIR}/cmake/gresource.cmake")
+find_package (gresources REQUIRED)
+gresource (
+  "${CMAKE_SOURCE_DIR}/resources" # resource dir
+  "mark-my-words.gresource.xml"   # resource file
+  "${CMAKE_BINARY_DIR}/src"       # output dir
+  generated_resource
+)
+
+set (generated_resources ${generated_resource})
+
 find_package(Vala REQUIRED)
 include(ValaVersion)
 ensure_vala_version("0.26.0" MINIMUM)
@@ -83,9 +94,6 @@ vala_precompile(VALA_C
   src/Application.vala
   src/Meta.vala
   src/Widgets/Window.vala
-  src/Widgets/IToolbar.vala
-  src/Widgets/Toolbar.vala
-  src/Widgets/Menubar.vala
   src/Widgets/DocumentView.vala
   src/Widgets/PreferencesDialog.vala
   src/Widgets/UnsavedChangesDialog.vala
@@ -103,9 +111,11 @@ PACKAGES
 OPTIONS
   --vapidir=${CMAKE_SOURCE_DIR}/vapi
   --thread
+  --gresources=${CMAKE_SOURCE_DIR}/resources/mark-my-words.gresource.xml
+  --target-glib=2.38 # FIXME check before, and target the same version
 )
 
-add_executable(mark-my-words ${VALA_C})
+add_executable(mark-my-words ${VALA_C} ${generated_resources})
 
 target_link_libraries(mark-my-words
   ${DISCOUNT_LIB_PATH})

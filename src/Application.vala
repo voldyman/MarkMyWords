@@ -9,6 +9,11 @@ public class MarkMyWordsApp : Gtk.Application {
 
     }
 
+    protected override void startup () {
+        base.startup ();
+        Gtk.Window.set_default_icon_name (MarkMyWords.ICON_NAME);
+    }
+
     public override void activate () {
         new_window ();
     }
@@ -28,7 +33,7 @@ public class MarkMyWordsApp : Gtk.Application {
             window.use_file (open_file);
         }
 
-        window.show_all ();
+        window.present ();
     }
 
     private int _command_line (ApplicationCommandLine command_line) {
