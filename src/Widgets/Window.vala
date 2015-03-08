@@ -218,12 +218,12 @@ public class Window : Gtk.ApplicationWindow {
         }
 
         Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
-        Gtk.Image fallback1 = (Gtk.Image) builder.get_object ("fallback1");
-        Gtk.Image fallback2 = (Gtk.Image) builder.get_object ("fallback2");
+        Gtk.Image menu_icon = (Gtk.Image) builder.get_object ("menu-icon");
+        Gtk.Image export_icon = (Gtk.Image) builder.get_object ("export-icon");
         if (!icon_theme.has_icon ("open-menu"))
-            fallback1.set_from_icon_name ("preferences-system", Gtk.IconSize.LARGE_TOOLBAR);
+            menu_icon.set_from_icon_name ("preferences-system", Gtk.IconSize.LARGE_TOOLBAR);
         if (!icon_theme.has_icon ("document-export"))
-            fallback2.set_from_icon_name ("document-revert-rtl", Gtk.IconSize.LARGE_TOOLBAR);
+            export_icon.set_from_icon_name ("document-revert-rtl", Gtk.IconSize.LARGE_TOOLBAR);
 
         int width;
         get_size (out width, null);
