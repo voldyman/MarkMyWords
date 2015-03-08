@@ -40,7 +40,6 @@ pkg_check_modules(DEPS REQUIRED
   gtksourceview-3.0>=3.10
   gthread-2.0
   gtk+-3.0>=3.9.10
-  libxml2-utils
 )
 
 add_definitions(${DEPS_CFLAGS})
