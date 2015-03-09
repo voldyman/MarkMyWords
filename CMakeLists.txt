@@ -60,7 +60,7 @@ find_package (gresources REQUIRED)
 gresource (
   "${CMAKE_SOURCE_DIR}/resources" # resource dir
   "mark-my-words.gresource.xml"   # resource file
-  "${CMAKE_BINARY_DIR}/src"       # output dir
+  "${CMAKE_BINARY_DIR}/"          # output dir
   generated_resource
 )
 
