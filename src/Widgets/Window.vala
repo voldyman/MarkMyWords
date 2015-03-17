@@ -142,7 +142,8 @@ public class Window : Gtk.ApplicationWindow {
         prefs.load ();
         prefs.notify["editor-font"].connect ((s, p) => {
             if (prefs.editor_font == "") {
-                prefs.editor_font = new GLib.Settings ("org.gnome.desktop.interface").get_string ("monospace-font-name");
+                var isettings = new GLib.Settings ("org.gnome.desktop.interface");
+                prefs.editor_font = isettings.get_string ("monospace-font-name");
             }
             doc.set_font (prefs.editor_font);
         });
