@@ -26,6 +26,7 @@ Author: Akshay Shekher
 sudo apt-get install libwebkit2gtk-3.0-dev 
 sudo apt-get install libgtksourceview-3.0-dev
 git clone https://github.com/voldyman/MarkMyWords.git
+cd MarkMyWords
 mkdir build && cd build 
 cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr ../
 make
