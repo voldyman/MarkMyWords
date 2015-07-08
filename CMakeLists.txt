@@ -133,3 +133,6 @@ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/mark-my-words.desktop
 file(GLOB assets "${CMAKE_CURRENT_SOURCE_DIR}/data/assets/*")
 install (FILES ${assets}
   DESTINATION ${DATADIR}/mark-my-words/)
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/data/mark-my-words.svg"
+  DESTINATION ${DATADIR}/pixmaps/)
+
