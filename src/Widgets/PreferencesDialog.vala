@@ -20,10 +20,11 @@ public class PreferencesDialog : Gtk.Dialog {
 
     private Gtk.ListStore stylesheet_store;
     private Gtk.ComboBox stylesheet_box;
-    private Gtk.Label stylesheet_label;
     private Gtk.FileChooserButton stylesheet_chooser;
 
-    private Gtk.CheckButton syntax_highlighting_btn;
+    private Gtk.Switch syntax_highlighting_switch;
+
+    private Gtk.Revealer csb_revealer;
 
     private const string DEFAULT_STYLESHEET = "https://github.com/sindresorhus/github-markdown-css/raw/gh-pages/github-markdown.css";
 
@@ -60,13 +61,6 @@ public class PreferencesDialog : Gtk.Dialog {
         main_layout.pack_start (stack);
 
         get_content_area ().add (main_layout);
-        /*
-        var vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, margin);
-
-        Gtk.Box hbox;
-
-        // RENDERING
-        */
     }
 
     private void setup_events () {
@@ -110,33 +104,30 @@ public class PreferencesDialog : Gtk.Dialog {
 
             GLib.Value state_value;
             stylesheet_store.get_value (iter, 1, out state_value);
-            StylesheetState state = (StylesheetState) state_value;
+            StylesheetState state = (StylesheetState) state_value.get_int ();
 
-        });
-/*
-        stylesheet_none.toggled.connect((b) => {
-            if (stylesheet_none.get_active ()) {
+            switch (state) {
+            case StylesheetState.NONE:
                 prefs.render_stylesheet = false;
-            }
-        });
-        stylesheet_default.toggled.connect((b) => {
-            if (stylesheet_default.get_active ()) {
+                csb_revealer.set_reveal_child (false);
+                break;
+
+            case StylesheetState.CUSTOM:
+                csb_revealer.set_reveal_child (true);
+                break;
+
+            case StylesheetState.DEFAULT:
                 prefs.render_stylesheet = true;
                 prefs.render_stylesheet_uri = "";
+                csb_revealer.set_reveal_child (false);
+                break;
             }
         });
-        stylesheet_custom.toggled.connect((b) => {
-            var activated = stylesheet_custom.get_active ();
-            stylesheet_label.set_sensitive (activated);
-            stylesheet_chooser.set_sensitive (activated);
-        });
-        stylesheet_chooser.selection_changed.connect (() => {
-            prefs.render_stylesheet = true;
-            prefs.render_stylesheet_uri = stylesheet_chooser.get_uri ();
-        });
-*/
-        syntax_highlighting_btn.toggled.connect((b) => {
-            prefs.render_syntax_highlighting = syntax_highlighting_btn.get_active ();
+
+        syntax_highlighting_switch.state_set.connect((state) => {
+            prefs.render_syntax_highlighting = !syntax_highlighting_switch.get_state ();
+
+            return false;
         });
     }
 
@@ -225,23 +216,30 @@ public class PreferencesDialog : Gtk.Dialog {
 
         // Stylesheet
         stylesheet_store = new Gtk.ListStore (2, typeof (string), typeof (int));
-		Gtk.TreeIter iter;
+        Gtk.TreeIter iter;
 
-		stylesheet_store.append (out iter);
-		stylesheet_store.set (iter, 0, _("Do not use a stylesheet"), 1, StylesheetState.NONE);
+        stylesheet_store.append (out iter);
+        stylesheet_store.set (iter, 0, _("Do not use a stylesheet"), 1, StylesheetState.NONE);
 
-		stylesheet_store.append (out iter);
-		stylesheet_store.set (iter, 0, _("Use the default stylesheet"), 1, StylesheetState.DEFAULT);
+        stylesheet_store.append (out iter);
+        stylesheet_store.set (iter, 0, _("Use the default stylesheet"), 1, StylesheetState.DEFAULT);
 
-		stylesheet_store.append (out iter);
-		stylesheet_store.set (iter, 0, _("Use a custom stylesheet"), 1, StylesheetState.CUSTOM);
+        stylesheet_store.append (out iter);
+        stylesheet_store.set (iter, 0, _("Use a custom stylesheet"), 1, StylesheetState.CUSTOM);
 
-		stylesheet_box = new Gtk.ComboBox.with_model (stylesheet_store);
+        stylesheet_box = new Gtk.ComboBox.with_model (stylesheet_store);
 
         var text_renderer = new Gtk.CellRendererText ();
         stylesheet_box.pack_start (text_renderer, true);
         stylesheet_box.add_attribute (text_renderer, "text", 0);
-        stylesheet_box.active = 0;
+
+        if (!prefs.render_stylesheet) {
+            stylesheet_box.active = 0;
+        } else if (prefs.render_stylesheet_uri == "") {
+            stylesheet_box.active = 1;
+        } else {
+            stylesheet_box.active = 2;
+        }
 
         var stylesheet_label = new Gtk.Label (_("Style Sheet"));
 
@@ -250,37 +248,25 @@ public class PreferencesDialog : Gtk.Dialog {
         row++;
 
         var choose_stylesheet_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 5);
-        layout.attach (choose_stylesheet_box, 1, row, 1, 1);
-        row++;
-
         stylesheet_chooser = new Gtk.FileChooserButton (_("Choose a stylesheet"),
                                                         Gtk.FileChooserAction.OPEN);
 
         Gtk.FileFilter stylesheet_filter = new Gtk.FileFilter ();
         stylesheet_chooser.set_filter (stylesheet_filter);
         stylesheet_filter.add_mime_type ("text/css");
-/*
-
-        if (!prefs.render_stylesheet) {
-            stylesheet_none.set_active (true);
-        } else if (prefs.render_stylesheet_uri == "") {
-            stylesheet_default.set_active (true);
-        } else {
-            stylesheet_custom.set_active (true);
-            stylesheet_chooser.set_uri (prefs.render_stylesheet_uri);
-        }
-
-        if (!stylesheet_custom.get_active ()) {
-            stylesheet_label.set_sensitive (false);
-            stylesheet_chooser.set_sensitive (false);
-        }
-*/
-        stylesheet_chooser.visible = false;
         choose_stylesheet_box.pack_start (stylesheet_chooser);
-        
-        // Dark theme
+
+        csb_revealer = new Gtk.Revealer ();
+        csb_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
+        csb_revealer.add (choose_stylesheet_box);
+        csb_revealer.set_reveal_child (false);
+
+        layout.attach (csb_revealer, 1, row, 1, 1);
+        row++;
+
         var syntax_highlighting_label = new Gtk.Label (_("Enable syntax highlighting"));
-        var syntax_highlighting_switch = new Gtk.Switch ();
+
+        syntax_highlighting_switch = new Gtk.Switch ();
         syntax_highlighting_switch.active = prefs.render_syntax_highlighting;
 
         layout.attach (syntax_highlighting_label, 0, row, 1, 1);
