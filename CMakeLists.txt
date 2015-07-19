@@ -70,6 +70,8 @@ find_package(Vala REQUIRED)
 include(ValaVersion)
 ensure_vala_version("0.26.0" MINIMUM)
 
+message("Building with Vala version ${VALA_VERSION}")
+
 set (DATADIR "${CMAKE_INSTALL_PREFIX}/share")
 set (PKGDATADIR "${DATADIR}/markmywords")
 set (GETTEXT_PACKAGE "markmywords")
