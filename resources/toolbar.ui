@@ -47,36 +47,9 @@
         <child>
           <object class="GtkMenuToolButton">
             <property name="visible">True</property>
-            <!-- <property name="tooltip-text" translatable="yes">Preferences</property>
-            <property name="use-underline">True</property> -->
-            <property name="icon-widget">fallback1</property>
-            <child type="menu">
-              <object class="GtkMenu">
-                <property name="visible">True</property>
-                <child>
-                  <object class="GtkMenuItem">
-                    <property name="visible">True</property>
-                    <property name="label" translatable="yes">Preferences</property>
-                    <property name="action-name">win.preferences</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkMenuItem">
-                    <property name="visible">True</property>
-                    <property name="label" translatable="yes">About</property>
-                    <property name="action-name">win.about</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkMenuToolButton">
-            <property name="visible">True</property>
             <!-- <property name="tooltip-text" translatable="yes">Export</property>
-            <property name="use-underline">True</property> -->
-            <property name="icon-widget">fallback2</property>
+                 <property name="use-underline">True</property> -->
+            <property name="icon-name">document-export</property>
             <child type="menu">
               <object class="GtkMenu">
                 <property name="visible">True</property>
@@ -99,6 +72,33 @@
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">Print</property>
                     <property name="action-name">win.print</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+                <child>
+          <object class="GtkMenuToolButton">
+            <property name="visible">True</property>
+            <!-- <property name="tooltip-text" translatable="yes">Preferences</property>
+            <property name="use-underline">True</property> -->
+            <property name="icon-name">open-menu</property>
+            <child type="menu">
+              <object class="GtkMenu">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkMenuItem">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Preferences</property>
+                    <property name="action-name">win.preferences</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuItem">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">About</property>
+                    <property name="action-name">win.about</property>
                   </object>
                 </child>
               </object>
