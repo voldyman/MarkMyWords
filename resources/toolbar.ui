@@ -15,10 +15,10 @@
     <property name="visible">True</property>
     <property name="orientation">vertical</property>
     <child>
-      <object class="GtkToolbar">
+      <object class="GtkToolbar" id="">
         <property name="visible">True</property>
         <child>
-          <object class="GtkToolButton">
+          <object class="GtkToolButton" id="newFileToolButton">
             <property name="visible">True</property>
             <property name="tooltip-text" translatable="yes">New file</property>
             <property name="use-underline">True</property>
@@ -27,7 +27,7 @@
           </object>
         </child>
         <child>
-          <object class="GtkToolButton">
+          <object class="GtkToolButton" id="openFileToolButton">
             <property name="visible">True</property>
             <property name="tooltip-text" translatable="yes">Open file</property>
             <property name="use-underline">True</property>
@@ -36,7 +36,7 @@
           </object>
         </child>
         <child>
-          <object class="GtkToolButton">
+          <object class="GtkToolButton" id="saveFileToolButton">
             <property name="visible">True</property>
             <property name="tooltip-text" translatable="yes">Save file</property>
             <property name="use-underline">True</property>
@@ -45,23 +45,23 @@
           </object>
         </child>
         <child>
-          <object class="GtkMenuToolButton">
+          <object class="GtkMenuToolButton" id="prefToolButton">
             <property name="visible">True</property>
             <!-- <property name="tooltip-text" translatable="yes">Preferences</property>
             <property name="use-underline">True</property> -->
             <property name="icon-widget">fallback1</property>
             <child type="menu">
-              <object class="GtkMenu">
+              <object class="GtkMenu" id="prefMenu">
                 <property name="visible">True</property>
                 <child>
-                  <object class="GtkMenuItem">
+                  <object class="GtkMenuItem" id="prefMenuItem">
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">Preferences</property>
                     <property name="action-name">win.preferences</property>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkMenuItem">
+                  <object class="GtkMenuItem" id="aboutMenuItem">
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">About</property>
                     <property name="action-name">win.about</property>
@@ -72,30 +72,30 @@
           </object>
         </child>
         <child>
-          <object class="GtkMenuToolButton">
+          <object class="GtkMenuToolButton" id="exportMenuButton">
             <property name="visible">True</property>
             <!-- <property name="tooltip-text" translatable="yes">Export</property>
             <property name="use-underline">True</property> -->
             <property name="icon-widget">fallback2</property>
             <child type="menu">
-              <object class="GtkMenu">
+              <object class="GtkMenu" id="exportSubMenu">
                 <property name="visible">True</property>
                 <child>
-                  <object class="GtkMenuItem">
+                  <object class="GtkMenuItem" id="exportPDFItem">
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">Export PDF</property>
                     <property name="action-name">win.pdf</property>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkMenuItem">
+                  <object class="GtkMenuItem" id="exportHTMLItem">
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">Export HTML</property>
                     <property name="action-name">win.html</property>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkMenuItem">
+                  <object class="GtkMenuItem" id="printItem">
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">Print</property>
                     <property name="action-name">win.print</property>
