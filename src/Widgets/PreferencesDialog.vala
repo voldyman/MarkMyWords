@@ -92,10 +92,9 @@ public class PreferencesDialog : Gtk.Dialog {
             prefs.autosave_interval = (int) autosave_spin.get_value ();
         });
 
-        dark_theme_switch.state_set.connect((state) => {
-            prefs.prefer_dark_theme = !dark_theme_switch.get_state ();
-            // let the signal bubble down
-            return false;
+        // can't use Gtk.Switch::state as it's not supported on gtk+-3.10
+        dark_theme_switch.notify["active"].connect(() => {
+            prefs.prefer_dark_theme = dark_theme_switch.get_active ();
         });
 
         stylesheet_box.changed.connect (() => {
@@ -124,10 +123,9 @@ public class PreferencesDialog : Gtk.Dialog {
             }
         });
 
-        syntax_highlighting_switch.state_set.connect((state) => {
-            prefs.render_syntax_highlighting = !syntax_highlighting_switch.get_state ();
-
-            return false;
+        // can't use Gtk.Switch::state as it's not supported on gtk+-3.10
+        syntax_highlighting_switch.notify["active"].connect((state) => {
+            prefs.render_syntax_highlighting = syntax_highlighting_switch.get_active ();
         });
     }
 
