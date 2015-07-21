@@ -45,7 +45,7 @@
           </object>
         </child>
         <child>
-          <object class="GtkMenuToolButton">
+          <object class="GtkMenuToolButton" id="export-menu">
             <property name="visible">True</property>
             <!-- <property name="tooltip-text" translatable="yes">Export</property>
                  <property name="use-underline">True</property> -->
@@ -79,7 +79,7 @@
           </object>
         </child>
                 <child>
-          <object class="GtkMenuToolButton">
+          <object class="GtkMenuToolButton" id="pref-menu">
             <property name="visible">True</property>
             <!-- <property name="tooltip-text" translatable="yes">Preferences</property>
             <property name="use-underline">True</property> -->
