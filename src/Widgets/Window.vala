@@ -219,8 +219,8 @@ public class Window : Gtk.ApplicationWindow {
         }
 
         Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
-        var pref_menu = (Gtk.MenuToolButton) builder.get_object ("pref-menu");
-        var export_menu = (Gtk.MenuToolButton) builder.get_object ("export-menu");
+        var pref_menu = (Gtk.MenuToolButton) builder.get_object ("prefMenu");
+        var export_menu = (Gtk.MenuToolButton) builder.get_object ("exportMenu");
 
         Gtk.Image menu_icon = (Gtk.Image) builder.get_object ("menu-icon");
         Gtk.Image export_icon = (Gtk.Image) builder.get_object ("export-icon");

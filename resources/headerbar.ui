@@ -5,14 +5,14 @@
     <property name="visible">True</property>
     <property name="show-close-button">True</property>
     <child>
-      <object class="GtkButton">
+      <object class="GtkButton" id="newFileButton">
         <property name="visible">True</property>
         <property name="tooltip-text" translatable="yes">New file</property>
         <property name="use-underline">True</property>
         <property name="action-name">win.new</property>
         <style><class name="image-button"/></style>
         <child>
-          <object class="GtkImage">
+          <object class="GtkImage" id="newFileIcon">
             <property name="icon-name">document-new</property>
             <property name="visible">True</property>
             <property name="icon-size">3</property>
@@ -21,14 +21,14 @@
       </object>
     </child>
     <child>
-      <object class="GtkButton">
+      <object class="GtkButton" id="openFileButton">
         <property name="visible">True</property>
         <property name="tooltip-text" translatable="yes">Open file</property>
         <property name="use-underline">True</property>
         <property name="action-name">win.open</property>
         <style><class name="image-button"/></style>
         <child>
-          <object class="GtkImage">
+          <object class="GtkImage" id="openFileIcon">
             <property name="icon-name">document-open</property>
             <property name="visible">True</property>
             <property name="icon-size">3</property>
@@ -37,14 +37,14 @@
       </object>
     </child>
     <child>
-      <object class="GtkButton">
+      <object class="GtkButton" id="saveFileButton">
         <property name="visible">True</property>
         <property name="tooltip-text" translatable="yes">Save file</property>
         <property name="use-underline">True</property>
         <property name="action-name">win.save</property>
         <style><class name="image-button"/></style>
         <child>
-          <object class="GtkImage">
+          <object class="GtkImage" id="saveFileIcon">
             <property name="icon-name">document-save</property>
             <property name="visible">True</property>
             <property name="icon-size">3</property>
@@ -53,7 +53,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkMenuButton">
+      <object class="GtkMenuButton" id="prefMenuButton">
         <property name="visible">True</property>
         <!-- <property name="tooltip-text" translatable="yes">Preferences</property>
         <property name="use-underline">True</property> -->
@@ -72,7 +72,7 @@
         </menu>
         <style><class name="image-button"/></style>
         <child>
-          <object class="GtkImage" id="menu-icon">
+          <object class="GtkImage" id="menuIcon">
             <property name="icon-name">open-menu</property>
             <property name="visible">True</property>
             <property name="icon-size">3</property>
@@ -84,7 +84,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkMenuButton">
+      <object class="GtkMenuButton" id="exportMenuButton">
         <property name="visible">True</property>
         <!-- <property name="tooltip-text" translatable="yes">Export</property>
         <property name="use-underline">True</property> -->
@@ -107,7 +107,7 @@
         </menu>
         <style><class name="image-button"/></style>
         <child>
-          <object class="GtkImage" id="export-icon">
+          <object class="GtkImage" id="exportIcon">
             <property name="icon-name">document-export</property>
             <property name="visible">True</property>
             <property name="icon-size">3</property>
