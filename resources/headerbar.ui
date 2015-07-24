@@ -72,7 +72,7 @@
         </menu>
         <style><class name="image-button"/></style>
         <child>
-          <object class="GtkImage" id="menu-icon">
+          <object class="GtkImage" id="menuIcon">
             <property name="icon-name">open-menu</property>
             <property name="visible">True</property>
             <property name="icon-size">3</property>
@@ -107,7 +107,7 @@
         </menu>
         <style><class name="image-button"/></style>
         <child>
-          <object class="GtkImage" id="export-icon">
+          <object class="GtkImage" id="exportIcon">
             <property name="icon-name">document-export</property>
             <property name="visible">True</property>
             <property name="icon-size">3</property>
