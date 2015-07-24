@@ -4,5 +4,5 @@ namespace MarkMyWords {
     const string APP_ID = "com.voldy.mark-my-words";
     const string APP_VERSION = Constants.VERSION;
 
-    const string ICON_NAME = "accessories-text-editor";
+    const string ICON_NAME = "mark-my-words";
 }

@@ -35,6 +35,5 @@ public class Keybindings : Settings {
         this.section_break = settings.get_string ("section-break");
         this.page_break = settings.get_string ("page-break");
         this.sentence_break = settings.get_string ("sentence-break");
-
     }
 }

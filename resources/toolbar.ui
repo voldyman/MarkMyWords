@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.10"/>
+  <object class="GtkImage" id="menuIcon">
+    <property name="icon-name">open-menu</property>
+    <property name="visible">True</property>
+    <property name="icon-size">3</property>
+  </object>
+  <object class="GtkImage" id="exportIcon">
+    <property name="icon-name">document-export</property>
+    <property name="visible">True</property>
+    <property name="icon-size">3</property>
+  </object>
+  <object class="GtkBox" id="layout">
+    <property name="visible">True</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkToolbar" id="">
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkToolButton" id="newFileToolButton">
+            <property name="visible">True</property>
+            <property name="tooltip-text" translatable="yes">New file</property>
+            <property name="use-underline">True</property>
+            <property name="action-name">win.new</property>
+            <property name="icon-name">document-new</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkToolButton" id="openFileToolButton">
+            <property name="visible">True</property>
+            <property name="tooltip-text" translatable="yes">Open file</property>
+            <property name="use-underline">True</property>
+            <property name="action-name">win.open</property>
+            <property name="icon-name">document-open</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkToolButton" id="saveFileToolButton">
+            <property name="visible">True</property>
+            <property name="tooltip-text" translatable="yes">Save file</property>
+            <property name="use-underline">True</property>
+            <property name="action-name">win.save</property>
+            <property name="icon-name">document-save</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkMenuToolButton" id="exportMenuButton">
+            <property name="visible">True</property>
+            <!-- <property name="tooltip-text" translatable="yes">Export</property>
+                 <property name="use-underline">True</property> -->
+            <property name="icon-name">document-export</property>
+            <child type="menu">
+              <object class="GtkMenu" id="exportMenu">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkMenuItem" id="exportPDFMenuItem">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Export PDF</property>
+                    <property name="action-name">win.pdf</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuItem" id="exportHTMLMenuItem">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Export HTML</property>
+                    <property name="action-name">win.html</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuItem" id="printMenuItem">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Print</property>
+                    <property name="action-name">win.print</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkMenuToolButton" id="prefMenu">
+            <property name="visible">True</property>
+            <!-- <property name="tooltip-text" translatable="yes">Preferences</property>
+            <property name="use-underline">True</property> -->
+            <property name="icon-name">open-menu</property>
+            <child type="menu">
+              <object class="GtkMenu" id="prefSubMenu">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkMenuItem" id="prefMenuItem">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Preferences</property>
+                    <property name="action-name">win.preferences</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuItem" id="aboutMenuItem">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">About</property>
+                    <property name="action-name">win.about</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

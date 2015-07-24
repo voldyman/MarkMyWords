@@ -18,9 +18,16 @@ public class DocumentView : Gtk.ScrolledWindow {
         setup_code_view ();
     }
 
+    public void set_text (string text, bool new_file = false) {
+        if (new_file) {
+            code_buffer.changed.disconnect (trigger_changed);
+        }
 
-    public void set_text (string text) {
         code_buffer.text = text;
+
+        if (new_file) {
+            code_buffer.changed.connect (trigger_changed);
+        }
     }
 
     public void reset () {
@@ -53,10 +60,13 @@ public class DocumentView : Gtk.ScrolledWindow {
             // check if the keys pressed match
             // some value in the stored bindings
             if ((ev.keyval == kbd.keyval) &&
-                ((ev.state & kbd.mask) != 0)) {
+                ((ev.state & kbd.mask) == kbd.mask)) {
 
                 kbd.action ();
                 handled = true;
+
+				// exit the loop
+				break;
             }
         }
 
@@ -72,6 +82,10 @@ public class DocumentView : Gtk.ScrolledWindow {
         }
     }
 
+    private void trigger_changed () {
+        changed ();
+    }
+
     private void setup_code_view () {
         // need to setup language
         var manager = Gtk.SourceLanguageManager.get_default ();
@@ -80,14 +94,14 @@ public class DocumentView : Gtk.ScrolledWindow {
 
         code_view = new Gtk.SourceView.with_buffer (code_buffer);
 
-        code_buffer.changed.connect (() => {
-            changed ();
-        });
+        code_buffer.changed.connect (trigger_changed);
 
         // make it look pretty
         code_view.left_margin = 5;
         code_view.pixels_above_lines = 5;
-
+        // wrap text between words, we don't need to be
+        // very strict since people should be wrting text not code
+        code_view.wrap_mode = Gtk.WrapMode.WORD;
         code_view.show_line_numbers = true;
 
         this.set_scheme (this.get_default_scheme ());
@@ -154,10 +168,11 @@ public class DocumentView : Gtk.ScrolledWindow {
     }
 
     private void task_list_text () {
-        message ("task_list");
+        print ("task_list\n");
     }
 
     private void ordered_list_text () {
+		print ("ordered list\n");
         //TODO: add ordered list
         insert_tag_at_cursor ("*", "");
     }

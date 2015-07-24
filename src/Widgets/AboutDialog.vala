@@ -11,7 +11,7 @@ public class AboutDialog : Gtk.AboutDialog {
 
     private void setup_content () {
         program_name = MarkMyWords.APP_NAME;
-        logo_icon_name = "accessories-text-editor";
+        logo_icon_name = MarkMyWords.ICON_NAME;
         
         comments = "A text editor that allows you to easily format your" +
                    "text using the markdown markup langauge.";
@@ -21,7 +21,6 @@ public class AboutDialog : Gtk.AboutDialog {
 
         authors = { "<a href='http://tripent.net'>Akshay Shekher</a>",
                     "<a href='mailto://contact@emersion.fr'>Emersion</a>"};
-
     }
 
     private void response_handler (int response) {

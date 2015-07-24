@@ -1,6 +1,6 @@
 public class Preferences : Settings {
     public string editor_font { get; set; default = ""; }
-    public string editor_scheme { get; set; default = ""; }
+    public string editor_scheme { get; set; }
     public bool render_stylesheet { get; set; default = true; }
     public string render_stylesheet_uri { get; set; default = ""; }
     public bool render_syntax_highlighting { get; set; default = false; }

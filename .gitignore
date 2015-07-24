@@ -1,6 +1,7 @@
 *.o
 *.a
 *.log
+build
 deps/discount/libmarkdown
 deps/discount/markdown
 deps/discount/src

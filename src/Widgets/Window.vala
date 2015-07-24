@@ -1,12 +1,11 @@
-public class Window : Gtk.Window {
+public class Window : Gtk.ApplicationWindow {
     private MarkMyWordsApp app;
-    private Gtk.Box layout;
     private DocumentView doc;
-    private WebKit.WebView  html_view;
-    private IToolbar toolbar;
+    private WebKit.WebView html_view;
     private Preferences prefs;
     private SavedState saved_state;
     private Keybindings keybindings;
+    private Gtk.HeaderBar? headerbar = null;
 
     // current state
     private File? _current_file;
@@ -44,10 +43,26 @@ public class Window : Gtk.Window {
 
     public signal void updated ();
 
+    // actions
+    private const GLib.ActionEntry win_actions[] =
+    {
+        { "new", new_action },
+        { "open", open_action },
+        { "save", save_action },
+
+        { "pdf", export_pdf_action },
+        { "html", export_html_action },
+        { "print", export_print_action },
+
+        { "preferences", preferences_action },
+        { "about", about_action }
+    };
+
     public Window (MarkMyWordsApp app) {
         this.app = app;
 
         set_application (app);
+        add_action_entries (win_actions, this);
 
         setup_prefs ();
         setup_keybindings ();
@@ -86,7 +101,7 @@ public class Window : Gtk.Window {
     public void use_file (File? file, bool should_monitor = true) {
         if (file != null) {
             FileHandler.load_content_from_file.begin (file, (obj, res) => {
-                doc.set_text (FileHandler.load_content_from_file.end (res));
+                doc.set_text (FileHandler.load_content_from_file.end (res), true);
                 update_html_view ();
                 if (should_monitor) {
                     setup_file_monitor ();
@@ -118,37 +133,111 @@ public class Window : Gtk.Window {
             title = "%s - %s".printf (file.get_basename (),
                                           MarkMyWords.APP_NAME);
         }
-        toolbar.set_title (title);
+        if (headerbar != null)
+            headerbar.set_title (title);
+        else
+            set_title (title);
     }
 
     private void setup_prefs () {
         prefs = new Preferences ();
         prefs.load ();
-        prefs.settings_changed.connect (settings_changed);
+
+        prefs.notify["editor-font"].connect ((s, p) => {
+            if (prefs.editor_font == "") {
+                var isettings = new GLib.Settings ("org.gnome.desktop.interface");
+                prefs.editor_font = isettings.get_string ("monospace-font-name");
+            }
+            doc.set_font (prefs.editor_font);
+        });
+
+        prefs.notify["editor-scheme"].connect ((s, p) => {
+            doc.set_scheme (prefs.editor_scheme);
+        });
+
+        prefs.notify["render-stylesheet"].connect ((s, p) => {
+            var uri = prefs.render_stylesheet_uri;
+            if (uri == "") {
+                uri = get_data_file_uri ("default-view.css");
+            }
+
+            var file = File.new_for_uri (uri);
+            FileHandler.load_content_from_file.begin (file, (obj, res) => {
+                render_stylesheet = FileHandler.load_content_from_file.end (res);
+                update_html_view ();
+            });
+        });
+
+        prefs.notify["render-syntax-highlighting"].connect ((s, p) => {
+            if (prefs.render_syntax_highlighting) {
+                if (syntax_stylesheet == null) {
+                    var css_uri = get_data_file_uri ("github-syntax.css");
+                    var css_file = File.new_for_uri (css_uri);
+                    syntax_stylesheet = FileHandler.load_content_from_file_sync (css_file);
+                }
+                if (syntax_script == null) {
+                    var js_uri = get_data_file_uri ("highlight.pack.js");
+                    var js_file = File.new_for_uri (js_uri);
+                    syntax_script = FileHandler.load_content_from_file_sync (js_file);
+
+                    // Escape </script> tag
+                    syntax_script = syntax_script.replace("</script>", "\\<\\/script\\>");
+                }
+            }
+
+            update_html_view ();
+        });
+
+        prefs.notify["prefer-dark-theme"].connect ((s, p) => {
+            Gtk.Settings.get_default().set("gtk-application-prefer-dark-theme", prefs.prefer_dark_theme);
+        });
+
+        prefs.notify["autosave-interval"].connect ((s, p) => {
+            schedule_autosave_timer ();
+        });
     }
 
     private void setup_ui () {
         load_window_state ();
         window_position = Gtk.WindowPosition.CENTER;
         set_hide_titlebar_when_maximized (false);
-        icon_name = MarkMyWords.ICON_NAME;
-
-        layout = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-        layout.homogeneous = false;
-
-        if (prefs.use_headerbar) {
-            toolbar = new Toolbar ();
-            toolbar.set_title (MarkMyWords.APP_NAME);
-            set_titlebar (toolbar as Gtk.Widget);
-        } else {
-            print ("Using menubar\n");
-            var menubar = new Menubar (this);
-            toolbar = menubar;
-            layout.pack_start (menubar, false);
-        }
 
         var box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
         box.expand = true;
+
+        Gtk.Builder builder;
+        if (prefs.use_headerbar) {
+            builder = new Gtk.Builder.from_resource ("/com/voldyman/markmywords/ui/headerbar.ui");
+            headerbar = (Gtk.HeaderBar) builder.get_object ("headerbar");
+            headerbar.set_title (MarkMyWords.APP_NAME);
+
+            set_titlebar ((Gtk.Widget) headerbar);
+            add (box);
+        } else {
+            builder = new Gtk.Builder.from_resource ("/com/voldyman/markmywords/ui/toolbar.ui");
+            Gtk.Box layout = (Gtk.Box) builder.get_object ("layout");
+
+            layout.pack_start (box, false);
+            add (layout);
+        }
+
+        Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
+        var pref_menu = (Gtk.MenuToolButton) builder.get_object ("prefMenu");
+        var export_menu = (Gtk.MenuToolButton) builder.get_object ("exportMenu");
+
+        Gtk.Image menu_icon = (Gtk.Image) builder.get_object ("menu-icon");
+        Gtk.Image export_icon = (Gtk.Image) builder.get_object ("export-icon");
+
+        if (!icon_theme.has_icon ("open-menu")) {
+            menu_icon.set_from_icon_name ("preferences-system", Gtk.IconSize.LARGE_TOOLBAR);
+            pref_menu.icon_name = "preferences-system";
+        }
+
+        if (!icon_theme.has_icon ("document-export")) {
+            export_icon.set_from_icon_name ("document-revert-rtl", Gtk.IconSize.LARGE_TOOLBAR);
+            export_menu.icon_name = "document-revert-rtl";
+        }
+
         int width;
         get_size (out width, null);
         box.set_position (width/2);
@@ -165,24 +254,13 @@ public class Window : Gtk.Window {
 
         doc.give_focus ();
 
-        layout.pack_start (box);
-
-        add (layout);
+        box.show_all ();
     }
 
     private void setup_events () {
         this.key_press_event.connect (key_pressed);
         doc.changed.connect (schedule_timer);
         doc.changed.connect (update_state);
-
-        toolbar.new_clicked.connect (new_action);
-        toolbar.open_clicked.connect (open_action);
-        toolbar.save_clicked.connect (save_action);
-        toolbar.export_html_clicked.connect (export_html_action);
-        toolbar.export_pdf_clicked.connect (export_pdf_action);
-        toolbar.export_print_clicked.connect (export_print_action);
-        toolbar.preferences_clicked.connect (preferences_action);
-        toolbar.about_clicked.connect (about_action);
     }
 
     private void setup_keybindings () {
@@ -420,7 +498,7 @@ public class Window : Gtk.Window {
         return false;
     }
 
-    private string get_data_file_uri (string filename) {
+    private string get_data_file_uri (string filename) {    // TODO use GResource
         File file = File.new_for_path ("../data/assets/"+filename);
         if (file.query_exists ()) {
             return file.get_uri ();
@@ -518,7 +596,9 @@ public class Window : Gtk.Window {
     private void update_html_view () {
         string text = doc.get_text ();
         string html = process (text);
-        html_view.load_html (html, null);
+        // TODO: find a better way to show local images
+        // reference: https://lists.webkit.org/pipermail/webkit-dev/2009-May/007658.html
+        html_view.load_html (html, "file://");
         updated ();
     }
 
@@ -594,8 +674,13 @@ public class Window : Gtk.Window {
 
         var op = new WebKit.PrintOperation (html_view);
         var settings = new Gtk.PrintSettings ();
-        settings.set_printer (dgettext ("gtk30", "Print to File"));
-        settings[Gtk.PRINT_SETTINGS_OUTPUT_URI] = "file://" + file.get_path ();
+        settings.set (Gtk.PRINT_SETTINGS_PRINTER,
+                      dgettext ("gtk30", "Print to File"));
+
+        settings.set (Gtk.PRINT_SETTINGS_OUTPUT_URI,
+                  "file://" + file.get_path ());
+
+        settings.set (Gtk.PRINT_SETTINGS_OUTPUT_FILE_FORMAT, "pdf");
         op.set_print_settings (settings);
 
         op.print ();
@@ -603,7 +688,12 @@ public class Window : Gtk.Window {
 
     private void export_print_action () {
         var op = new WebKit.PrintOperation (html_view);
-        op.run_dialog (this);
+        var response = op.run_dialog (this);
+
+        if (response == WebKit.PrintOperationResponse.PRINT) {
+            op.print ();
+            update_html_view ();
+        }
     }
 
     private void preferences_action () {
