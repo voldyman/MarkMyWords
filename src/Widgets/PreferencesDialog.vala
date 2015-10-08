@@ -210,6 +210,7 @@ public class PreferencesDialog : Gtk.Dialog {
         layout.margin = 10;
         layout.row_spacing = 12;
         layout.column_spacing = 9;
+        layout.halign = Gtk.Align.CENTER;
         int row = 0;
 
         // Stylesheet
@@ -217,13 +218,13 @@ public class PreferencesDialog : Gtk.Dialog {
         Gtk.TreeIter iter;
 
         stylesheet_store.append (out iter);
-        stylesheet_store.set (iter, 0, _("Do not use a stylesheet"), 1, StylesheetState.NONE);
+        stylesheet_store.set (iter, 0, _("None"), 1, StylesheetState.NONE);
 
         stylesheet_store.append (out iter);
-        stylesheet_store.set (iter, 0, _("Use the default stylesheet"), 1, StylesheetState.DEFAULT);
+        stylesheet_store.set (iter, 0, _("Default"), 1, StylesheetState.DEFAULT);
 
         stylesheet_store.append (out iter);
-        stylesheet_store.set (iter, 0, _("Use a custom stylesheet"), 1, StylesheetState.CUSTOM);
+        stylesheet_store.set (iter, 0, _("Custom"), 1, StylesheetState.CUSTOM);
 
         stylesheet_box = new Gtk.ComboBox.with_model (stylesheet_store);
 
