@@ -40,7 +40,6 @@ public class Window : Gtk.ApplicationWindow {
     // we'll make it render after 0.3 seconds
     private const int TIME_TO_REFRESH = 3 * 100;
 
-    private Gdk.Display display;
     private Gtk.Clipboard clipboard;
 
     public signal void updated ();
@@ -202,8 +201,7 @@ public class Window : Gtk.ApplicationWindow {
         load_window_state ();
         window_position = Gtk.WindowPosition.CENTER;
         set_hide_titlebar_when_maximized (false);
-        display = get_display();
-        clipboard = Gtk.Clipboard.get_for_display(display, Gdk.SELECTION_CLIPBOARD);
+        clipboard = Gtk.Clipboard.get_for_display(get_display(), Gdk.SELECTION_CLIPBOARD);
 
 
         var box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
