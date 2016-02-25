@@ -540,6 +540,19 @@ public class Window : Gtk.ApplicationWindow {
         return html;
     }
 
+    private string process_selection (string raw_mk) {
+        string processed_mk;
+        process_frontmatter (raw_mk, out processed_mk);
+
+        var mkd = new Markdown.Document (processed_mk.data);
+        mkd.compile ();
+
+        string result;
+        mkd.get_document (out result);
+
+        return result;
+    }
+
     private void update_html_view () {
         string text = doc.get_text ();
         string html = process (text);
@@ -598,7 +611,7 @@ public class Window : Gtk.ApplicationWindow {
 
     private void copy_html_action () {
         string text = doc.get_selected_text ();
-        string html = process (text);
+        string html = process_selection (text);
 
         try {
             clipboard.set_text (html, -1);
