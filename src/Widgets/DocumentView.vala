@@ -33,7 +33,6 @@ public class DocumentView : Gtk.ScrolledWindow {
         var start = Gtk.TextIter();
         var end = Gtk.TextIter();
         code_view.buffer.get_selection_bounds(out start, out end);
-        stdout.printf(code_view.buffer.get_text(start, end, true));
         return code_view.buffer.get_text(start, end, true);
     }
 
