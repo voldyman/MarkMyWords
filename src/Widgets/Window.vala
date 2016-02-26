@@ -512,7 +512,7 @@ public class Window : Gtk.ApplicationWindow {
         return map;
     }
 
-    private string process (string raw_mk) {
+    private string process (string raw_mk, bool has_enclosing_tags=true) {
         string processed_mk;
         process_frontmatter (raw_mk, out processed_mk);
 
@@ -522,34 +522,28 @@ public class Window : Gtk.ApplicationWindow {
         string result;
         mkd.get_document (out result);
 
-        string html = "<html><head>";
-        if (prefs.render_stylesheet) {
-            html += "<style>"+render_stylesheet+"</style>";
+        string html = "";
+        if (has_enclosing_tags) {
+            html += "<html><head>";
+            if (prefs.render_stylesheet) {
+                html += "<style>"+render_stylesheet+"</style>";
+            }
+            if (prefs.render_syntax_highlighting) {
+                html += "<style>"+syntax_stylesheet+"</style>";
+                html += "<script>"+syntax_script+"</script>";
+                html += "<script>hljs.initHighlightingOnLoad();</script>";
+            }
+
+            html += "</head><body><div class=\"markdown-body\">";
         }
-        if (prefs.render_syntax_highlighting) {
-            html += "<style>"+syntax_stylesheet+"</style>";
-            html += "<script>"+syntax_script+"</script>";
-            html += "<script>hljs.initHighlightingOnLoad();</script>";
-        }
-        html += "</head><body><div class=\"markdown-body\">";
         html += result;
-        html += "</div></body></html>";
+        if (has_enclosing_tags) {
+            html += "</div></body></html>";
+        }
 
         return html;
     }
 
-    private string process_selection (string raw_mk) {
-        string processed_mk;
-        process_frontmatter (raw_mk, out processed_mk);
-
-        var mkd = new Markdown.Document (processed_mk.data);
-        mkd.compile ();
-
-        string result;
-        mkd.get_document (out result);
-
-        return result;
-    }
 
     private void update_html_view () {
         string text = doc.get_text ();
@@ -609,7 +603,7 @@ public class Window : Gtk.ApplicationWindow {
 
     private void copy_html_action () {
         string text = doc.get_selected_text ();
-        string html = process_selection (text);
+        string html = process (text, false);
 
         try {
             clipboard.set_text (html, -1);
