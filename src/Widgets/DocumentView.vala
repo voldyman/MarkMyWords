@@ -29,6 +29,13 @@ public class DocumentView : Gtk.ScrolledWindow {
         return code_view.buffer.text;
     }
 
+    public string get_selected_text () {
+        var start = Gtk.TextIter();
+        var end = Gtk.TextIter();
+        code_view.buffer.get_selection_bounds(out start, out end);
+        return code_view.buffer.get_text(start, end, true);
+    }
+
     public void give_focus () {
         code_view.grab_focus ();
     }

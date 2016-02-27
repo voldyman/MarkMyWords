@@ -40,6 +40,8 @@ public class Window : Gtk.ApplicationWindow {
     // we'll make it render after 0.3 seconds
     private const int TIME_TO_REFRESH = 3 * 100;
 
+    private Gtk.Clipboard clipboard;
+
     public signal void updated ();
 
     // actions
@@ -50,6 +52,7 @@ public class Window : Gtk.ApplicationWindow {
         { "save", save_action },
 
         { "pdf", export_pdf_action },
+        { "copy", copy_html_action },
         { "html", export_html_action },
         { "print", export_print_action },
 
@@ -198,6 +201,8 @@ public class Window : Gtk.ApplicationWindow {
         load_window_state ();
         window_position = Gtk.WindowPosition.CENTER;
         set_hide_titlebar_when_maximized (false);
+        clipboard = Gtk.Clipboard.get_for_display(get_display(), Gdk.SELECTION_CLIPBOARD);
+
 
         var box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
         box.expand = true;
@@ -308,6 +313,13 @@ public class Window : Gtk.ApplicationWindow {
                                               Gdk.ModifierType.CONTROL_MASK);
 
         switch (ev.keyval) {
+        case Gdk.Key.C:
+            if (ctrl_pressed) {
+                handled_event = true;
+                copy_html_action ();
+            }
+            break;
+
         case Gdk.Key.o:
             if (ctrl_pressed) {
                 handled_event = true;
@@ -508,7 +520,12 @@ public class Window : Gtk.ApplicationWindow {
         string result;
         mkd.get_document (out result);
 
-        string html = "<html><head>";
+        return result;
+    }
+
+    private string process_page (string raw_mk) {
+        string html = "";
+        html += "<html><head>";
         if (prefs.render_stylesheet) {
             html += "<style>"+render_stylesheet+"</style>";
         }
@@ -517,8 +534,9 @@ public class Window : Gtk.ApplicationWindow {
             html += "<script>"+syntax_script+"</script>";
             html += "<script>hljs.initHighlightingOnLoad();</script>";
         }
+
         html += "</head><body><div class=\"markdown-body\">";
-        html += result;
+        html += process(raw_mk);
         html += "</div></body></html>";
 
         return html;
@@ -580,11 +598,22 @@ public class Window : Gtk.ApplicationWindow {
         close ();
     }
 
+    private void copy_html_action () {
+        string text = doc.get_selected_text ();
+        string html = process (text);
+
+        try {
+            clipboard.set_text (html, -1);
+        } catch (Error e) {
+            warning ("Could not copy HTML: %s", e.message);
+        }
+    }
+
     private void export_html_action () {
         var file = get_file_from_user (DialogType.HTML_OUT);
 
         string text = doc.get_text ();
-        string html = process (text);
+        string html = process_page (text);
 
         try {
             FileHandler.write_file (file, html);
