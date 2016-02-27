@@ -311,12 +311,10 @@ public class Window : Gtk.ApplicationWindow {
         bool handled_event = false;
         bool ctrl_pressed = modifier_pressed (ev,
                                               Gdk.ModifierType.CONTROL_MASK);
-        bool shift_pressed = modifier_pressed (ev,
-                                              Gdk.ModifierType.SUPER_MASK);
 
         switch (ev.keyval) {
-        case Gdk.Key.c:
-            if (ctrl_pressed && shift_pressed) {
+        case Gdk.Key.C:
+            if (ctrl_pressed) {
                 handled_event = true;
                 copy_html_action ();
             }
