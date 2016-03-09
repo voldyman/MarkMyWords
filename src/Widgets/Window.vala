@@ -5,6 +5,7 @@ public class Window : Gtk.ApplicationWindow {
     private Preferences prefs;
     private SavedState saved_state;
     private Gtk.HeaderBar? headerbar = null;
+    private Gtk.Paned box;
 
     // current state
     private File? _current_file;
@@ -43,6 +44,24 @@ public class Window : Gtk.ApplicationWindow {
     private Gtk.Clipboard clipboard;
 
     public signal void updated ();
+
+    protected override bool configure_event(Gdk.EventConfigure event) {
+        // get the size of the window before it's resized
+        int width, height;
+        get_default_size (out width, out height);
+
+        // get the divider position and the position ratio
+        var divider_position = box.get_position ();
+        float ratio = (float)divider_position / (float)width;
+        // make it retain the same ratio even after resize
+        var new_pos = event.width * ratio;
+
+        // apply the new position to the window and divider
+        set_default_size (event.width, event.height);
+        box.set_position ((int)new_pos);
+
+        return true;
+    }
 
     // actions
     private const GLib.ActionEntry win_actions[] =
@@ -204,7 +223,7 @@ public class Window : Gtk.ApplicationWindow {
         clipboard = Gtk.Clipboard.get_for_display(get_display(), Gdk.SELECTION_CLIPBOARD);
 
 
-        var box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
+        box = new Gtk.Paned (Gtk.Orientation.HORIZONTAL);
         box.expand = true;
 
         Gtk.Builder builder;
