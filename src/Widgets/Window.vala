@@ -250,8 +250,12 @@ public class Window : Gtk.ApplicationWindow {
         Gtk.Image export_icon = (Gtk.Image) builder.get_object ("export-icon");
 
         if (!icon_theme.has_icon ("open-menu")) {
-            menu_icon.set_from_icon_name ("preferences-system", Gtk.IconSize.LARGE_TOOLBAR);
-            pref_menu.icon_name = "preferences-system";
+            var alternate_icon = "preferences-system";
+            if (!icon_theme.has_icon (alternate_icon)) {
+                alternate_icon = "gtk-preferences";
+            }
+            menu_icon.set_from_icon_name (alternate_icon, Gtk.IconSize.LARGE_TOOLBAR);
+            pref_menu.icon_name = alternate_icon;
         }
 
         if (!icon_theme.has_icon ("document-export")) {
