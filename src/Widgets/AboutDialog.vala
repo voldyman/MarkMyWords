@@ -13,8 +13,8 @@ public class AboutDialog : Gtk.AboutDialog {
         program_name = MarkMyWords.APP_NAME;
         logo_icon_name = MarkMyWords.ICON_NAME;
         
-        comments = "A text editor that allows you to easily format your" +
-                   "text using the markdown markup langauge.";
+        comments = "A text editor that allows you to easily format your " +
+                   "text using the markdown markup language.";
 
         website = "http://github.com/voldyman/MarkMyWords";
         version = MarkMyWords.APP_VERSION;
