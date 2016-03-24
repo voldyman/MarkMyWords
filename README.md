@@ -25,6 +25,7 @@ Author: Akshay Shekher
 ```shell
 sudo apt-get install libwebkit2gtk-3.0-dev 
 sudo apt-get install libgtksourceview-3.0-dev
+sudo apt-get install valac
 git clone https://github.com/voldyman/MarkMyWords.git
 cd MarkMyWords
 mkdir build && cd build 
