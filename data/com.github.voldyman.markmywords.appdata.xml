@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2017 Your Name <you@email.com> -->
+<component type="desktop">
+  <id>com.github.voldyman.markmywords.desktop</id>
+  <metadata_license>MIT</metadata_license>
+  <name>Mark My Words</name>
+  <summary>A clean markdown editor</summary>
+  <description>
+    <p>Create and edit files in markdown format with live preview.</p>
+  </description>
+</component>

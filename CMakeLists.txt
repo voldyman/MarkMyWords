@@ -129,6 +129,9 @@ install(TARGETS mark-my-words RUNTIME
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/mark-my-words.desktop
   DESTINATION ${DATADIR}/applications/)
 
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/com.github.voldyman.markmywords.appdata.xml 
+  DESTINATION ${DATADIR}/metainfo/)
+
 # install assets
 file(GLOB assets "${CMAKE_CURRENT_SOURCE_DIR}/data/assets/*")
 install (FILES ${assets}
