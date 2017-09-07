@@ -13,6 +13,13 @@ Installation:
   sudo apt-get update
   sudo apt-get install mark-my-words
   ```
+* openSUSE package:
+
+  ```shell
+  sudo zypper ar -f obs://X11:Pantheon pantheon
+  sudo zypper ref
+  sudo zypper in markmywords
+  ```
 
 ## Screenshot
 
