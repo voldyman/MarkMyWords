@@ -42,10 +42,16 @@ public class MarkMyWordsApp : Gtk.Application {
         context.add_group (Gtk.get_option_group (true));
 
         string[] args = command_line.get_arguments ();
+        // Copy the pointers of the strings to a new array so references to the
+        // strings in args are not lost when context.parse is called
+        string*[] _args = new string*[args.length];
+        for (int i = 0; i < args.length; i++) {
+            _args[i] = args[i];
+        }
         int unclaimed_args;
 
         try {
-            unowned string[] tmp = args;
+            unowned string[] tmp = _args;
             context.parse (ref tmp);
             unclaimed_args = tmp.length - 1;
         } catch (Error e) {
@@ -61,8 +67,8 @@ public class MarkMyWordsApp : Gtk.Application {
         } else {
             File? file = null;
             if (unclaimed_args > 0) {
-                message (args[unclaimed_args]);
-                file = File.new_for_commandline_arg (args[unclaimed_args]);
+                message (_args[unclaimed_args]);
+                file = File.new_for_commandline_arg (_args[unclaimed_args]);
             }
 
             new_window (file);
