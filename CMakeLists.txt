@@ -33,7 +33,6 @@ find_package(PkgConfig)
 # either of webkitpackages would do
 pkg_search_module(WEBKIT REQUIRED
   webkit2gtk-4.0
-  webkit2gtk-3.0
 )
 
 pkg_check_modules(DEPS REQUIRED

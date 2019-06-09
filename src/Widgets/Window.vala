@@ -17,7 +17,6 @@ public class Window : Gtk.ApplicationWindow {
             _current_file = value;
             add_filename_to_title ();
         }
-        default = null;
     }
 
     private bool file_modified = false;
@@ -81,6 +80,7 @@ public class Window : Gtk.ApplicationWindow {
 
     public Window (MarkMyWordsApp app) {
         this.app = app;
+        this._current_file = null;
 
         add_action_entries (win_actions, this);
 
