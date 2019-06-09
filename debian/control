@@ -1,4 +1,4 @@
-Source: mark-my-words
+Source: com.github.voldyman.markmywords
 Section: editors
 Priority: optional
 Maintainer: Cody Garver <codygarver@gmail.com>
@@ -12,7 +12,7 @@ Build-Depends: cmake,
 Standards-Version: 3.9.6
 Homepage: https://github.com/voldyman/MarkMyWords
 
-Package: mark-my-words
+Package: com.github.voldyman.markmywords
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Pre-Depends: dpkg (>= 1.15.6)
