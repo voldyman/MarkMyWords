@@ -1,0 +1,168 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: MarkMyWords\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-20 17:46+0100\n"
+"PO-Revision-Date: 2019-07-02 20:50+0200\n"
+"Language-Team: Dutch <vistausss@outlook.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.3\n"
+"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: nl_NL\n"
+
+#: src/Widgets/Toolbar.vala:67
+msgid "About"
+msgstr "Over"
+
+#: src/Widgets/UnsavedChangesDialog.vala:14
+msgid "Are you sure you want to quit MarkMyWords?"
+msgstr "Weet je zeker dat je MarkMyWords wilt afsluiten?"
+
+#: src/Widgets/UnsavedChangesDialog.vala:17
+#: src/Widgets/UnsavedChangesDialog.vala:45
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: src/Widgets/PreferencesDialog.vala:154
+msgid "Choose a stylesheet"
+msgstr "Kies een stijlblad"
+
+#: src/Widgets/UnsavedChangesDialog.vala:40
+msgid "Close Without Saving"
+msgstr "Sluiten zonder opslaan"
+
+#: src/Widgets/PreferencesDialog.vala:161
+msgid "Custom _stylesheet:"
+msgstr "Aangepast _stijlblad:"
+
+#: src/Widgets/PreferencesDialog.vala:141
+msgid "Do not use a stylesheet"
+msgstr "Geen stijlblad gebruiken"
+
+#: src/Widgets/PreferencesDialog.vala:48
+msgid "Editor"
+msgstr "Bewerker"
+
+#: src/Widgets/PreferencesDialog.vala:64
+msgid "Editor _font:"
+msgstr "Bewerk_lettertype:"
+
+#: src/Widgets/PreferencesDialog.vala:95
+msgid "Editor _theme:"
+msgstr "Bewerk_thema:"
+
+#: src/Widgets/PreferencesDialog.vala:122
+msgid "Enable dark theme"
+msgstr "Donker thema gebruiken"
+
+#: src/Widgets/Toolbar.vala:51
+msgid "Export HTML"
+msgstr "Exporteren als HTML"
+
+#: src/Widgets/Toolbar.vala:50
+msgid "Export PDF"
+msgstr "Exporteren als PDF"
+
+#: src/Widgets/Toolbar.vala:35
+msgid "New file"
+msgstr "Nieuw bestand"
+
+#: src/Widgets/Window.vala:418
+msgid "Open"
+msgstr "Openen"
+
+#: src/Widgets/Toolbar.vala:39
+msgid "Open file"
+msgstr "Bestand openen"
+
+#: src/Widgets/PreferencesDialog.vala:32 src/Widgets/Toolbar.vala:66
+msgid "Preferences"
+msgstr "Voorkeuren"
+
+#: src/Widgets/Toolbar.vala:52
+msgid "Print"
+msgstr "Afdrukken"
+
+#: src/Widgets/Window.vala:370
+msgid "Print to File"
+msgstr "Afdrukken naar bestand"
+
+#: src/Widgets/UnsavedChangesDialog.vala:22
+msgid "Quit MarkMyWords"
+msgstr "MarkMyWords afsluiten"
+
+#: src/Widgets/PreferencesDialog.vala:135
+msgid "Rendering"
+msgstr "Renderen"
+
+#: src/Widgets/UnsavedChangesDialog.vala:50 src/Widgets/Window.vala:410
+#: src/Widgets/Window.vala:426 src/Widgets/Window.vala:443
+msgid "Save"
+msgstr "Opslaan"
+
+#: src/Widgets/PreferencesDialog.vala:105
+msgid "Save automatically every"
+msgstr "Elke"
+
+#: src/Widgets/UnsavedChangesDialog.vala:38
+msgid "Save changes to document before closing?"
+msgstr "Wil je de wijzigingen opslaan alvorens af te sluiten?"
+
+#: src/Widgets/Toolbar.vala:43
+msgid "Save file"
+msgstr "Bestand opslaan"
+
+#: src/Widgets/Window.vala:424
+msgid "Select destination HTML file"
+msgstr "Kies een bestemming voor het HTML-bestand"
+
+#: src/Widgets/Window.vala:441
+msgid "Select destination PDF file"
+msgstr "Kies een bestemming voor het PDF-bestand"
+
+#: src/Widgets/Window.vala:408
+msgid "Select destination markdown file"
+msgstr "Kies een bestemming voor het markdown-bestand"
+
+#: src/Widgets/Window.vala:416
+msgid "Select markdown file to open"
+msgstr "Kies het te openen markdown-bestand"
+
+#: src/Widgets/UnsavedChangesDialog.vala:39
+msgid ""
+"The changes made to the current document haven't been saved and would be "
+"permanently lost."
+msgstr ""
+"Het document bevat niet-opgeslagen wijzigingen. Als je deze niet opslaat, "
+"gaan ze permanent verloren."
+
+#: src/Widgets/UnsavedChangesDialog.vala:15
+msgid ""
+"The current file has some unsaved changes which would be lost if you quit."
+msgstr ""
+"Het huidige bestand bevat niet-opgeslagen wijzigingen. Als je afsluit, "
+"gaan ze permanent verloren."
+
+#: src/Widgets/PreferencesDialog.vala:145
+msgid "Use a custom stylesheet"
+msgstr "Aangepast stijlblad gebruiken"
+
+#: src/Widgets/PreferencesDialog.vala:143
+msgid "Use the default stylesheet"
+msgstr "Standaard stijlblad gebruiken"
+
+#: src/Widgets/Window.vala:466
+msgid "_Cancel"
+msgstr "_Annuleren"
+
+#: src/Widgets/PreferencesDialog.vala:116
+msgid "minutes"
+msgstr "minuten automatisch opslaan"
