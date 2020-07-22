@@ -1,6 +1,6 @@
 const string GETTEXT_PACKAGE = "markmywords";
 
-int main(string args[]) {
+int main(string[] args) {
     Intl.setlocale(LocaleCategory.MESSAGES, "");
     Intl.textdomain(GETTEXT_PACKAGE); 
     Intl.bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
