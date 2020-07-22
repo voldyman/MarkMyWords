@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2017 Your Name <you@email.com> -->
-<component type="desktop">
+<component type="desktop-application">
   <id>com.github.voldyman.markmywords.desktop</id>
-  <metadata_license>MIT</metadata_license>
+  <launchable type="desktop-id">mark-my-words.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
   <name>Mark My Words</name>
   <summary>A clean markdown editor</summary>
   <description>
     <p>Create and edit files in markdown format with live preview.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://github.com/voldyman/MarkMyWords/raw/master/screenshots/screenshot-2015-1-29.png</image>
+    </screenshot>
+  </screenshots>
+  <developer_name>Akshay Shekher</developer_name>
+  <url type="homepage">https://github.com/voldyman/MarkMyWords</url>
+  <url type="bugtracker">https://github.com/voldyman/MarkMyWords/issues</url>
 </component>
